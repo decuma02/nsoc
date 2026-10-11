@@ -1,67 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Syne:wght@500;600;700;800&display=swap');
 @import "tailwindcss";
 
 /* ============================================================
-   Tailwind v4 @theme — Design System Tokens
-   These map CSS custom properties to Tailwind utility classes:
-   - font-syne, font-inter, font-mono → font-family utilities
-   - text-foreground, text-muted-foreground → colour utilities
-   - bg-background → background colour utility
+   Tailwind v4 @theme inline tokens — Figma Exact Design System
    ============================================================ */
 @theme inline {
-  /* ── Font Families ───────────────────────────────────────── */
-  --font-family-syne:  var(--font-syne),           "Syne",            ui-sans-serif, system-ui, sans-serif;
-  --font-family-inter: var(--font-inter),           "Inter",           ui-sans-serif, system-ui, sans-serif;
-  --font-family-mono:  var(--font-jetbrains-mono),  "JetBrains Mono",  ui-monospace,  "Cascadia Code", Menlo, Consolas, monospace;
-  --font-family-sans:  var(--font-inter),           "Inter",           ui-sans-serif, system-ui, sans-serif;
+  --font-family-syne:  'Syne', var(--font-syne), ui-sans-serif, system-ui, sans-serif;
+  --font-family-inter: 'Inter', var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-family-mono:  'JetBrains Mono', var(--font-jetbrains-mono), ui-monospace, Menlo, Consolas, monospace;
+  --font-family-sans:  'Inter', var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
-  /* ── Semantic Colour Aliases → point to CSS vars ─────────── */
-  --color-background:       var(--bg,        #eef6fc);
-  --color-foreground:       var(--fg,        #0d2338);
-  --color-muted:            var(--muted,     #e2eef8);
-  --color-muted-foreground: var(--muted-fg,  #4c6280);
-  --color-border:           var(--border-color, #b9d7ec);
-  --color-ring:             var(--ring-color,   #0284c7);
-  --color-card:             var(--card-bg,   #ffffff);
-  --color-card-foreground:  var(--card-fg,   #0d2338);
+  --color-background:       var(--bg);
+  --color-foreground:       var(--fg);
+  --color-muted:            var(--muted);
+  --color-muted-foreground: var(--muted-fg);
+  --color-border:           var(--border-color);
+  --color-card:             var(--card-bg);
+  --color-card-foreground:  var(--card-fg);
 }
 
 /* ============================================================
-   CSS Custom Properties — Light (default) and Dark
+   CSS Custom Properties — Figma Exact Tokens
    ============================================================ */
 :root {
   color-scheme: light dark;
 
-  /* next/font injects these at runtime — declare empty fallback */
-  --font-syne: "";
-  --font-inter: "";
-  --font-jetbrains-mono: "";
-
-  /* Light palette */
-  --bg:            #eef6fc;
-  --fg:            #0d2338;
+  /* Default / Light theme (matches Figma Desktop Light frame 5:36407) */
+  --bg:            #f1f7fc;
+  --fg:            #07111f;
   --card-bg:       #ffffff;
-  --card-fg:       #0d2338;
-  --muted:         #e2eef8;
-  --muted-fg:      #4c6280;
-  --border-color:  #b9d7ec;
-  --ring-color:    #0284c7;
+  --card-fg:       #07111f;
+  --muted:         #e8f2f8;
+  --muted-fg:      #475e73;
+  --border-color:  #cddfea;
+  --accent-cyan:   #086388;
+  --accent-teal:   #08786c;
+  --accent-navy:   #e0f2fa;
+  --card-hover:    #f8fbfe;
 }
 
 .dark {
   color-scheme: dark;
 
-  --bg:            #050a14;
-  --fg:            #f0f6fc;
-  --card-bg:       #081120;
-  --card-fg:       #f0f6fc;
-  --muted:         #0d1b30;
-  --muted-fg:      #94a3b8;
-  --border-color:  rgba(56, 189, 248, 0.14);
-  --ring-color:    #38bdf8;
+  /* Dark theme (matches Figma Desktop Dark frame 5:36025) */
+  --bg:            #040c16;
+  --fg:            #f1f7fc;
+  --card-bg:       #101f32;
+  --card-fg:       #f1f7fc;
+  --muted:         #07111f;
+  --muted-fg:      #a9bcd0;
+  --border-color:  #26394e;
+  --accent-cyan:   #7dd3fc;
+  --accent-teal:   #5eead4;
+  --accent-navy:   #102b3d;
+  --card-hover:    #13273e;
 }
 
 /* ============================================================
-   Base Layer — global resets
+   Base Layer — Crisp Typography & Resets
    ============================================================ */
 @layer base {
   *,
@@ -71,7 +67,7 @@
   }
 
   html {
-    font-size: 16px;                       /* anchor 1rem = 16px always */
+    font-size: 16px;
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
     scroll-behavior: smooth;
@@ -83,29 +79,33 @@
   body {
     background-color: var(--bg);
     color: var(--fg);
-    /* Inter as body default — CSS var, then local name, then system stack */
-    font-family: var(--font-inter), "Inter", ui-sans-serif, system-ui,
-      -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    font-size: 1rem;     /* 16px */
+    font-family: 'Inter', var(--font-inter), ui-sans-serif, system-ui, -apple-system, sans-serif;
+    font-size: 1rem;
     line-height: 1.625;
     font-weight: 400;
     overflow-x: hidden;
-    transition: background-color 0.25s ease, color 0.25s ease;
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
 
-  /* Strip browser defaults from headings — all sizing via className */
   h1, h2, h3, h4, h5, h6 {
-    font-size: inherit;
-    font-weight: inherit;
-    line-height: inherit;
+    font-family: 'Syne', var(--font-syne), sans-serif;
+    font-weight: 700;
+    line-height: 1.1;
     margin: 0;
+    letter-spacing: -0.01em;
   }
 
-  p, ul, ol, li, dl, dd, dt { margin: 0; padding: 0; }
-  a { color: inherit; text-decoration: none; }
+  p, ul, ol, li, dl, dd, dt {
+    margin: 0;
+    padding: 0;
+  }
 
-  /* Form elements inherit document font */
-  button, input, textarea, select, optgroup {
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button, input, textarea, select {
     font-family: inherit;
     font-size: inherit;
     line-height: inherit;
@@ -114,166 +114,132 @@
 }
 
 /* ============================================================
-   Explicit Font Utility Classes
-   Belt-and-braces: Tailwind @theme generates font-family- utilities
-   but these explicit classes with !important guarantee the font
-   is applied even when Tailwind's JIT hasn't fully compiled yet
+   Typography Helper Classes
    ============================================================ */
 .font-syne {
-  font-family: var(--font-syne), "Syne", ui-sans-serif, system-ui, sans-serif !important;
+  font-family: 'Syne', var(--font-syne), sans-serif !important;
 }
 
 .font-inter {
-  font-family: var(--font-inter), "Inter", ui-sans-serif, system-ui, sans-serif !important;
-}
-
-.font-sans {
-  font-family: var(--font-inter), "Inter", ui-sans-serif, system-ui, sans-serif !important;
+  font-family: 'Inter', var(--font-inter), sans-serif !important;
 }
 
 .font-mono {
-  font-family: var(--font-jetbrains-mono), "JetBrains Mono", ui-monospace,
-    "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace !important;
+  font-family: 'JetBrains Mono', var(--font-jetbrains-mono), monospace !important;
 }
 
-/* ============================================================
-   Semantic Colour Utility Classes
-   Tailwind v4 generates these from @theme but we add explicit
-   fallbacks in case of SSR / class-order edge cases
-   ============================================================ */
+/* Semantic Color Utilities */
 .text-foreground        { color: var(--fg)        !important; }
 .text-muted-foreground  { color: var(--muted-fg)  !important; }
 .text-card-foreground   { color: var(--card-fg)   !important; }
-.bg-background          { background-color: var(--bg)       !important; }
-.bg-card                { background-color: var(--card-bg)  !important; }
-.bg-muted               { background-color: var(--muted)    !important; }
-.border-border          { border-color: var(--border-color) !important; }
+.text-cyan-accent       { color: var(--accent-cyan) !important; }
+.text-teal-accent       { color: var(--accent-teal) !important; }
+
+.bg-background          { background-color: var(--bg)         !important; }
+.bg-card                { background-color: var(--card-bg)    !important; }
+.bg-muted               { background-color: var(--muted)      !important; }
+.bg-navy-accent         { background-color: var(--accent-navy)!important; }
+.border-border          { border-color: var(--border-color)   !important; }
 
 /* ============================================================
-   Winter Edition — Glassmorphism Surfaces
+   Figma Card & Button Styles
    ============================================================ */
-.glass-panel {
-  background:           rgba(238, 246, 252, 0.75);
-  backdrop-filter:      blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border:               1px solid rgba(185, 215, 236, 0.8);
-}
-.dark .glass-panel {
-  background:           rgba(8, 17, 32, 0.70);
-  backdrop-filter:      blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border:               1px solid rgba(56, 189, 248, 0.14);
+.figma-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
 }
 
-.glass-card {
-  background:           rgba(255, 255, 255, 0.85);
-  backdrop-filter:      blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border:               1px solid rgba(185, 215, 236, 0.9);
-}
-.dark .glass-card {
-  background:           rgba(10, 21, 40, 0.65);
-  backdrop-filter:      blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border:               1px solid rgba(56, 189, 248, 0.12);
-}
-.dark .glass-card:hover {
-  border-color: rgba(56, 189, 248, 0.35);
-  box-shadow:   0 0 25px -5px rgba(56, 189, 248, 0.12);
+.figma-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-cyan);
+  box-shadow: 0 4px 20px -2px rgba(125, 211, 252, 0.12);
 }
 
-/* ============================================================
-   Animations & Keyframes
-   ============================================================ */
-
-/* — Ambient blob drift — */
-@keyframes blob-drift {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50%       { transform: translate(40px, -30px) scale(1.08); }
-}
-.animate-blob-drift        { animation: blob-drift 22s ease-in-out infinite; }
-.animate-blob-drift-delay  { animation: blob-drift 22s ease-in-out infinite -8s; }
-.animate-blob-drift-slow   { animation: blob-drift 26s ease-in-out infinite -14s; }
-
-/* — Gradient text sweep — */
-@keyframes gradmove {
-  0%   { background-position: 0% 50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+.figma-btn-primary {
+  background-color: var(--accent-cyan);
+  color: #07111f;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  transition: all 180ms ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
-.grad-text {
-  background: linear-gradient(
-    90deg,
-    #38bdf8 0%, #22d3ee 20%, #93c5fd 40%,
-    #38bdf8 60%, #06b6d4 80%, #38bdf8 100%
-  );
-  background-size: 250% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-  animation: gradmove 8s linear infinite;
-  display: inline;
+.figma-btn-primary:hover {
+  background-color: var(--accent-teal);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(94, 234, 212, 0.25);
 }
 
-/* — Button shine sweep — */
-@keyframes btn-shine-sweep {
-  0%   { left: -70%; }
-  100% { left: 140%; }
-}
-.btn-shine {
-  position: relative;
-  overflow: hidden;
-}
-.btn-shine::after {
-  content: "";
-  position: absolute;
-  top: 0; left: -70%;
-  width: 45%;  height: 100%;
-  background: linear-gradient(
-    90deg,
-    rgba(255,255,255,0) 0%,
-    rgba(255,255,255,0.38) 50%,
-    rgba(255,255,255,0) 100%
-  );
-  transform: skewX(-22deg);
-  pointer-events: none;
-}
-.btn-shine:hover::after {
-  animation: btn-shine-sweep 0.7s ease-out forwards;
+.figma-btn-secondary {
+  background-color: var(--card-bg);
+  color: var(--fg);
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  transition: all 180ms ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
-/* — Partner logo marquee — */
-@keyframes marquee {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-.animate-marquee {
-  display: flex;
-  width: max-content;
-  will-change: transform;
-  animation: marquee 32s linear infinite;
-}
-.animate-marquee:hover {
-  animation-play-state: paused;
+.figma-btn-secondary:hover {
+  border-color: var(--accent-cyan);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(125, 211, 252, 0.15);
 }
 
 /* ============================================================
-   Reduced-Motion Overrides
+   Animations & Restrained Motion (Matches Figma Guidance)
    ============================================================ */
+@keyframes panda-float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.animate-panda-float {
+  animation: panda-float 6s ease-in-out infinite;
+}
+
+@keyframes aurora-pulse {
+  0%, 100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.05);
+  }
+}
+
+.animate-aurora {
+  animation: aurora-pulse 10s ease-in-out infinite;
+}
+
+/* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
-    animation-duration:       0.01ms !important;
-    animation-iteration-count: 1    !important;
-    transition-duration:      0.01ms !important;
-    scroll-behavior:          auto  !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
-  .animate-marquee   { animation: none !important; overflow-x: auto; }
-  .btn-shine::after  { display: none !important; }
-  .grad-text {
+  .animate-panda-float,
+  .animate-aurora {
     animation: none !important;
-    background-size: 100% auto;
-    background-position: 0% 50%;
   }
 }

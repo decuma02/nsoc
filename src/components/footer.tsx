@@ -19,136 +19,110 @@ export function Footer() {
       name: "Discord",
       href: "https://discord.gg/bZ47fac2jn",
       icon: DiscordIcon,
-      ariaLabel: "Discord",
     },
     {
       name: "Instagram",
       href: "https://www.instagram.com/nsoc.in",
       icon: InstagramIcon,
-      ariaLabel: "Instagram",
     },
     {
       name: "LinkedIn",
       href: "https://www.linkedin.com/company/nso-code",
       icon: LinkedInIcon,
-      ariaLabel: "LinkedIn",
     },
     {
       name: "YouTube",
       href: "https://www.youtube.com/@nsoc-in",
       icon: YouTubeIcon,
-      ariaLabel: "YouTube",
     },
     {
       name: "WhatsApp",
       href: "https://chat.whatsapp.com/Cs6bcCYUD5zLXmElzX9HOq",
       icon: WhatsAppIcon,
-      ariaLabel: "WhatsApp",
     },
     {
       name: "GitHub",
       href: "https://github.com/deepanshu-prajapati01",
       icon: GitHubIcon,
-      ariaLabel: "GitHub",
     },
   ];
 
   return (
-    <footer className="relative border-t border-sky-400/15 bg-background dark:bg-[#050a14] px-4 sm:px-8 md:px-12 py-12 lg:py-16 overflow-hidden">
-      {/* Decorative ambient subtle background blur */}
-      <div
-        aria-hidden="true"
-        className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[700px] h-[250px] bg-sky-500/5 rounded-full blur-[120px] pointer-events-none"
-      />
-
-      <div className="mx-auto max-w-7xl relative z-10">
-        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-10 lg:gap-16 mb-12">
-          {/* Brand info */}
-          <div className="flex flex-col max-w-md shrink-0">
-            <div className="flex items-center gap-3 mb-4">
-              <NexusLogo className="w-9 h-9" />
-              <span className="font-syne text-2xl font-bold tracking-tight text-foreground">
-                NSoC ’26
+    <footer className="relative bg-[#040c16] text-[#f1f7fc] pt-20 pb-12 border-t border-border overflow-hidden">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Top Info Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-16 mb-16">
+          {/* Brand Col */}
+          <div className="md:col-span-5 flex flex-col">
+            <Link href="/" className="flex items-center gap-3 mb-4">
+              <NexusLogo className="w-8 h-8 text-[#7dd3fc]" />
+              <span className="font-syne font-bold text-3xl tracking-tight text-[#f1f7fc]">
+                NSoC&apos;26
               </span>
-            </div>
-
-            <p className="font-sans text-sm sm:text-base text-muted-foreground leading-relaxed mb-8">
+            </Link>
+            <p className="font-inter text-base text-[#a9bcd0] leading-relaxed max-w-sm mb-6">
               A 45-day open source program where project admins bring real codebases and contributors close issues that ship to production.
             </p>
-
-            {/* Social Icons */}
-            <div className="flex items-center gap-2.5 flex-wrap">
-              {socialLinks.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={item.ariaLabel}
-                    className="w-10 h-10 rounded-xl border border-sky-400/20 text-muted-foreground hover:text-sky-400 hover:border-sky-400/50 hover:bg-sky-500/10 flex items-center justify-center transition-all focus-visible:ring-2 focus-visible:ring-sky-400"
-                  >
-                    <Icon className="w-4 h-4" />
-                  </a>
-                );
-              })}
-            </div>
           </div>
 
-          {/* Navigation Links Columns */}
-          <div className="flex gap-12 sm:gap-20 lg:gap-28 flex-wrap">
+          {/* Links Columns */}
+          <div className="md:col-span-7 flex flex-wrap gap-16 lg:gap-24 md:justify-end">
             <div>
-              <p className="font-mono text-xs uppercase tracking-widest text-sky-500 dark:text-sky-400 font-semibold mb-4">
+              <div className="font-mono text-xs uppercase tracking-widest text-cyan-accent mb-4">
                 Navigation
-              </p>
-              <ul className="flex flex-col gap-3">
+              </div>
+              <ul className="space-y-3 font-inter text-sm text-[#a9bcd0]">
                 <li>
-                  <a
-                    href="#overview"
-                    className="font-syne text-sm text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    Home
+                  <a href="#overview" className="hover:text-[#f1f7fc] transition-colors">
+                    Overview
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="#rewards"
-                    className="font-syne text-sm text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    Leaderboard
+                  <a href="#about" className="hover:text-[#f1f7fc] transition-colors">
+                    About
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="#benefits"
-                    className="font-syne text-sm text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    Projects
+                  <a href="#contribution" className="hover:text-[#f1f7fc] transition-colors">
+                    Contribution
+                  </a>
+                </li>
+                <li>
+                  <a href="#rewards" className="hover:text-[#f1f7fc] transition-colors">
+                    Rewards
+                  </a>
+                </li>
+                <li>
+                  <a href="#timeline" className="hover:text-[#f1f7fc] transition-colors">
+                    Timeline
                   </a>
                 </li>
               </ul>
             </div>
 
             <div>
-              <p className="font-mono text-xs uppercase tracking-widest text-sky-500 dark:text-sky-400 font-semibold mb-4">
+              <div className="font-mono text-xs uppercase tracking-widest text-cyan-accent mb-4">
                 Organization
-              </p>
-              <ul className="flex flex-col gap-3">
+              </div>
+              <ul className="space-y-3 font-inter text-sm text-[#a9bcd0]">
                 <li>
-                  <a
-                    href="#sponsors"
-                    className="font-syne text-sm text-muted-foreground hover:text-foreground transition-colors"
-                  >
+                  <a href="#sponsors" className="hover:text-[#f1f7fc] transition-colors">
                     Sponsors
                   </a>
                 </li>
                 <li>
+                  <a href="#community" className="hover:text-[#f1f7fc] transition-colors">
+                    Community
+                  </a>
+                </li>
+                <li>
                   <a
-                    href="#partners"
-                    className="font-syne text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    href="https://discord.gg/bZ47fac2jn"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-[#f1f7fc] transition-colors"
                   >
-                    Team & Partners
+                    Discord Server
                   </a>
                 </li>
               </ul>
@@ -156,17 +130,48 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom bar with copyright and authentic last updated timestamp */}
-        <div className="pt-8 border-t border-sky-400/15 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 text-xs font-mono text-muted-foreground">
+        {/* Social Links Row */}
+        <div className="flex flex-wrap items-center gap-3 sm:gap-4 mb-14">
+          {socialLinks.map((item) => {
+            const Icon = item.icon;
+            return (
+              <a
+                key={item.name}
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={item.name}
+                className="px-4 py-2 rounded-xl bg-[#101f32] border border-[#26394e] text-[#a9bcd0] hover:text-[#7dd3fc] hover:border-[#7dd3fc] flex items-center gap-2 font-inter text-sm transition-all"
+              >
+                <Icon className="w-4 h-4" />
+                <span>{item.name}</span>
+              </a>
+            );
+          })}
+        </div>
+
+        {/* Giant Watermark from Figma Frame: Syne 800 158px */}
+        <div
+          aria-hidden="true"
+          className="w-full text-center select-none py-8 my-4"
+        >
+          <div className="font-syne font-extrabold text-[56px] sm:text-[96px] md:text-[128px] lg:text-[158px] tracking-tight leading-none text-white/[0.06] dark:text-white/[0.06]">
+            NSoC ’26.
+          </div>
+        </div>
+
+        {/* Section Rule */}
+        <div className="border-t border-[#26394e] pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 font-inter text-xs text-[#a9bcd0]">
+          <div className="flex flex-wrap items-center gap-4">
             <span>© 2026 NSoC. All rights reserved.</span>
-            <span className="hidden sm:inline">•</span>
+            <span>•</span>
             <span>Last Updated: 6 October 2026 at 10:17:51 am</span>
           </div>
-
-          <p className="font-mono text-xs text-muted-foreground flex items-center gap-1">
-            Built with <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500 inline" /> by the Nexus team
-          </p>
+          <div className="flex items-center gap-1.5">
+            <span>Built with</span>
+            <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500" />
+            <span>by the Nexus team</span>
+          </div>
         </div>
       </div>
     </footer>

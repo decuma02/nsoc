@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import { Navbar } from "@/components/navbar";
 import { HeroSection } from "@/components/sections/hero-section";
-import { StatsSection } from "@/components/sections/stats-section";
 import { BenefitsSection } from "@/components/sections/benefits-section";
 import { RolesSection } from "@/components/sections/roles-section";
 import { StepsSection } from "@/components/sections/steps-section";
@@ -26,27 +25,35 @@ export default function HomePage() {
   };
 
   return (
-    <div
-      className="min-h-screen flex flex-col"
-      style={{
-        backgroundColor: "var(--bg)",
-        color: "var(--fg)",
-      }}
-    >
+    <div className="min-h-screen flex flex-col bg-background text-foreground">
+      {/* 0. Navigation */}
       <Navbar onOpenRegister={() => handleOpenRegister("Contributor")} />
 
       <main className="flex-1">
+        {/* 0. Hero and Program Stats */}
         <HeroSection onOpenRegister={() => handleOpenRegister("Contributor")} />
-        <StatsSection />
+
+        {/* 1. About the Program (Editorial Split, Benefit Cards & Quote) */}
         <BenefitsSection />
+
+        {/* 1b. Participation Roles */}
         <RolesSection onSelectRole={(role) => handleOpenRegister(role)} />
+
+        {/* 2. Contribution Steps */}
         <StepsSection onOpenRegister={() => handleOpenRegister("Contributor")} />
+
+        {/* 3. Prizes and Recognition */}
         <RewardsSection />
+
+        {/* 4. Program Timeline */}
         <TimelineSection />
+
+        {/* 5. Sponsors and Community */}
         <SponsorsSection onSponsorModalOpen={() => setInquiryType("sponsor")} />
         <PartnersSection onPartnerModalOpen={() => setInquiryType("partner")} />
       </main>
 
+      {/* 6. Footer */}
       <Footer />
 
       {/* Interactive Modals */}

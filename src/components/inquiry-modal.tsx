@@ -133,7 +133,7 @@ export function InquiryModal({ isOpen, onClose, type }: InquiryModalProps) {
               <div className="pt-2">
                 <button
                   type="submit"
-                  className="w-full btn-shine py-3 px-5 rounded-xl bg-gradient-to-r from-sky-500 to-cyan-500 hover:from-sky-400 hover:to-cyan-400 text-white font-syne font-bold text-sm tracking-wide shadow-lg shadow-sky-500/25 flex items-center justify-center gap-2"
+                  className="w-full figma-btn-primary py-3.5 px-5 text-sm font-semibold shadow-md flex items-center justify-center gap-2"
                 >
                   <Sparkles className="w-4 h-4" />
                   <span>Submit {isSponsor ? "Sponsorship" : "Partnership"} Proposal</span>

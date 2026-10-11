@@ -85,12 +85,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className="scroll-smooth">
       <body
-        className={`${syne.variable} ${inter.variable} ${jetbrainsMono.variable} font-inter antialiased selection:bg-sky-500/30 selection:text-sky-200`}
-        style={{
-          fontFamily: "var(--font-inter), Inter, ui-sans-serif, system-ui, sans-serif",
-          fontSize: "16px",
-          lineHeight: "1.6",
-        }}
+        className={`${syne.variable} ${inter.variable} ${jetbrainsMono.variable} font-inter antialiased bg-background text-foreground selection:bg-sky-500/30 selection:text-sky-200`}
       >
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange={false}>
           {children}

@@ -150,7 +150,7 @@ export function RegisterModal({ isOpen, onClose, defaultRole = "Contributor" }: 
               <div className="pt-2">
                 <button
                   type="submit"
-                  className="w-full btn-shine py-3 px-5 rounded-xl bg-gradient-to-r from-sky-500 to-cyan-500 hover:from-sky-400 hover:to-cyan-400 text-white font-syne font-bold text-sm tracking-wide shadow-lg shadow-sky-500/25 flex items-center justify-center gap-2 transition-transform active:scale-[0.98]"
+                  className="w-full figma-btn-primary py-3.5 px-5 text-sm font-semibold shadow-md flex items-center justify-center gap-2"
                 >
                   <Sparkles className="w-4 h-4" />
                   <span>Confirm Registration as {role}</span>
@@ -158,7 +158,7 @@ export function RegisterModal({ isOpen, onClose, defaultRole = "Contributor" }: 
                 </button>
               </div>
 
-              <p className="text-[11px] text-center text-muted-foreground pt-1">
+              <p className="font-inter text-[11px] text-center text-muted-foreground pt-1">
                 By registering, you agree to NSoC ’26 community guidelines. No dummy repos or filler tasks.
               </p>
             </form>

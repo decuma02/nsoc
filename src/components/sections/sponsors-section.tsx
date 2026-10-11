@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { ExternalLink, Sparkles, Building2, Shield, Flame } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 interface SponsorsSectionProps {
   onSponsorModalOpen: () => void;
@@ -13,103 +13,87 @@ export function SponsorsSection({ onSponsorModalOpen }: SponsorsSectionProps) {
       tier: "Title Sponsor",
       name: "Unstop",
       description:
-        "A leading platform for hosting and managing online competitions, hackathons, and hiring challenges, fostering student talent across tech domains.",
+        "A leading platform for hosting and managing online competitions, hackathons, and recruitment drives.",
       url: "https://unstop.com",
-      badgeColor: "bg-sky-500/15 text-sky-400 border-sky-400/30",
-      borderGlow: "border-sky-400/50 shadow-[0_0_30px_rgba(56,189,248,0.15)]",
-      icon: Flame,
-      tag: "Title Tier",
     },
     {
       tier: "Gold Sponsor",
       name: "Arkham Experience",
       description:
-        "An immersive media-tech company pioneering Gen AI, Agentic AI, Holographics, Spatial Computing, AR/XR, and distributed networks.",
+        "An immersive media-tech company pioneering Gen AI, Agentic AI, and full-stack interactive experiences.",
       url: "https://arkhamexperience.com",
-      badgeColor: "bg-amber-500/15 text-amber-400 border-amber-400/30",
-      borderGlow: "border-amber-400/40 shadow-[0_0_25px_rgba(251,191,36,0.12)]",
-      icon: Building2,
-      tag: "Gold Tier",
     },
     {
       tier: "Silver Sponsor",
       name: "Extension Shield",
       description:
-        "Security-first browser extension management. Protecting developers and organizations from malicious extensions and supply chain risks.",
+        "Security-first browser extension management. Protecting developers from malicious scripts and supply chain attacks.",
       url: "https://extensionshield.com",
-      badgeColor: "bg-teal-500/15 text-teal-400 border-teal-400/30",
-      borderGlow: "border-teal-400/40 shadow-[0_0_20px_rgba(45,212,191,0.12)]",
-      icon: Shield,
-      tag: "Silver Tier",
     },
   ];
 
   return (
-    <section id="sponsors" className="py-20 md:py-28 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-sky-400/25 bg-sky-500/10 text-sky-500 dark:text-sky-300 font-mono text-xs uppercase tracking-widest mb-4">
-              Track Record & Backing
+    <section id="sponsors" className="pt-20 lg:pt-28">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Rule */}
+        <div className="border-t border-border pt-12 sm:pt-16">
+          {/* Header Split */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+            <div>
+              <div className="font-mono text-xs uppercase tracking-widest text-cyan-accent mb-3">
+                05 / SPONSORS & COMMUNITY
+              </div>
+              <h2 className="font-syne font-bold text-4xl sm:text-5xl lg:text-6xl text-foreground tracking-tight mb-3">
+                Past sponsors.
+              </h2>
+              <p className="font-inter text-base sm:text-lg text-muted-foreground max-w-2xl leading-relaxed">
+                Organizations and platforms that backed our previous iterations and powered the community.
+              </p>
             </div>
-            <h2 className="font-syne text-3xl sm:text-5xl font-extrabold tracking-tight text-foreground">
-              Past <span className="grad-text">Sponsors.</span>
-            </h2>
-            <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mt-4 leading-relaxed">
-              A look back at the incredible organizations and platforms that powered our previous cohorts with funding, developer tools, and infrastructure.
-            </p>
+
+            {/* Sponsor CTA Button */}
+            <button
+              onClick={onSponsorModalOpen}
+              className="figma-btn-secondary px-6 py-3.5 text-base font-semibold self-start md:self-auto shrink-0"
+            >
+              <span>Sponsor This Season</span>
+              <ArrowUpRight className="w-4 h-4 text-cyan-accent" />
+            </button>
           </div>
 
-          <button
-            onClick={onSponsorModalOpen}
-            className="btn-shine self-start md:self-auto inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-sky-500 to-cyan-500 hover:from-sky-400 hover:to-cyan-400 text-white font-syne font-bold text-xs uppercase tracking-wider shadow-lg shadow-sky-500/20"
-          >
-            <Sparkles className="w-4 h-4" />
-            <span>Sponsor This Season</span>
-          </button>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {sponsors.map((s) => {
-            const Icon = s.icon;
-            return (
+          {/* 3 Sponsor Cards Grid (Figma Exact Spec) */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+            {sponsors.map((s) => (
               <div
                 key={s.name}
-                className={`group rounded-3xl glass-card p-8 border ${s.borderGlow} flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5`}
+                className="figma-card p-8 sm:p-9 flex flex-col justify-between min-h-[380px]"
               >
                 <div>
-                  <div className="flex items-center justify-between mb-6">
-                    <span className={`font-mono text-xs font-semibold px-3 py-1 rounded-full border ${s.badgeColor}`}>
-                      {s.tier}
-                    </span>
-                    <div className="p-2.5 rounded-xl bg-sky-500/10 text-sky-400">
-                      <Icon className="w-5 h-5" />
-                    </div>
-                  </div>
-
-                  <h3 className="font-syne text-3xl font-extrabold text-foreground mb-4 group-hover:text-sky-400 transition-colors">
+                  <span className="font-mono text-xs font-medium text-cyan-accent tracking-wider uppercase mb-4 inline-block">
+                    {s.tier}
+                  </span>
+                  <h3 className="font-syne font-bold text-3xl sm:text-4xl text-foreground mb-4">
                     {s.name}
                   </h3>
-
-                  <p className="text-muted-foreground text-sm sm:text-base leading-relaxed mb-8 font-sans">
+                  <p className="font-inter text-[15px] sm:text-base leading-relaxed text-muted-foreground">
                     {s.description}
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-sky-400/15">
+                <div className="pt-6 border-t border-border mt-8">
                   <a
                     href={s.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-xs font-mono font-semibold text-sky-400 hover:text-sky-300 group/link transition-colors"
+                    className="inline-flex items-center gap-2 font-inter text-sm font-semibold text-foreground hover:text-cyan-accent transition-colors group"
                   >
-                    <span>Visit Website</span>
-                    <ExternalLink className="w-3.5 h-3.5 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
+                    <span>Visit sponsor</span>
+                    <ArrowUpRight className="w-4 h-4 text-cyan-accent transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </a>
                 </div>
               </div>
-            );
-          })}
+            ))}
+          </div>
         </div>
       </div>
     </section>
