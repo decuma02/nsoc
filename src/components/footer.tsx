@@ -49,7 +49,7 @@ export function Footer() {
 
   return (
     <footer className="relative bg-[#040c16] text-[#f1f7fc] pt-20 pb-12 border-t border-border overflow-hidden">
-      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12">
         {/* Top Info Grid */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-16 mb-16">
           {/* Brand Col */}

@@ -104,7 +104,7 @@ export function StepsSection({ onOpenRegister }: StepsSectionProps) {
 
   return (
     <section id="journey" ref={sectionRef} className="py-20 lg:py-28 relative">
-      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12">
         {/* Section Header */}
         <div className="mb-14 sm:mb-16">
           <div

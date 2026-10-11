@@ -6,7 +6,7 @@ import { Tilt3D } from "@/components/tilt-3d";
 export function QuoteSection() {
   return (
     <section className="py-10 sm:py-14 lg:py-16">
-      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12">
         <Tilt3D maxTilt={4} scale={1.01}>
           <div
             className="rounded-3xl p-8 sm:p-12 lg:p-16 relative overflow-hidden card group"

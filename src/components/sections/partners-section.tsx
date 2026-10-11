@@ -3,7 +3,6 @@
 import React from "react";
 import Image from "next/image";
 import { ArrowUpRight, Handshake } from "lucide-react";
-import { Tilt3D } from "@/components/tilt-3d";
 
 interface PartnersSectionProps {
   onPartnerModalOpen: () => void;
@@ -30,7 +29,7 @@ const partners = [
 export function PartnersSection({ onPartnerModalOpen }: PartnersSectionProps) {
   return (
     <section id="community" className="py-20 lg:py-28 overflow-hidden border-t border-[var(--border-col)]">
-      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 mb-12 sm:mb-16">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 mb-12 sm:mb-16">
         {/* Header Split */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
@@ -85,46 +84,6 @@ export function PartnersSection({ onPartnerModalOpen }: PartnersSectionProps) {
                 </span>
               </div>
             </a>
-          ))}
-        </div>
-      </div>
-
-      {/* 3×5 Grassroots Grid below for immediate accessibility */}
-      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 mt-14 sm:mt-16">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-          {partners.map((partner) => (
-            <Tilt3D key={partner.id} maxTilt={12}>
-              <a
-                href={partner.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="card p-5 sm:p-6 flex items-center justify-between group h-full relative overflow-hidden"
-              >
-                <span className="card-sheen" />
-                <span className="card-spotlight" />
-
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl overflow-hidden border border-[var(--border-col)] bg-card p-1 shrink-0 flex items-center justify-center">
-                    <Image
-                      src={partner.image}
-                      alt={partner.name}
-                      width={44}
-                      height={44}
-                      className="w-full h-full object-contain rounded-lg group-hover:scale-105 transition-transform"
-                    />
-                  </div>
-                  <div>
-                    <h4 className="font-syne font-bold text-sm sm:text-base text-foreground group-hover:text-[var(--accent)] transition-colors leading-snug">
-                      {partner.name}
-                    </h4>
-                    <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
-                      {partner.category}
-                    </span>
-                  </div>
-                </div>
-                <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-[var(--accent)] shrink-0 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 ml-2" />
-              </a>
-            </Tilt3D>
           ))}
         </div>
       </div>

@@ -92,7 +92,7 @@ export function SponsorsSection({ onSponsorModalOpen }: SponsorsSectionProps) {
 
   return (
     <section id="sponsors" ref={sectionRef} className="pt-20 lg:pt-28">
-      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12">
         {/* Section Rule */}
         <div className="border-t pt-12 sm:pt-16 border-[var(--border-col)]">
           {/* Header Split */}

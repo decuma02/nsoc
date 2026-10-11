@@ -56,7 +56,7 @@ export function Navbar({ onOpenRegister }: NavbarProps) {
           : "h-18 sm:h-20 bg-[var(--bg)]/85 backdrop-blur-sm border-[var(--border-col)]/60"
       }`}
     >
-      <div className="max-w-[1280px] mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+      <div className="max-w-[1440px] mx-auto h-full px-4 sm:px-6 lg:px-10 xl:px-12 flex items-center justify-between">
         {/* Brand Logo */}
         <Link
           href="/"

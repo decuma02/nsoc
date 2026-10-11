@@ -244,7 +244,7 @@ export function HeroSection({ onOpenRegister }: HeroSectionProps) {
       </div>
 
       {/* ── Main Split Hero Grid ──────────────────────────────────────── */}
-      <div className="relative z-10 w-full max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 my-auto">
+      <div className="relative z-10 w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 my-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-center">
 
           {/* ── Left Column: Real Program Description & CTAs ── */}

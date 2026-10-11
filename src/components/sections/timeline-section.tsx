@@ -154,7 +154,7 @@ export function TimelineSection() {
         className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[700px] h-[450px] bg-sky-500/5 dark:bg-sky-400/5 rounded-full blur-[140px] pointer-events-none"
       />
 
-      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 relative z-10">
         {/* Header Block */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 sm:mb-16">
           <div>

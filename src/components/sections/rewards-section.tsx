@@ -159,7 +159,7 @@ export function RewardsSection() {
         <div className="absolute right-0 bottom-10 size-[380px] rounded-full bg-teal-500/10 dark:bg-teal-400/5 blur-3xl animate-blob-drift-delay" />
       </div>
 
-      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12">
         {/* Section Header */}
         <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-12 sm:mb-14">
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border px-3.5 py-1 font-mono text-xs uppercase tracking-widest border-sky-400/30 bg-sky-400/10 text-sky-400">

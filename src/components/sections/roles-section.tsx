@@ -88,7 +88,7 @@ export function RolesSection({ onSelectRole }: RolesSectionProps) {
 
   return (
     <section id="roles" ref={sectionRef} className="py-20 lg:py-28">
-      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12">
         <div className="mb-14">
           <div
             className="font-mono text-xs uppercase tracking-widest mb-3"
