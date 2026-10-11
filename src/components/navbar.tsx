@@ -40,8 +40,8 @@ export function Navbar({ onOpenRegister }: NavbarProps) {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 border-b ${
         isScrolled
-          ? "h-20 bg-[#07111f]/95 dark:bg-[#07111f]/95 bg-white/95 backdrop-blur-md border-[#26394e] dark:border-[#26394e] border-[#cddfea] shadow-sm"
-          : "h-22 bg-[#07111f]/80 dark:bg-[#07111f]/80 bg-[#f1f7fc]/90 backdrop-blur-sm border-[#26394e]/60 dark:border-[#26394e]/60 border-[#cddfea]/60"
+          ? "h-20 bg-[var(--bg)]/90 backdrop-blur-md border-[var(--border-col)] shadow-sm"
+          : "h-22 bg-[var(--bg)]/80 backdrop-blur-sm border-[var(--border-col)]/60"
       }`}
     >
       <div className="max-w-[1280px] mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
@@ -57,12 +57,12 @@ export function Navbar({ onOpenRegister }: NavbarProps) {
         </Link>
 
         {/* Desktop Nav Links */}
-        <nav className="hidden lg:flex items-center gap-6">
+        <nav className="hidden lg:flex items-center gap-7">
           {navLinks.map((link) => (
             <a
               key={link.label}
               href={link.href}
-              className="font-inter text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              className="nav-link py-1"
             >
               {link.label}
             </a>
@@ -111,7 +111,7 @@ export function Navbar({ onOpenRegister }: NavbarProps) {
           {/* Log in */}
           <button
             onClick={onOpenRegister}
-            className="hidden sm:inline-block font-inter text-sm font-medium text-foreground hover:text-cyan-accent transition-colors px-2 py-1"
+            className="hidden sm:inline-block font-inter text-sm font-medium text-foreground hover:text-cyan-accent transition-colors px-3 py-2 rounded-lg focus-visible:ring-2 focus-visible:ring-cyan-accent"
           >
             Log in
           </button>
@@ -119,7 +119,7 @@ export function Navbar({ onOpenRegister }: NavbarProps) {
           {/* Sign up (Primary Button) */}
           <button
             onClick={onOpenRegister}
-            className="font-inter font-semibold text-sm px-5 py-2.5 rounded-xl bg-[#7dd3fc] text-[#07111f] hover:bg-[#5eead4] border border-[#26394e] shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-[#7dd3fc]"
+            className="btn-primary text-sm py-2.5 px-5 rounded-xl shadow-sm transition-all active:scale-95 focus-visible:ring-2 focus-visible:ring-cyan-accent"
           >
             Sign up
           </button>

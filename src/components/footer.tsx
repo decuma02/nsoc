@@ -61,7 +61,7 @@ export function Footer() {
               </span>
             </Link>
             <p className="font-inter text-base text-[#a9bcd0] leading-relaxed max-w-sm mb-6">
-              A 45-day open source program where project admins bring real codebases and contributors close issues that ship to production.
+              A 45-day open source program where project maintainers bring real-world projects, and contributors work on solving actual issues, building features, and shipping production-ready code.
             </p>
           </div>
 

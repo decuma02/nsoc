@@ -1,70 +1,77 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Syne:wght@500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600;700&family=Syne:wght@500;600;700;800&display=swap');
 @import "tailwindcss";
 
 /* ============================================================
-   Tailwind v4 @theme inline tokens — Figma Exact Design System
+   NSoC '26 Winter Edition — Design System
+   Figma Tokens: frame 5:36025 (desktop dark) + 5:36407 (desktop light)
    ============================================================ */
 @theme inline {
-  --font-family-syne:  'Syne', var(--font-syne), ui-sans-serif, system-ui, sans-serif;
-  --font-family-inter: 'Inter', var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-family-mono:  'JetBrains Mono', var(--font-jetbrains-mono), ui-monospace, Menlo, Consolas, monospace;
-  --font-family-sans:  'Inter', var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-syne:  var(--font-syne), 'Syne', ui-sans-serif, system-ui, sans-serif;
+  --font-inter: var(--font-inter), 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono:  var(--font-jetbrains-mono), 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+  --font-sans:  var(--font-inter), 'Inter', ui-sans-serif, system-ui, sans-serif;
 
   --color-background:       var(--bg);
   --color-foreground:       var(--fg);
   --color-muted:            var(--muted);
   --color-muted-foreground: var(--muted-fg);
-  --color-border:           var(--border-color);
+  --color-border:           var(--border-col);
   --color-card:             var(--card-bg);
-  --color-card-foreground:  var(--card-fg);
+  --color-accent:           var(--accent);
+  --color-accent-teal:      var(--accent-teal);
+  --color-navy:             var(--navy);
 }
 
 /* ============================================================
-   CSS Custom Properties — Figma Exact Tokens
+   CSS Custom Properties
    ============================================================ */
 :root {
   color-scheme: light dark;
 
-  /* Default / Light theme (matches Figma Desktop Light frame 5:36407) */
-  --bg:            #f1f7fc;
-  --fg:            #07111f;
-  --card-bg:       #ffffff;
-  --card-fg:       #07111f;
-  --muted:         #e8f2f8;
-  --muted-fg:      #475e73;
-  --border-color:  #cddfea;
-  --accent-cyan:   #086388;
-  --accent-teal:   #08786c;
-  --accent-navy:   #e0f2fa;
-  --card-hover:    #f8fbfe;
+  /* Light — matches Figma frame 5:36407 */
+  --bg:           #f1f7fc;
+  --fg:           #07111f;
+  --card-bg:      #ffffff;
+  --card-hover:   #f4f9fd;
+  --muted:        #e0f2fa;
+  --muted-fg:     #475e73;
+  --border-col:   #cddfea;
+  --accent:       #086388;   /* icy blue */
+  --accent-teal:  #08786c;   /* aurora teal */
+  --navy:         #e0f2fa;   /* light mode navy equivalent */
+
+  --shadow-card:  0 1px 4px rgba(7,17,31,0.07), 0 4px 12px rgba(7,17,31,0.05);
+  --shadow-lift:  0 4px 20px rgba(7,17,31,0.12), 0 8px 32px rgba(8,99,136,0.08);
+  --glow-accent:  0 0 20px rgba(8,99,136,0.25);
+  --glow-rank1:   0 0 30px rgba(8,120,108,0.3), 0 0 60px rgba(8,120,108,0.12);
 }
 
 .dark {
   color-scheme: dark;
 
-  /* Dark theme (matches Figma Desktop Dark frame 5:36025) */
-  --bg:            #040c16;
-  --fg:            #f1f7fc;
-  --card-bg:       #101f32;
-  --card-fg:       #f1f7fc;
-  --muted:         #07111f;
-  --muted-fg:      #a9bcd0;
-  --border-color:  #26394e;
-  --accent-cyan:   #7dd3fc;
-  --accent-teal:   #5eead4;
-  --accent-navy:   #102b3d;
-  --card-hover:    #13273e;
+  /* Dark — matches Figma frame 5:36025 */
+  --bg:           #040c16;
+  --fg:           #f1f7fc;
+  --card-bg:      #101f32;
+  --card-hover:   #13263f;
+  --muted:        #0b1727;
+  --muted-fg:     #a9bcd0;
+  --border-col:   #26394e;
+  --accent:       #7dd3fc;   /* icy blue */
+  --accent-teal:  #5eead4;   /* aurora teal */
+  --navy:         #102b3d;   /* deep navy */
+
+  --shadow-card:  0 1px 4px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.2);
+  --shadow-lift:  0 4px 24px rgba(0,0,0,0.4), 0 8px 40px rgba(125,211,252,0.1);
+  --glow-accent:  0 0 20px rgba(125,211,252,0.2);
+  --glow-rank1:   0 0 30px rgba(94,234,212,0.25), 0 0 60px rgba(94,234,212,0.1);
 }
 
 /* ============================================================
-   Base Layer — Crisp Typography & Resets
+   Base Reset
    ============================================================ */
 @layer base {
-  *,
-  *::before,
-  *::after {
-    box-sizing: border-box;
-  }
+  *, *::before, *::after { box-sizing: border-box; }
 
   html {
     font-size: 16px;
@@ -74,172 +81,408 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
   }
 
   body {
     background-color: var(--bg);
     color: var(--fg);
-    font-family: 'Inter', var(--font-inter), ui-sans-serif, system-ui, -apple-system, sans-serif;
+    font-family: 'Inter', var(--font-inter), ui-sans-serif, system-ui, sans-serif;
     font-size: 1rem;
-    line-height: 1.625;
+    line-height: 1.65;
     font-weight: 400;
     overflow-x: hidden;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    transition: background-color 0.25s ease, color 0.25s ease;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Syne', var(--font-syne), sans-serif;
     font-weight: 700;
     line-height: 1.1;
+    letter-spacing: -0.015em;
     margin: 0;
-    letter-spacing: -0.01em;
   }
 
-  p, ul, ol, li, dl, dd, dt {
-    margin: 0;
-    padding: 0;
-  }
-
-  a {
-    color: inherit;
-    text-decoration: none;
-  }
-
+  p, ul, ol, li, dl { margin: 0; padding: 0; }
+  a { color: inherit; text-decoration: none; }
   button, input, textarea, select {
     font-family: inherit;
     font-size: inherit;
     line-height: inherit;
     color: inherit;
   }
+
+  /* Focus ring system */
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
 }
 
 /* ============================================================
-   Typography Helper Classes
+   Typography Utilities
    ============================================================ */
-.font-syne {
-  font-family: 'Syne', var(--font-syne), sans-serif !important;
-}
+.font-syne  { font-family: var(--font-syne), 'Syne', ui-sans-serif, system-ui, sans-serif !important; }
+.font-inter { font-family: var(--font-inter), 'Inter', ui-sans-serif, system-ui, sans-serif !important; }
+.font-mono  { font-family: var(--font-jetbrains-mono), 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace !important; }
+.font-sans  { font-family: var(--font-inter), 'Inter', ui-sans-serif, system-ui, sans-serif !important; }
 
-.font-inter {
-  font-family: 'Inter', var(--font-inter), sans-serif !important;
-}
-
-.font-mono {
-  font-family: 'JetBrains Mono', var(--font-jetbrains-mono), monospace !important;
-}
-
-/* Semantic Color Utilities */
+/* Semantic color utilities */
 .text-foreground        { color: var(--fg)        !important; }
 .text-muted-foreground  { color: var(--muted-fg)  !important; }
-.text-card-foreground   { color: var(--card-fg)   !important; }
-.text-cyan-accent       { color: var(--accent-cyan) !important; }
-.text-teal-accent       { color: var(--accent-teal) !important; }
-
-.bg-background          { background-color: var(--bg)         !important; }
-.bg-card                { background-color: var(--card-bg)    !important; }
-.bg-muted               { background-color: var(--muted)      !important; }
-.bg-navy-accent         { background-color: var(--accent-navy)!important; }
-.border-border          { border-color: var(--border-color)   !important; }
+.text-accent            { color: var(--accent)    !important; }
+.text-accent-teal       { color: var(--accent-teal)!important; }
+.bg-background          { background-color: var(--bg)       !important; }
+.bg-card                { background-color: var(--card-bg)  !important; }
+.bg-muted               { background-color: var(--muted)    !important; }
+.bg-navy                { background-color: var(--navy)     !important; }
+.border-border          { border-color: var(--border-col)   !important; }
 
 /* ============================================================
-   Figma Card & Button Styles
+   Premium Card System
    ============================================================ */
+.card,
 .figma-card {
   background-color: var(--card-bg);
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border-col);
   border-radius: 16px;
-  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+  box-shadow: var(--shadow-card);
+  transition:
+    transform 220ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    border-color 220ms ease,
+    box-shadow 220ms ease;
+  position: relative;
+  overflow: hidden;
 }
 
+/* Icy sheen overlay (diagonal sweep on hover) */
+.card::before,
+.figma-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    transparent 35%,
+    rgba(255, 255, 255, 0.05) 48%,
+    rgba(255, 255, 255, 0.18) 51%,
+    rgba(255, 255, 255, 0.05) 54%,
+    transparent 65%,
+    transparent 100%
+  );
+  background-size: 280% 100%;
+  background-position: -100% 0;
+  transition: background-position 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  pointer-events: none;
+  border-radius: inherit;
+  z-index: 1;
+}
+
+.card:hover::before,
+.figma-card:hover::before {
+  background-position: 200% 0;
+}
+
+.card:hover,
 .figma-card:hover {
-  transform: translateY(-2px);
-  border-color: var(--accent-cyan);
-  box-shadow: 0 4px 20px -2px rgba(125, 211, 252, 0.12);
+  transform: translateY(-3px);
+  border-color: var(--accent);
+  box-shadow: var(--shadow-lift);
 }
 
+.card:focus-within,
+.figma-card:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+/* Card content sits above sheen */
+.card > *,
+.figma-card > * { position: relative; z-index: 2; }
+
+/* Rank 1 special glow card - restrained, icy-aurora glow */
+.card-rank1 {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 24px rgba(125, 211, 252, 0.22), 0 0 48px rgba(94, 234, 212, 0.1) !important;
+}
+
+.card-rank1:hover {
+  box-shadow: var(--shadow-lift), 0 0 32px rgba(125, 211, 252, 0.32), 0 0 64px rgba(94, 234, 212, 0.16) !important;
+}
+
+/* Smaller corner radius variants */
+.card-sm { border-radius: 12px; }
+.card-lg { border-radius: 20px; }
+
+/* ============================================================
+   Button System
+   ============================================================ */
+.btn-primary,
 .figma-btn-primary {
-  background-color: var(--accent-cyan);
-  color: #07111f;
-  font-family: 'Inter', sans-serif;
-  font-weight: 600;
-  font-size: 1rem;
-  border-radius: 12px;
-  border: 1px solid var(--border-color);
-  transition: all 180ms ease;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 14px 28px;
+  border-radius: 12px;
+  background-color: var(--accent);
+  color: var(--bg);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease,
+    background-color 150ms ease;
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
+.btn-primary::after,
+.figma-btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0);
+  transition: background 150ms ease;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.btn-primary:hover,
 .figma-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lift);
   background-color: var(--accent-teal);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(94, 234, 212, 0.25);
 }
 
+.btn-primary:hover::after,
+.figma-btn-primary:hover::after {
+  background: rgba(255,255,255,0.06);
+}
+
+.btn-primary:active,
+.figma-btn-primary:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.btn-secondary,
 .figma-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 14px 28px;
+  border-radius: 12px;
   background-color: var(--card-bg);
   color: var(--fg);
-  font-family: 'Inter', sans-serif;
-  font-weight: 600;
-  font-size: 1rem;
-  border-radius: 12px;
-  border: 1px solid var(--border-color);
-  transition: all 180ms ease;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
+  border: 1px solid var(--border-col);
+  cursor: pointer;
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease;
+  white-space: nowrap;
 }
 
+.btn-secondary:hover,
 .figma-btn-secondary:hover {
-  border-color: var(--accent-cyan);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(125, 211, 252, 0.15);
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  color: var(--fg);
+  box-shadow: var(--shadow-lift);
+}
+
+.btn-secondary:active,
+.figma-btn-secondary:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* Nav link underline animation */
+.nav-link {
+  position: relative;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--muted-fg);
+  transition: color 150ms ease;
+  padding-bottom: 2px;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1.5px;
+  background: var(--accent);
+  transition: width 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.nav-link:hover {
+  color: var(--fg);
+}
+
+.nav-link:hover::after {
+  width: 100%;
 }
 
 /* ============================================================
-   Animations & Restrained Motion (Matches Figma Guidance)
+   Aurora & Winter Atmosphere
    ============================================================ */
+.aurora-ribbon {
+  position: absolute;
+  border-radius: 60% 40% 70% 30% / 30% 70% 40% 60%;
+  filter: blur(60px);
+  pointer-events: none;
+}
+
+/* ============================================================
+   CSS Keyframes
+   ============================================================ */
+
+/* Panda continuous gentle wave — oscillates arm-like rotation */
+@keyframes panda-wave {
+  0%, 100% { transform: rotate(-8deg); }
+  25%       { transform: rotate(8deg); }
+  50%       { transform: rotate(-4deg); }
+  75%       { transform: rotate(5deg); }
+}
+
+/* Panda body float */
 @keyframes panda-float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-6px);
-  }
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33%       { transform: translateY(-6px) rotate(0.5deg); }
+  66%       { transform: translateY(-3px) rotate(-0.3deg); }
 }
 
-.animate-panda-float {
-  animation: panda-float 6s ease-in-out infinite;
+/* Aurora slow drift */
+@keyframes aurora-drift {
+  0%, 100% { transform: translateX(0) scale(1); opacity: 0.6; }
+  50%       { transform: translateX(40px) scale(1.08); opacity: 0.85; }
 }
 
-@keyframes aurora-pulse {
-  0%, 100% {
-    opacity: 0.55;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.85;
-    transform: scale(1.05);
-  }
+@keyframes aurora-drift-2 {
+  0%, 100% { transform: translateX(0) scale(1) rotate(0deg); opacity: 0.5; }
+  50%       { transform: translateX(-30px) scale(1.05) rotate(8deg); opacity: 0.75; }
 }
 
-.animate-aurora {
-  animation: aurora-pulse 10s ease-in-out infinite;
+/* Snow particle drift */
+@keyframes snow-drift {
+  0%   { transform: translateY(-10px) translateX(0);   opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 0.7; }
+  100% { transform: translateY(100px) translateX(15px); opacity: 0; }
 }
 
-/* Reduced Motion */
+@keyframes snow-drift-2 {
+  0%   { transform: translateY(-10px) translateX(0);    opacity: 0; }
+  10%  { opacity: 0.8; }
+  90%  { opacity: 0.5; }
+  100% { transform: translateY(80px) translateX(-12px); opacity: 0; }
+}
+
+/* Tab fade crossfade */
+@keyframes tab-fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Marquee */
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: marquee 38s linear infinite;
+}
+
+.animate-marquee:hover { animation-play-state: paused; }
+
+/* Section rule separator */
+.section-rule {
+  width: 100%;
+  height: 1px;
+  background-color: var(--border-col);
+}
+
+/* Gradient text */
+.grad-text {
+  background: linear-gradient(90deg, var(--accent) 0%, var(--accent-teal) 50%, var(--accent) 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: grad-sweep 6s linear infinite;
+}
+
+@keyframes grad-sweep {
+  0%   { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+/* ============================================================
+   Reveal Animation Classes (added by GSAP/scroll)
+   ============================================================ */
+.will-reveal {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.will-reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* Tab content animation */
+.tab-panel {
+  animation: tab-fade-in 200ms ease both;
+}
+
+/* Timeline line draw */
+.timeline-line {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+}
+
+/* Progress indicator step */
+.step-number {
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+/* ============================================================
+   Reduced Motion
+   ============================================================ */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    transition-duration: 0.05ms !important;
     scroll-behavior: auto !important;
   }
-  .animate-panda-float,
-  .animate-aurora {
-    animation: none !important;
-  }
+
+  .animate-marquee   { animation: none !important; }
+  .grad-text         { animation: none !important; }
+  .will-reveal       { opacity: 1 !important; transform: none !important; }
+  .card::before      { display: none !important; }
 }

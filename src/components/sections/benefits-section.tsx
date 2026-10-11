@@ -1,8 +1,46 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 export function BenefitsSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReduced) return;
+
+    const init = async () => {
+      const { gsap } = await import("gsap");
+      const { ScrollTrigger } = await import("gsap/ScrollTrigger");
+      gsap.registerPlugin(ScrollTrigger);
+
+      const els = sectionRef.current?.querySelectorAll("[data-reveal]");
+      if (!els) return;
+
+      els.forEach((el) => {
+        const delay = parseFloat((el as HTMLElement).dataset.revealDelay ?? "0");
+        gsap.fromTo(
+          el,
+          { opacity: 0, y: 12 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.4,
+            delay: Math.min(delay, 0.24),
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: el,
+              start: "top 88%",
+              once: true,
+            },
+          }
+        );
+      });
+    };
+
+    init();
+  }, []);
+
   const pillars = [
     {
       title: "Real projects.",
@@ -12,77 +50,100 @@ export function BenefitsSection() {
     {
       title: "Structured guidance.",
       description:
-        "Experienced maintainers review your PRs, provide actionable feedback, and help you navigate complex open source workflows.",
+        "Admins mentor contributors through the review process. You don't just get a comment — you get context, feedback, and a reason.",
     },
     {
       title: "Earned recognition.",
       description:
-        "Climb the official leaderboard, earn verified certificates, claim physical swag, and get direct referrals to top tech companies.",
+        "Points for every merged PR. A public leaderboard. A profile that shows exactly what you built and where it landed.",
     },
     {
       title: "A real community.",
       description:
-        "Connect with thousands of builders, designers, and maintainers across Discord, events, and campus hack spaces.",
+        "45 days of builders, maintainers, and contributors working in the same direction. The connections outlast the program.",
     },
   ];
 
   return (
-    <section id="about" className="py-20 lg:py-28">
+    <section
+      id="about"
+      ref={sectionRef}
+      className="py-20 lg:py-28"
+      style={{ borderTop: "1px solid var(--border-col)" }}
+    >
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Editorial Split: Left sticky title + Right 2x2 grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 mb-20">
-          {/* Left Column (Figma: 380px) */}
-          <div className="lg:col-span-4 flex flex-col justify-between">
-            <div>
-              <div className="font-mono text-xs uppercase tracking-widest text-cyan-accent mb-4">
-                01 / ABOUT
-              </div>
-              <h2 className="font-syne font-bold text-4xl sm:text-5xl lg:text-[54px] leading-[1.08] text-foreground tracking-tight">
-                Open source, the way it was meant to be.
-              </h2>
-            </div>
 
-            {/* Giant Graphic Arrow from Figma Frame */}
+        {/* ── Editorial split: label + headline left / interactive arrow right ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end mb-12 lg:mb-16">
+          <div className="lg:col-span-8" data-reveal data-reveal-delay="0">
             <div
-              aria-hidden="true"
-              className="hidden lg:block font-syne font-medium text-8xl xl:text-9xl text-cyan-accent select-none mt-12 transition-transform duration-300 hover:translate-x-2 hover:-translate-y-2"
+              className="font-mono text-xs uppercase tracking-widest mb-4"
+              style={{ color: "var(--accent)" }}
+            >
+              01 / ABOUT
+            </div>
+            <h2
+              className="font-syne font-bold tracking-tight leading-[1.08]"
+              style={{ fontSize: "clamp(2.25rem, 4.5vw, 3rem)", color: "var(--fg)" }}
+            >
+              Open source, the way it<br className="hidden sm:inline" /> was meant to be.
+            </h2>
+          </div>
+
+          {/* Giant editorial arrow */}
+          <div
+            className="lg:col-span-4 hidden lg:flex items-end justify-end"
+            data-reveal
+            data-reveal-delay="0.06"
+          >
+            <span
+              className="font-syne select-none leading-none cursor-default"
+              style={{
+                fontSize: "7rem",
+                color: "var(--accent)",
+                lineHeight: 1,
+                transition: "transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.25s ease",
+                display: "inline-block",
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.transform = "translate(6px, -6px)";
+                (e.currentTarget as HTMLElement).style.color = "var(--accent-teal)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.transform = "";
+                (e.currentTarget as HTMLElement).style.color = "var(--accent)";
+              }}
             >
               ↗
-            </div>
+            </span>
           </div>
+        </div>
 
-          {/* Right Column: 2x2 Grid of Benefit Cards */}
-          <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {pillars.map((pillar) => (
-              <div
-                key={pillar.title}
-                className="figma-card p-8 flex flex-col justify-between min-h-[260px]"
+        {/* ── 2×2 Benefits cards with diagonal sheen sweep on hover (Figma: 628x226) ── */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8">
+          {pillars.map((p, i) => (
+            <div
+              key={p.title}
+              className="card p-8 lg:p-10 flex flex-col justify-center gap-3 min-h-[220px]"
+              data-reveal
+              data-reveal-delay={0.06 * i}
+            >
+              <h3
+                className="font-syne font-bold text-2xl"
+                style={{ color: "var(--fg)" }}
               >
-                <div>
-                  <h3 className="font-syne font-bold text-2xl text-foreground mb-4">
-                    {pillar.title}
-                  </h3>
-                  <p className="font-inter text-[15px] leading-relaxed text-muted-foreground">
-                    {pillar.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
+                {p.title}
+              </h3>
+              <p
+                className="font-inter leading-relaxed text-base"
+                style={{ color: "var(--muted-fg)", lineHeight: "1.65" }}
+              >
+                {p.description}
+              </p>
+            </div>
+          ))}
         </div>
 
-        {/* Program Quote Card (Figma Exact Spec) */}
-        <div className="rounded-2xl border border-border bg-[#102b3d] dark:bg-[#102b3d] bg-sky-100 p-8 sm:p-12 lg:p-16 relative overflow-hidden">
-          <div
-            aria-hidden="true"
-            className="font-syne font-bold text-6xl sm:text-7xl lg:text-8xl text-cyan-accent leading-none mb-4 select-none"
-          >
-            “
-          </div>
-          <p className="font-syne font-bold text-2xl sm:text-3xl lg:text-5xl text-foreground leading-[1.18] max-w-4xl tracking-tight">
-            No toy projects. No filler tasks. Just 45 days of building real software with real people.
-          </p>
-        </div>
       </div>
     </section>
   );

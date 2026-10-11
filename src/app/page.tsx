@@ -5,6 +5,7 @@ import { Navbar } from "@/components/navbar";
 import { HeroSection } from "@/components/sections/hero-section";
 import { BenefitsSection } from "@/components/sections/benefits-section";
 import { RolesSection } from "@/components/sections/roles-section";
+import { QuoteSection } from "@/components/sections/quote-section";
 import { StepsSection } from "@/components/sections/steps-section";
 import { RewardsSection } from "@/components/sections/rewards-section";
 import { TimelineSection } from "@/components/sections/timeline-section";
@@ -33,11 +34,14 @@ export default function HomePage() {
         {/* 0. Hero and Program Stats */}
         <HeroSection onOpenRegister={() => handleOpenRegister("Contributor")} />
 
-        {/* 1. About the Program (Editorial Split, Benefit Cards & Quote) */}
+        {/* 1. About the Program (Editorial Split & Benefit Cards) */}
         <BenefitsSection />
 
         {/* 1b. Participation Roles */}
         <RolesSection onSelectRole={(role) => handleOpenRegister(role)} />
+
+        {/* 1c. Full-width Program Quote */}
+        <QuoteSection />
 
         {/* 2. Contribution Steps */}
         <StepsSection onOpenRegister={() => handleOpenRegister("Contributor")} />
