@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Sparkles, MessageCircle } from "lucide-react";
 import { Magnetic } from "@/components/magnetic";
 
 interface HeroSectionProps {
@@ -20,16 +20,76 @@ const SNOW_PARTICLES = [
   { left: "88%", top: "6%",  size: 3, delay: "4.0s",  duration: "9.5s",animation: "snow-drift" },
 ];
 
+const PANDA_QUOTES = [
+  "Hi! Ready to build real open source? ❄️",
+  "Over 300+ real projects waiting for you! 🚀",
+  "No toy tasks. Only production code! 💻",
+  "Earn points, climb the leaderboard, win prizes! 🏆",
+  "Welcome to NSoC '26 Winter Edition! 🐼",
+];
+
 export function HeroSection({ onOpenRegister }: HeroSectionProps) {
   const sectionRef  = useRef<HTMLElement>(null);
   const auroraRef   = useRef<HTMLDivElement>(null);
   const aurora2Ref  = useRef<HTMLDivElement>(null);
   const statsBarRef = useRef<HTMLDivElement>(null);
+  const pandaRef    = useRef<HTMLDivElement>(null);
 
-  // States for one-time count-up animation (700ms duration)
+  // States for one-time count-up animation
   const [statSprint, setStatSprint] = useState(45);
   const [statParticipants, setStatParticipants] = useState("10K+");
   const [statProjects, setStatProjects] = useState("300+");
+
+  // Interactive Panda Mascot state
+  const [pandaPose, setPandaPose] = useState<1 | 2>(1);
+  const [pandaQuoteIndex, setPandaQuoteIndex] = useState(0);
+  const [showSpeech, setShowSpeech] = useState(false);
+  const [pandaBouncing, setPandaBouncing] = useState(false);
+
+  const handlePandaClick = useCallback((e: React.MouseEvent) => {
+    setPandaPose((prev) => (prev === 1 ? 2 : 1));
+    setPandaQuoteIndex((prev) => (prev + 1) % PANDA_QUOTES.length);
+    setShowSpeech(true);
+    setPandaBouncing(true);
+    setTimeout(() => setPandaBouncing(false), 600);
+
+    // Snowflake click burst
+    const el = pandaRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const glyphs = ["❄", "✦", "✧", "❄"];
+    for (let i = 0; i < 8; i++) {
+      const p = document.createElement("span");
+      p.textContent = glyphs[i % glyphs.length];
+      p.className = "pointer-events-none absolute select-none font-mono";
+
+      const theta = Math.random() * Math.PI * 2;
+      const dist = Math.random() * 60 + 30;
+      const dx = Math.cos(theta) * dist;
+      const dy = Math.sin(theta) * dist - 20;
+
+      Object.assign(p.style, {
+        left: `${x}px`,
+        top: `${y}px`,
+        fontSize: "14px",
+        color: "#7dd3fc",
+        transform: "translate(-50%, -50%) scale(0)",
+        transition: "transform 600ms cubic-bezier(0.16, 1, 0.3, 1), opacity 600ms ease-out",
+        opacity: "1",
+        zIndex: "30",
+      });
+
+      el.appendChild(p);
+      requestAnimationFrame(() => {
+        p.style.transform = `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) scale(1.2)`;
+        p.style.opacity = "0";
+      });
+      setTimeout(() => p.remove(), 650);
+    }
+  }, []);
 
   useEffect(() => {
     let gsap: typeof import("gsap").gsap;
@@ -48,7 +108,7 @@ export function HeroSection({ onOpenRegister }: HeroSectionProps) {
 
       const mm = gsap.matchMedia();
 
-      // ── One-time Statistics Count-Up (at most 700ms as per Figma guidance) ──
+      // One-time Statistics Count-Up
       if (statsBarRef.current) {
         const statsTargets = { sprint: 0, participants: 0, projects: 0 };
         ScrollTrigger.create({
@@ -72,7 +132,7 @@ export function HeroSection({ onOpenRegister }: HeroSectionProps) {
         });
       }
 
-      // ── Desktop only: aurora depth shifts by 12–20px with pointer or scroll ──
+      // Desktop only: aurora depth shifts with pointer
       mm.add("(min-width: 1024px)", () => {
         const handlePointer = (e: MouseEvent) => {
           const cx = e.clientX / window.innerWidth - 0.5;
@@ -98,7 +158,6 @@ export function HeroSection({ onOpenRegister }: HeroSectionProps) {
 
         window.addEventListener("pointermove", handlePointer, { passive: true });
 
-        // Scroll parallax for aurora background layers
         ScrollTrigger.create({
           trigger: sectionRef.current,
           start: "top top",
@@ -156,7 +215,7 @@ export function HeroSection({ onOpenRegister }: HeroSectionProps) {
             animation: "aurora-drift-2 22s ease-in-out infinite",
           }}
         />
-        {/* Deep navy atmosphere vignette */}
+        {/* Deep atmosphere vignette */}
         <div
           className="absolute bottom-0 left-0 right-0 h-[65%]"
           style={{
@@ -165,7 +224,7 @@ export function HeroSection({ onOpenRegister }: HeroSectionProps) {
         />
       </div>
 
-      {/* ── Sparse Snow Particles (hidden on mobile for performance) ── */}
+      {/* ── Sparse Snow Particles ── */}
       <div aria-hidden="true" className="absolute inset-0 -z-10 pointer-events-none hidden sm:block">
         {SNOW_PARTICLES.map((p, i) => (
           <div
@@ -188,7 +247,7 @@ export function HeroSection({ onOpenRegister }: HeroSectionProps) {
       <div className="relative z-10 w-full max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 my-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-center">
 
-          {/* ── Left Column: Real Program Description & CTAs (Stationary Text) ── */}
+          {/* ── Left Column: Real Program Description & CTAs ── */}
           <div className="lg:col-span-7 flex flex-col items-start justify-center pt-4 lg:pt-0 pb-6 lg:pb-8">
 
             {/* Sprint Badge */}
@@ -203,39 +262,28 @@ export function HeroSection({ onOpenRegister }: HeroSectionProps) {
                 className="w-2.5 h-2.5 rounded-full"
                 style={{ backgroundColor: "var(--accent-teal)", boxShadow: "0 0 8px var(--accent-teal)" }}
               />
-              <span className="font-mono text-xs text-foreground tracking-wide">
+              <span className="font-mono text-xs text-foreground tracking-wide font-medium">
                 45-Day Open Source Sprint
               </span>
             </div>
 
-            {/* Headline — Figma: 96px ExtraBold Syne */}
+            {/* Headline — Syne Extrabold with tight tracking */}
             <h1
-              className="font-syne font-extrabold leading-[0.97] tracking-tight mb-4"
-              style={{ fontSize: "clamp(3rem, 6.7vw, 6rem)", color: "var(--fg)" }}
+              className="font-syne font-extrabold leading-[0.98] tracking-tight mb-4 text-foreground"
+              style={{ fontSize: "clamp(2.75rem, 6.8vw, 5.75rem)" }}
             >
               Nexus<br />
               Spring of<br />
               Code.
             </h1>
 
-            {/* Edition Subtitle — Figma: 22px JetBrains Mono */}
-            <div
-              className="font-mono mb-6"
-              style={{
-                fontSize: "clamp(1.1rem, 2vw, 1.375rem)",
-                lineHeight: "1.5",
-                color: "var(--accent)",
-                letterSpacing: "-0.01em",
-              }}
-            >
+            {/* Edition Subtitle */}
+            <div className="font-mono text-lg sm:text-xl md:text-2xl text-[var(--accent)] tracking-tight mb-6 font-medium">
               ’26 — Winter Edition
             </div>
 
-            {/* Authentic Exact Description — Figma: 18px Inter, 29.7px line-height */}
-            <p
-              className="font-inter text-base sm:text-lg leading-[1.65] max-w-xl mb-8"
-              style={{ color: "var(--muted-fg)" }}
-            >
+            {/* Description */}
+            <p className="font-inter text-base sm:text-lg leading-relaxed text-muted-foreground max-w-xl mb-8">
               A 45-day open source program where project maintainers bring real-world projects, and contributors work on solving actual issues, building features, and shipping production-ready code. No toy projects. No filler tasks. Just meaningful work and a community that grows together.
             </p>
 
@@ -260,7 +308,7 @@ export function HeroSection({ onOpenRegister }: HeroSectionProps) {
             </div>
 
             {/* Scanning for deepfakes badge */}
-            <div className="flex items-center gap-3 p-3 sm:px-4 rounded-xl border border-emerald-500/20 bg-emerald-500/5 dark:bg-emerald-950/20 backdrop-blur-sm text-xs font-mono">
+            <div className="flex items-center gap-3 p-3 sm:px-4 rounded-xl border border-emerald-500/25 bg-emerald-500/5 dark:bg-emerald-950/20 backdrop-blur-sm text-xs font-mono">
               <div className="relative flex h-2.5 w-2.5 shrink-0">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
@@ -277,9 +325,16 @@ export function HeroSection({ onOpenRegister }: HeroSectionProps) {
             </div>
           </div>
 
-          {/* ── Right Column: Atmospheric Winter Scene with Panda Mascot ── */}
+          {/* ── Right Column: Atmospheric Winter Scene with Interactive Panda Mascot ── */}
           <div className="lg:col-span-5 flex items-end justify-center lg:justify-end self-end">
-            <div className="relative w-full max-w-[380px] sm:max-w-[440px] lg:max-w-[480px]">
+            <div
+              ref={pandaRef}
+              onClick={handlePandaClick}
+              onMouseEnter={() => setShowSpeech(true)}
+              onMouseLeave={() => setShowSpeech(false)}
+              className="relative w-full max-w-[380px] sm:max-w-[440px] lg:max-w-[480px] cursor-pointer group select-none"
+              title="Click me to wave and chat! 🐼"
+            >
               {/* Atmospheric halo behind panda */}
               <div
                 aria-hidden="true"
@@ -291,11 +346,24 @@ export function HeroSection({ onOpenRegister }: HeroSectionProps) {
                 }}
               />
 
-              {/* Gentle 6px float over 6s ease-in-out */}
+              {/* Interactive Speech Bubble */}
               <div
-                className="relative z-10"
+                className={`absolute -top-12 sm:-top-14 left-1/2 -translate-x-1/2 w-max max-w-[280px] sm:max-w-[320px] px-4 py-2 rounded-2xl bg-card/90 backdrop-blur-md border border-[var(--border-col)] shadow-xl shadow-black/20 text-xs sm:text-sm font-inter text-foreground z-30 transition-all duration-300 pointer-events-none text-center ${
+                  showSpeech ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+                }`}
+              >
+                <span>{PANDA_QUOTES[pandaQuoteIndex]}</span>
+                {/* Speech tail */}
+                <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-card/90 border-b border-r border-[var(--border-col)] rotate-45" />
+              </div>
+
+              {/* Gentle float over 6s ease-in-out + bounce on click */}
+              <div
+                className={`relative z-10 transition-transform duration-300 ${
+                  pandaBouncing ? "scale-105 -translate-y-3" : ""
+                }`}
                 style={{
-                  animation: "panda-float 6s ease-in-out infinite",
+                  animation: pandaBouncing ? "none" : "panda-float 6s ease-in-out infinite",
                 }}
               >
                 {/* Continuous gentle wave */}
@@ -306,90 +374,72 @@ export function HeroSection({ onOpenRegister }: HeroSectionProps) {
                   }}
                 >
                   <Image
-                    src="/winter-panda-1.png"
+                    src={pandaPose === 1 ? "/winter-panda-1.png" : "/winter-panda-2.png"}
                     alt="NSoC '26 Winter Edition panda mascot waving"
                     width={560}
                     height={560}
-                    className="w-full h-auto select-none drop-shadow-[0_12px_24px_rgba(7,17,31,0.45)]"
+                    className="w-full h-auto select-none drop-shadow-[0_12px_28px_rgba(5,10,20,0.5)] transition-all duration-300 group-hover:scale-102"
                     priority
                     draggable={false}
                   />
                 </div>
               </div>
 
-              {/* Mascot Caption Tag — Figma: 11px JetBrains Mono */}
+              {/* Mascot Caption Tag */}
               <div
-                className="absolute bottom-2 left-2 right-2 flex justify-between px-3 py-1.5 rounded-lg bg-card/60 backdrop-blur-md border border-border text-[11px] font-mono"
+                className="absolute bottom-2 left-2 right-2 flex justify-between px-3.5 py-1.5 rounded-lg bg-card/75 backdrop-blur-md border border-border text-[11px] font-mono"
                 style={{ zIndex: 20 }}
               >
-                <span className="font-semibold text-foreground">
+                <span className="font-semibold text-foreground flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse" />
                   NSoC ’26
                 </span>
-                <span className="text-cyan-accent uppercase tracking-wider">
-                  WINTER EDITION
+                <span className="text-[var(--accent)] uppercase tracking-wider font-medium">
+                  WINTER MASCOT (CLICK ME)
                 </span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* ── Program Statistics Bar (Figma: 56px Syne 700 / 12px JetBrains Mono) ── */}
+        {/* ── Program Statistics Bar ── */}
         <div
           ref={statsBarRef}
-          className="grid grid-cols-3 gap-4 sm:gap-8 pt-8 sm:pt-12 mt-10 border-t"
-          style={{ borderColor: "var(--border-col)" }}
+          className="grid grid-cols-3 gap-4 sm:gap-8 pt-8 sm:pt-12 mt-10 border-t border-[var(--border-col)]"
         >
           <div className="flex flex-col items-center sm:items-start">
             <span
-              className="font-syne font-bold leading-none tracking-tight"
-              style={{
-                fontSize: "clamp(2.5rem, 4vw, 3.5rem)",
-                color: "var(--fg)",
-              }}
+              className="font-syne font-extrabold leading-none tracking-tight text-foreground"
+              style={{ fontSize: "clamp(2.5rem, 4.5vw, 4rem)" }}
             >
               {statSprint}
             </span>
-            <span
-              className="font-mono text-xs uppercase tracking-wider mt-2"
-              style={{ color: "var(--muted-fg)" }}
-            >
+            <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground mt-2">
               Day Sprint
             </span>
           </div>
 
           <div className="flex flex-col items-center sm:items-start">
             <span
-              className="font-syne font-bold leading-none tracking-tight"
-              style={{
-                fontSize: "clamp(2.5rem, 4vw, 3.5rem)",
-                color: "var(--accent)",
-              }}
+              className="font-syne font-extrabold leading-none tracking-tight text-foreground"
+              style={{ fontSize: "clamp(2.5rem, 4.5vw, 4rem)" }}
             >
               {statParticipants}
             </span>
-            <span
-              className="font-mono text-xs uppercase tracking-wider mt-2"
-              style={{ color: "var(--muted-fg)" }}
-            >
-              Expected Participants
+            <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground mt-2">
+              Participants
             </span>
           </div>
 
           <div className="flex flex-col items-center sm:items-start">
             <span
-              className="font-syne font-bold leading-none tracking-tight"
-              style={{
-                fontSize: "clamp(2.5rem, 4vw, 3.5rem)",
-                color: "var(--accent-teal)",
-              }}
+              className="font-syne font-extrabold leading-none tracking-tight text-foreground"
+              style={{ fontSize: "clamp(2.5rem, 4.5vw, 4rem)" }}
             >
               {statProjects}
             </span>
-            <span
-              className="font-mono text-xs uppercase tracking-wider mt-2"
-              style={{ color: "var(--muted-fg)" }}
-            >
-              Expected Projects
+            <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground mt-2">
+              Real Projects
             </span>
           </div>
         </div>

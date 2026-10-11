@@ -3,11 +3,12 @@ import { Syne, Inter, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AuthProvider } from "@/components/auth-provider";
 import { SnowParticles } from "@/components/snow-particles";
+import { CustomCursor } from "@/components/custom-cursor";
 import "./globals.css";
 
 const syne = Syne({
   subsets: ["latin"],
-  weight: ["500", "600", "700", "800"],
+  weight: ["600", "700", "800"],
   variable: "--font-syne",
   display: "swap",
 });
@@ -91,6 +92,7 @@ export default function RootLayout({
       >
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange={false}>
           <AuthProvider>
+            <CustomCursor />
             <SnowParticles />
             {children}
           </AuthProvider>

@@ -1,15 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600;700&family=Syne:wght@500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap');
 @import "tailwindcss";
 
 /* ============================================================
    NSoC '26 Winter Edition — Design System
-   Figma Tokens: frame 5:36025 (desktop dark) + 5:36407 (desktop light)
+   Exact match to nsoc.in and Figma Desktop (frames 5:36025 & 5:36407)
    ============================================================ */
 @theme inline {
-  --font-syne:  var(--font-syne), 'Syne', ui-sans-serif, system-ui, sans-serif;
-  --font-inter: var(--font-inter), 'Inter', ui-sans-serif, system-ui, sans-serif;
-  --font-mono:  var(--font-jetbrains-mono), 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
-  --font-sans:  var(--font-inter), 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-syne:  'Syne', var(--font-syne), ui-sans-serif, system-ui, sans-serif;
+  --font-inter: 'Inter', var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono:  'JetBrains Mono', var(--font-jetbrains-mono), ui-monospace, Menlo, Consolas, monospace;
+  --font-sans:  'Inter', var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
   --color-background:       var(--bg);
   --color-foreground:       var(--fg);
@@ -23,52 +23,52 @@
 }
 
 /* ============================================================
-   CSS Custom Properties
+   CSS Custom Properties (Matching live nsoc.in)
    ============================================================ */
 :root {
   color-scheme: light dark;
 
-  /* Light — matches Figma frame 5:36407 */
-  --bg:           #f1f7fc;
-  --fg:           #07111f;
+  /* Light mode — icy frost aesthetic */
+  --bg:           #eef6fc;
+  --fg:           #0d2338;
   --card-bg:      #ffffff;
   --card-hover:   #f4f9fd;
-  --muted:        #e0f2fa;
-  --muted-fg:     #475e73;
-  --border-col:   #cddfea;
-  --accent:       #086388;   /* icy blue */
-  --accent-teal:  #08786c;   /* aurora teal */
-  --navy:         #e0f2fa;   /* light mode navy equivalent */
+  --muted:        #dcecf8;
+  --muted-fg:     #4c6280;
+  --border-col:   #b9d7ec;
+  --accent:       #0ea5e9;   /* sky blue */
+  --accent-teal:  #0d9488;   /* deep teal */
+  --navy:         #dcecf8;
 
-  --shadow-card:  0 1px 4px rgba(7,17,31,0.07), 0 4px 12px rgba(7,17,31,0.05);
-  --shadow-lift:  0 4px 20px rgba(7,17,31,0.12), 0 8px 32px rgba(8,99,136,0.08);
-  --glow-accent:  0 0 20px rgba(8,99,136,0.25);
-  --glow-rank1:   0 0 30px rgba(8,120,108,0.3), 0 0 60px rgba(8,120,108,0.12);
+  --shadow-card:  0 2px 8px rgba(13, 35, 56, 0.05), 0 8px 24px rgba(13, 35, 56, 0.04);
+  --shadow-lift:  0 20px 50px -15px rgba(14, 165, 233, 0.25);
+  --glow-accent:  0 0 24px rgba(14, 165, 233, 0.25);
+  --glow-rank1:   0 0 35px rgba(13, 148, 136, 0.35);
 }
 
 .dark {
   color-scheme: dark;
 
-  /* Dark — matches Figma frame 5:36025 */
-  --bg:           #040c16;
-  --fg:           #f1f7fc;
-  --card-bg:      #101f32;
-  --card-hover:   #13263f;
-  --muted:        #0b1727;
-  --muted-fg:     #a9bcd0;
-  --border-col:   #26394e;
-  --accent:       #7dd3fc;   /* icy blue */
-  --accent-teal:  #5eead4;   /* aurora teal */
-  --navy:         #102b3d;   /* deep navy */
+  /* Dark mode — midnight navy & aurora highlights */
+  --bg:           #050a14;
+  --fg:           #f8fafc;
+  --card-bg:      #07101f;
+  --card-hover:   #0d1b2f;
+  --muted:        #0c192c;
+  --muted-fg:     #94a3b8;
+  --border-col:   rgba(255, 255, 255, 0.1);
+  --accent:       #38bdf8;   /* electric cyan */
+  --accent-teal:  #2dd4bf;   /* vibrant aurora teal */
+  --navy:         #0a1829;
 
-  --shadow-card:  0 1px 4px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.2);
-  --shadow-lift:  0 4px 24px rgba(0,0,0,0.4), 0 8px 40px rgba(125,211,252,0.1);
-  --glow-accent:  0 0 20px rgba(125,211,252,0.2);
-  --glow-rank1:   0 0 30px rgba(94,234,212,0.25), 0 0 60px rgba(94,234,212,0.1);
+  --shadow-card:  0 2px 10px rgba(0, 0, 0, 0.4), 0 8px 30px rgba(0, 0, 0, 0.3);
+  --shadow-lift:  0 25px 65px -20px rgba(56, 189, 248, 0.35);
+  --glow-accent:  0 0 24px rgba(56, 189, 248, 0.25);
+  --glow-rank1:   0 0 40px rgba(45, 212, 191, 0.35);
 }
 
 /* ============================================================
-   Base Reset
+   Base Reset & Clean Hierarchy
    ============================================================ */
 @layer base {
   *, *::before, *::after { box-sizing: border-box; }
@@ -87,19 +87,18 @@
   body {
     background-color: var(--bg);
     color: var(--fg);
-    font-family: 'Inter', var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-inter), 'Inter', ui-sans-serif, system-ui, sans-serif;
     font-size: 1rem;
-    line-height: 1.65;
+    line-height: 1.6;
     font-weight: 400;
     overflow-x: hidden;
     transition: background-color 0.25s ease, color 0.25s ease;
   }
 
+  /* Do NOT force Syne on all h1-h6 globally to prevent awkward typography */
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Syne', var(--font-syne), sans-serif;
-    font-weight: 700;
-    line-height: 1.1;
-    letter-spacing: -0.015em;
+    font-size: inherit;
+    font-weight: inherit;
     margin: 0;
   }
 
@@ -116,17 +115,25 @@
   :focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 3px;
-    border-radius: 4px;
+    border-radius: 6px;
   }
 }
 
 /* ============================================================
-   Typography Utilities
+   Typography Utilities (Strict scale from nsoc.in)
    ============================================================ */
-.font-syne  { font-family: var(--font-syne), 'Syne', ui-sans-serif, system-ui, sans-serif !important; }
-.font-inter { font-family: var(--font-inter), 'Inter', ui-sans-serif, system-ui, sans-serif !important; }
-.font-mono  { font-family: var(--font-jetbrains-mono), 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace !important; }
-.font-sans  { font-family: var(--font-inter), 'Inter', ui-sans-serif, system-ui, sans-serif !important; }
+.font-syne {
+  font-family: 'Syne', var(--font-syne), ui-sans-serif, system-ui, sans-serif !important;
+  letter-spacing: -0.025em;
+}
+
+.font-inter {
+  font-family: 'Inter', var(--font-inter), ui-sans-serif, system-ui, sans-serif !important;
+}
+
+.font-mono {
+  font-family: 'JetBrains Mono', var(--font-jetbrains-mono), ui-monospace, Menlo, Consolas, monospace !important;
+}
 
 /* Semantic color utilities */
 .text-foreground        { color: var(--fg)        !important; }
@@ -140,41 +147,40 @@
 .border-border          { border-color: var(--border-col)   !important; }
 
 /* ============================================================
-   Premium Card System
+   Card System with Rotating Border Beam & Spotlight
+   (Recreated from live nsoc.in source)
    ============================================================ */
 .card,
 .figma-card {
   background-color: var(--card-bg);
   border: 1px solid var(--border-col);
-  border-radius: 16px;
+  border-radius: 24px;
   box-shadow: var(--shadow-card);
-  transition:
-    transform 220ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
-    border-color 220ms ease,
-    box-shadow 220ms ease;
   position: relative;
   overflow: hidden;
+  transition:
+    border-color 300ms ease,
+    box-shadow 300ms ease,
+    transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Icy sheen overlay (diagonal sweep on hover) */
+/* 1. Holographic rainbow overlay following cursor */
 .card::before,
 .figma-card::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    105deg,
-    transparent 0%,
-    transparent 35%,
-    rgba(255, 255, 255, 0.05) 48%,
-    rgba(255, 255, 255, 0.18) 51%,
-    rgba(255, 255, 255, 0.05) 54%,
-    transparent 65%,
-    transparent 100%
+  background: conic-gradient(
+    from calc(var(--ang, 0) * 1deg) at var(--mx, 50%) var(--my, 50%),
+    rgba(255, 138, 216, 0.12),
+    rgba(138, 155, 255, 0.12),
+    rgba(93, 240, 255, 0.15),
+    rgba(141, 255, 176, 0.12),
+    rgba(255, 240, 138, 0.12),
+    rgba(255, 138, 216, 0.12)
   );
-  background-size: 280% 100%;
-  background-position: -100% 0;
-  transition: background-position 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  opacity: 0;
+  transition: opacity 400ms ease;
   pointer-events: none;
   border-radius: inherit;
   z-index: 1;
@@ -182,39 +188,76 @@
 
 .card:hover::before,
 .figma-card:hover::before {
-  background-position: 200% 0;
+  opacity: 1;
+}
+
+/* 2. Radial white & cyan spotlight highlight */
+.card-spotlight {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    320px circle at var(--mx, 50%) var(--my, 0%),
+    rgba(56, 189, 248, 0.18),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 300ms ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.card:hover .card-spotlight,
+.figma-card:hover .card-spotlight {
+  opacity: 1;
+}
+
+/* 3. High-speed diagonal icy sheen sweep */
+.card-sheen {
+  position: absolute;
+  inset-block: 0;
+  left: -50%;
+  width: 35%;
+  transform: skewX(-15deg);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.22) 50%,
+    transparent 100%
+  );
+  opacity: 0;
+  pointer-events: none;
+  transition: left 900ms cubic-bezier(0.16, 1, 0.3, 1), opacity 900ms ease;
+  z-index: 2;
+}
+
+.card:hover .card-sheen,
+.figma-card:hover .card-sheen {
+  left: 130%;
+  opacity: 1;
 }
 
 .card:hover,
 .figma-card:hover {
-  transform: translateY(-3px);
   border-color: var(--accent);
   box-shadow: var(--shadow-lift);
 }
 
-.card:focus-within,
-.figma-card:focus-within {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent);
+/* Card content always stays above sheen & spotlight */
+.card > *,
+.figma-card > * {
+  position: relative;
+  z-index: 3;
 }
 
-/* Card content sits above sheen */
-.card > *,
-.figma-card > * { position: relative; z-index: 2; }
-
-/* Rank 1 special glow card - restrained, icy-aurora glow */
+/* Rank 1 prize aura */
 .card-rank1 {
   border-color: var(--accent) !important;
-  box-shadow: 0 0 24px rgba(125, 211, 252, 0.22), 0 0 48px rgba(94, 234, 212, 0.1) !important;
+  box-shadow: 0 0 28px rgba(56, 189, 248, 0.3), 0 0 60px rgba(45, 212, 191, 0.15) !important;
 }
 
 .card-rank1:hover {
-  box-shadow: var(--shadow-lift), 0 0 32px rgba(125, 211, 252, 0.32), 0 0 64px rgba(94, 234, 212, 0.16) !important;
+  box-shadow: var(--shadow-lift), 0 0 45px rgba(56, 189, 248, 0.45), 0 0 80px rgba(45, 212, 191, 0.22) !important;
 }
-
-/* Smaller corner radius variants */
-.card-sm { border-radius: 12px; }
-.card-lg { border-radius: 20px; }
 
 /* ============================================================
    Button System
@@ -225,52 +268,35 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-inter), sans-serif;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.95rem;
   line-height: 1;
-  padding: 14px 28px;
+  padding: 13px 26px;
   border-radius: 12px;
   background-color: var(--accent);
-  color: var(--bg);
+  color: #050a14;
   border: 1px solid transparent;
   cursor: pointer;
   transition:
-    transform 150ms ease,
-    box-shadow 150ms ease,
-    background-color 150ms ease;
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    background-color 180ms ease;
   position: relative;
   overflow: hidden;
   white-space: nowrap;
 }
 
-.btn-primary::after,
-.figma-btn-primary::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(255,255,255,0);
-  transition: background 150ms ease;
-  border-radius: inherit;
-  pointer-events: none;
-}
-
 .btn-primary:hover,
 .figma-btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-lift);
+  box-shadow: 0 10px 25px -5px rgba(56, 189, 248, 0.4);
   background-color: var(--accent-teal);
-}
-
-.btn-primary:hover::after,
-.figma-btn-primary:hover::after {
-  background: rgba(255,255,255,0.06);
 }
 
 .btn-primary:active,
 .figma-btn-primary:active {
   transform: translateY(0);
-  box-shadow: none;
 }
 
 .btn-secondary,
@@ -279,21 +305,21 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-inter), sans-serif;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.95rem;
   line-height: 1;
-  padding: 14px 28px;
+  padding: 13px 26px;
   border-radius: 12px;
   background-color: var(--card-bg);
   color: var(--fg);
   border: 1px solid var(--border-col);
   cursor: pointer;
   transition:
-    transform 150ms ease,
-    box-shadow 150ms ease,
-    border-color 150ms ease,
-    color 150ms ease;
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease;
   white-space: nowrap;
 }
 
@@ -301,20 +327,18 @@
 .figma-btn-secondary:hover {
   transform: translateY(-2px);
   border-color: var(--accent);
-  color: var(--fg);
-  box-shadow: var(--shadow-lift);
+  box-shadow: 0 8px 24px -5px rgba(56, 189, 248, 0.25);
 }
 
 .btn-secondary:active,
 .figma-btn-secondary:active {
   transform: translateY(0);
-  box-shadow: none;
 }
 
 /* Nav link underline animation */
 .nav-link {
   position: relative;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-inter), sans-serif;
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--muted-fg);
@@ -341,68 +365,7 @@
   width: 100%;
 }
 
-/* ============================================================
-   Aurora & Winter Atmosphere
-   ============================================================ */
-.aurora-ribbon {
-  position: absolute;
-  border-radius: 60% 40% 70% 30% / 30% 70% 40% 60%;
-  filter: blur(60px);
-  pointer-events: none;
-}
-
-/* ============================================================
-   CSS Keyframes
-   ============================================================ */
-
-/* Panda continuous gentle wave — oscillates arm-like rotation */
-@keyframes panda-wave {
-  0%, 100% { transform: rotate(-8deg); }
-  25%       { transform: rotate(8deg); }
-  50%       { transform: rotate(-4deg); }
-  75%       { transform: rotate(5deg); }
-}
-
-/* Panda body float */
-@keyframes panda-float {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  33%       { transform: translateY(-6px) rotate(0.5deg); }
-  66%       { transform: translateY(-3px) rotate(-0.3deg); }
-}
-
-/* Aurora slow drift */
-@keyframes aurora-drift {
-  0%, 100% { transform: translateX(0) scale(1); opacity: 0.6; }
-  50%       { transform: translateX(40px) scale(1.08); opacity: 0.85; }
-}
-
-@keyframes aurora-drift-2 {
-  0%, 100% { transform: translateX(0) scale(1) rotate(0deg); opacity: 0.5; }
-  50%       { transform: translateX(-30px) scale(1.05) rotate(8deg); opacity: 0.75; }
-}
-
-/* Snow particle drift */
-@keyframes snow-drift {
-  0%   { transform: translateY(-10px) translateX(0);   opacity: 0; }
-  10%  { opacity: 1; }
-  90%  { opacity: 0.7; }
-  100% { transform: translateY(100px) translateX(15px); opacity: 0; }
-}
-
-@keyframes snow-drift-2 {
-  0%   { transform: translateY(-10px) translateX(0);    opacity: 0; }
-  10%  { opacity: 0.8; }
-  90%  { opacity: 0.5; }
-  100% { transform: translateY(80px) translateX(-12px); opacity: 0; }
-}
-
-/* Tab fade crossfade */
-@keyframes tab-fade-in {
-  from { opacity: 0; transform: translateY(4px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* Button shine sweep (from nsoc.in) */
+/* Button shine sweep */
 .btn-shine {
   position: relative;
   overflow: hidden;
@@ -429,22 +392,34 @@
   100% { left: 140%; }
 }
 
-/* Ambient blob drift (from nsoc.in) */
-@keyframes blob-drift {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50%      { transform: translate(35px, -25px) scale(1.08); }
+/* ============================================================
+   Keyframes (Panda, Aurora, Atmosphere)
+   ============================================================ */
+
+/* Panda continuous gentle wave */
+@keyframes panda-wave {
+  0%, 100% { transform: rotate(-8deg); }
+  25%       { transform: rotate(10deg); }
+  50%       { transform: rotate(-4deg); }
+  75%       { transform: rotate(8deg); }
 }
 
-.animate-blob-drift {
-  animation: 22s ease-in-out infinite blob-drift;
+/* Panda float */
+@keyframes panda-float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33%       { transform: translateY(-8px) rotate(0.6deg); }
+  66%       { transform: translateY(-4px) rotate(-0.4deg); }
 }
 
-.animate-blob-drift-delay {
-  animation: 22s ease-in-out -8s infinite blob-drift;
+/* Aurora slow drift */
+@keyframes aurora-drift {
+  0%, 100% { transform: translateX(0) scale(1); opacity: 0.65; }
+  50%       { transform: translateX(45px) scale(1.1); opacity: 0.9; }
 }
 
-.animate-blob-drift-slow {
-  animation: 26s ease-in-out -14s infinite blob-drift;
+@keyframes aurora-drift-2 {
+  0%, 100% { transform: translateX(0) scale(1) rotate(0deg); opacity: 0.55; }
+  50%       { transform: translateX(-35px) scale(1.08) rotate(8deg); opacity: 0.8; }
 }
 
 /* Marquee */
@@ -462,14 +437,7 @@
 
 .animate-marquee:hover { animation-play-state: paused; }
 
-/* Section rule separator */
-.section-rule {
-  width: 100%;
-  height: 1px;
-  background-color: var(--border-col);
-}
-
-/* Gradient text with flowing shine */
+/* Gradient text with shine */
 .grad-text {
   background: linear-gradient(90deg, #0ea5e9, #a9cfe8, #7dd3fc, #38bdf8, #0ea5e9);
   background-size: 300% auto;
@@ -485,36 +453,6 @@
 }
 
 /* ============================================================
-   Reveal Animation Classes (added by GSAP/scroll)
-   ============================================================ */
-.will-reveal {
-  opacity: 0;
-  transform: translateY(16px);
-}
-
-.will-reveal.revealed {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
-/* Tab content animation */
-.tab-panel {
-  animation: tab-fade-in 200ms ease both;
-}
-
-/* Timeline line draw */
-.timeline-line {
-  stroke-dasharray: 1000;
-  stroke-dashoffset: 1000;
-}
-
-/* Progress indicator step */
-.step-number {
-  transition: color 0.3s ease, text-shadow 0.3s ease;
-}
-
-/* ============================================================
    Reduced Motion
    ============================================================ */
 @media (prefers-reduced-motion: reduce) {
@@ -527,6 +465,5 @@
 
   .animate-marquee   { animation: none !important; }
   .grad-text         { animation: none !important; }
-  .will-reveal       { opacity: 1 !important; transform: none !important; }
   .card::before      { display: none !important; }
 }

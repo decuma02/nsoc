@@ -69,8 +69,7 @@ export function BenefitsSection() {
     <section
       id="about"
       ref={sectionRef}
-      className="py-20 lg:py-28"
-      style={{ borderTop: "1px solid var(--border-col)" }}
+      className="py-20 lg:py-28 border-t border-[var(--border-col)]"
     >
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
 
@@ -83,10 +82,7 @@ export function BenefitsSection() {
             >
               01 / ABOUT
             </div>
-            <h2
-              className="font-syne font-bold tracking-tight leading-[1.08]"
-              style={{ fontSize: "clamp(2.25rem, 4.5vw, 3rem)", color: "var(--fg)" }}
-            >
+            <h2 className="font-syne font-extrabold tracking-tight text-3xl sm:text-4xl md:text-5xl leading-tight text-foreground">
               Open source, the way it<br className="hidden sm:inline" /> was meant to be.
             </h2>
           </div>
@@ -98,7 +94,7 @@ export function BenefitsSection() {
             data-reveal-delay="0.06"
           >
             <span
-              className="font-syne select-none leading-none cursor-default"
+              className="font-syne select-none leading-none cursor-default font-bold"
               style={{
                 fontSize: "7rem",
                 color: "var(--accent)",
@@ -120,30 +116,27 @@ export function BenefitsSection() {
           </div>
         </div>
 
-        {/* ── 2×2 Benefits cards with 3D perspective tilt & diagonal sheen sweep ── */}
+        {/* ── 2×2 Benefits cards with 3D perspective tilt & spotlight & sheen ── */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8">
           {pillars.map((p, i) => (
             <Tilt3D key={p.title} maxTilt={6}>
               <div
-                className="card p-8 lg:p-10 flex flex-col justify-center gap-3 min-h-[220px] h-full"
+                className="card p-8 lg:p-10 flex flex-col justify-center gap-3 min-h-[220px] h-full group"
                 data-reveal
                 data-reveal-delay={0.06 * i}
               >
+                <span className="card-sheen" />
+                <span className="card-spotlight" />
+
                 <div className="flex items-center justify-between">
-                  <h3
-                    className="font-syne font-bold text-2xl"
-                    style={{ color: "var(--fg)" }}
-                  >
+                  <h3 className="font-syne font-bold text-2xl text-foreground">
                     {p.title}
                   </h3>
-                  <span className="font-mono text-xs opacity-40 font-semibold">
+                  <span className="font-mono text-xs text-muted-foreground/50 font-semibold">
                     0{i + 1}
                   </span>
                 </div>
-                <p
-                  className="font-inter leading-relaxed text-base"
-                  style={{ color: "var(--muted-fg)", lineHeight: "1.65" }}
-                >
+                <p className="font-inter leading-relaxed text-base text-muted-foreground">
                   {p.description}
                 </p>
               </div>

@@ -29,25 +29,18 @@ const partners = [
 
 export function PartnersSection({ onPartnerModalOpen }: PartnersSectionProps) {
   return (
-    <section id="community" className="py-20 lg:py-28 overflow-hidden border-t border-border">
+    <section id="community" className="py-20 lg:py-28 overflow-hidden border-t border-[var(--border-col)]">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 mb-12 sm:mb-16">
         {/* Header Split */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
-            <div
-              className="font-mono text-xs uppercase tracking-widest mb-3 text-sky-400 font-semibold"
-            >
+            <div className="font-mono text-xs uppercase tracking-widest mb-3 text-[var(--accent)] font-semibold">
               06 / Ecosystem &amp; Grassroots Network
             </div>
-            <h2
-              className="font-syne font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight mb-3"
-              style={{ color: "var(--fg)" }}
-            >
-              Community <span className="text-sky-400">Partners.</span>
+            <h2 className="font-syne font-extrabold text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-tight mb-3 text-foreground">
+              Community <span className="text-[var(--accent)]">Partners.</span>
             </h2>
-            <p
-              className="font-inter text-base sm:text-lg max-w-2xl leading-relaxed text-muted-foreground"
-            >
+            <p className="font-inter text-base sm:text-lg max-w-2xl leading-relaxed text-muted-foreground">
               The active colleges, student clubs, developer hubs, and communities driving enthusiastic participation and innovation across the nation.
             </p>
           </div>
@@ -56,14 +49,14 @@ export function PartnersSection({ onPartnerModalOpen }: PartnersSectionProps) {
             onClick={onPartnerModalOpen}
             className="btn-secondary btn-shine px-6 py-3.5 text-base font-semibold self-start md:self-auto shrink-0 cursor-pointer"
           >
-            <Handshake className="w-4 h-4 mr-2 text-sky-400" />
+            <Handshake className="w-4 h-4 mr-2 text-[var(--accent)]" />
             <span>Partner With Us</span>
-            <ArrowUpRight className="w-4 h-4 ml-1 text-sky-400" />
+            <ArrowUpRight className="w-4 h-4 ml-1 text-[var(--accent)]" />
           </button>
         </div>
       </div>
 
-      {/* Infinite Continuous Marquee from nsoc.in with Gradient Edge Masks */}
+      {/* Infinite Continuous Marquee with Gradient Edge Masks */}
       <div className="relative flex w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent_0,black_96px,black_calc(100%-96px),transparent_100%)] py-4">
         <div className="flex w-max animate-marquee hover:[animation-play-state:paused]">
           {[...partners, ...partners].map((p, i) => (
@@ -72,19 +65,19 @@ export function PartnersSection({ onPartnerModalOpen }: PartnersSectionProps) {
               href={p.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="group mx-3 flex w-64 lg:w-72 flex-col items-center justify-center gap-3 rounded-2xl border dark:border-white/10 dark:bg-white/[0.02] dark:hover:border-white/20 border-[#b9d7ec] bg-card hover:border-sky-400/50 p-5 shadow-sm transition-all duration-300 hover:-translate-y-1"
+              className="group mx-3 flex w-64 lg:w-72 flex-col items-center justify-center gap-3 rounded-3xl border border-[var(--border-col)] bg-card hover:border-[var(--accent)] p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 relative overflow-hidden"
             >
-              <div className="h-16 w-16 lg:h-20 lg:w-20 overflow-hidden rounded-xl bg-card border border-border p-1 flex items-center justify-center shrink-0">
+              <div className="h-16 w-16 lg:h-20 lg:w-20 overflow-hidden rounded-2xl bg-card border border-[var(--border-col)] p-1 flex items-center justify-center shrink-0">
                 <Image
                   src={p.image}
                   alt={p.name}
                   width={72}
                   height={72}
-                  className="h-full w-full object-contain rounded-lg group-hover:scale-105 transition-transform duration-300 ease-out"
+                  className="h-full w-full object-contain rounded-xl group-hover:scale-105 transition-transform duration-300 ease-out"
                 />
               </div>
               <div className="flex flex-col items-center text-center">
-                <h3 className="font-syne text-xs sm:text-sm font-bold text-foreground group-hover:text-sky-400 transition-colors line-clamp-1">
+                <h3 className="font-syne text-xs sm:text-sm font-bold text-foreground group-hover:text-[var(--accent)] transition-colors line-clamp-1">
                   {p.name}
                 </h3>
                 <span className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground mt-1">
@@ -105,10 +98,13 @@ export function PartnersSection({ onPartnerModalOpen }: PartnersSectionProps) {
                 href={partner.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="card p-5 sm:p-6 flex items-center justify-between group hover:border-sky-400 transition-colors h-full"
+                className="card p-5 sm:p-6 flex items-center justify-between group h-full relative overflow-hidden"
               >
+                <span className="card-sheen" />
+                <span className="card-spotlight" />
+
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl overflow-hidden border border-border bg-card p-1 shrink-0 flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-xl overflow-hidden border border-[var(--border-col)] bg-card p-1 shrink-0 flex items-center justify-center">
                     <Image
                       src={partner.image}
                       alt={partner.name}
@@ -118,7 +114,7 @@ export function PartnersSection({ onPartnerModalOpen }: PartnersSectionProps) {
                     />
                   </div>
                   <div>
-                    <h4 className="font-syne font-bold text-sm sm:text-base text-foreground group-hover:text-sky-400 transition-colors leading-snug">
+                    <h4 className="font-syne font-bold text-sm sm:text-base text-foreground group-hover:text-[var(--accent)] transition-colors leading-snug">
                       {partner.name}
                     </h4>
                     <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
@@ -126,7 +122,7 @@ export function PartnersSection({ onPartnerModalOpen }: PartnersSectionProps) {
                     </span>
                   </div>
                 </div>
-                <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-sky-400 shrink-0 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 ml-2" />
+                <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-[var(--accent)] shrink-0 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 ml-2" />
               </a>
             </Tilt3D>
           ))}

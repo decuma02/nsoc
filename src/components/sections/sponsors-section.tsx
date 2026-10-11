@@ -82,24 +82,17 @@ export function SponsorsSection({ onSponsorModalOpen }: SponsorsSectionProps) {
     <section id="sponsors" ref={sectionRef} className="pt-20 lg:pt-28">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Rule */}
-        <div className="border-t pt-12 sm:pt-16" style={{ borderColor: "var(--border-col)" }}>
+        <div className="border-t pt-12 sm:pt-16 border-[var(--border-col)]">
           {/* Header Split */}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div>
-              <div
-                className="font-mono text-xs uppercase tracking-widest mb-3 text-sky-400 font-semibold"
-              >
+              <div className="font-mono text-xs uppercase tracking-widest mb-3 text-[var(--accent)] font-semibold">
                 05 / SPONSORS &amp; BACKING
               </div>
-              <h2
-                className="font-syne font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight mb-3"
-                style={{ color: "var(--fg)" }}
-              >
-                Past <span className="text-sky-400">Sponsors.</span>
+              <h2 className="font-syne font-extrabold text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-tight mb-3 text-foreground">
+                Past <span className="text-[var(--accent)]">Sponsors.</span>
               </h2>
-              <p
-                className="font-inter text-base sm:text-lg max-w-2xl leading-relaxed text-muted-foreground"
-              >
+              <p className="font-inter text-base sm:text-lg max-w-2xl leading-relaxed text-muted-foreground">
                 A look back at the incredible organizations and platforms that powered our previous cohorts with funding, developer tools, and infrastructure.
               </p>
             </div>
@@ -115,15 +108,18 @@ export function SponsorsSection({ onSponsorModalOpen }: SponsorsSectionProps) {
             </button>
           </div>
 
-          {/* 3 Sponsor Cards Grid with authentic images and badges */}
+          {/* 3 Sponsor Cards Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
             {sponsors.map((s) => (
               <Tilt3D key={s.name} maxTilt={5}>
                 <div
-                  className={`sponsor-card card p-7 sm:p-8 flex flex-col justify-between min-h-[380px] h-full ${
+                  className={`sponsor-card card p-7 sm:p-8 flex flex-col justify-between min-h-[380px] h-full group ${
                     s.isTitle ? "border-sky-400/50 dark:bg-sky-500/[0.04] bg-sky-50/70 shadow-lg shadow-sky-500/10" : ""
                   }`}
                 >
+                  <span className="card-sheen" />
+                  <span className="card-spotlight" />
+
                   <div>
                     {/* Tier badge & Logo header */}
                     <div className="flex items-center justify-between gap-4 mb-6">
@@ -131,12 +127,12 @@ export function SponsorsSection({ onSponsorModalOpen }: SponsorsSectionProps) {
                         className={`font-mono text-[10px] sm:text-xs font-semibold tracking-wider uppercase px-3 py-1 rounded-full border ${
                           s.isTitle
                             ? "border-sky-400/40 bg-sky-400/15 text-sky-400 font-bold"
-                            : "border-border bg-card text-muted-foreground"
+                            : "border-[var(--border-col)] bg-card text-muted-foreground"
                         }`}
                       >
                         {s.tier}
                       </span>
-                      <div className="w-14 h-14 rounded-xl overflow-hidden border border-border bg-card p-1.5 flex items-center justify-center shrink-0">
+                      <div className="w-14 h-14 rounded-xl overflow-hidden border border-[var(--border-col)] bg-card p-1.5 flex items-center justify-center shrink-0">
                         <Image
                           src={s.image}
                           alt={s.name}
@@ -147,14 +143,10 @@ export function SponsorsSection({ onSponsorModalOpen }: SponsorsSectionProps) {
                       </div>
                     </div>
 
-                    <h3
-                      className="font-syne font-bold text-2xl sm:text-3xl mb-3 text-foreground"
-                    >
+                    <h3 className="font-syne font-bold text-2xl sm:text-3xl mb-3 text-foreground">
                       {s.name}
                     </h3>
-                    <p
-                      className="font-inter text-sm sm:text-base leading-relaxed text-muted-foreground mb-6"
-                    >
+                    <p className="font-inter text-sm sm:text-base leading-relaxed text-muted-foreground mb-6">
                       {s.description}
                     </p>
 
@@ -163,7 +155,7 @@ export function SponsorsSection({ onSponsorModalOpen }: SponsorsSectionProps) {
                       {s.tags.map((t) => (
                         <span
                           key={t}
-                          className="font-mono text-[10px] px-2.5 py-0.5 rounded-md border border-border bg-card/60 text-muted-foreground"
+                          className="font-mono text-[10px] px-2.5 py-0.5 rounded-md border border-[var(--border-col)] bg-card/60 text-muted-foreground"
                         >
                           {t}
                         </span>
@@ -171,16 +163,16 @@ export function SponsorsSection({ onSponsorModalOpen }: SponsorsSectionProps) {
                     </div>
                   </div>
 
-                  <div className="pt-5 border-t border-border mt-auto">
+                  <div className="pt-5 border-t border-[var(--border-col)] mt-auto">
                     <a
                       href={s.url}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 font-inter text-sm font-semibold transition-colors group text-foreground"
                     >
-                      <span className="group-hover:text-sky-400">Visit sponsor</span>
+                      <span className="group-hover:text-[var(--accent)]">Visit sponsor</span>
                       <ArrowUpRight
-                        className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 text-sky-400"
+                        className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 text-[var(--accent)]"
                       />
                     </a>
                   </div>

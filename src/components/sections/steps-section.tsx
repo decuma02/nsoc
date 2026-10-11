@@ -47,7 +47,6 @@ export function StepsSection({ onOpenRegister }: StepsSectionProps) {
       // Sequentially reveal each step with illumination
       stepEls.forEach((step, idx) => {
         const numEl = step.querySelector(".step-number");
-        const bodyEl = step.querySelector(".step-body");
 
         tl.fromTo(
           step,
@@ -104,7 +103,7 @@ export function StepsSection({ onOpenRegister }: StepsSectionProps) {
   ];
 
   return (
-    <section id="contribution" ref={sectionRef} className="py-20 lg:py-28 relative">
+    <section id="journey" ref={sectionRef} className="py-20 lg:py-28 relative">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="mb-14 sm:mb-16">
@@ -114,10 +113,7 @@ export function StepsSection({ onOpenRegister }: StepsSectionProps) {
           >
             02 / CONTRIBUTION JOURNEY
           </div>
-          <h2
-            className="font-syne font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight"
-            style={{ color: "var(--fg)" }}
-          >
+          <h2 className="font-syne font-extrabold text-3xl sm:text-4xl md:text-5xl tracking-tight text-foreground">
             Here&apos;s how you start.
           </h2>
         </div>
@@ -127,7 +123,7 @@ export function StepsSection({ onOpenRegister }: StepsSectionProps) {
           {/* Horizontal connector line on desktop */}
           <div
             aria-hidden="true"
-            className="hidden lg:block absolute top-[22px] left-[6%] right-[6%] h-px dark:bg-white/10 bg-[#b9d7ec] overflow-hidden"
+            className="hidden lg:block absolute top-[44px] left-[6%] right-[6%] h-px dark:bg-white/10 bg-[#b9d7ec] overflow-hidden"
           >
             <div
               ref={lineProgressRef}
@@ -136,40 +132,41 @@ export function StepsSection({ onOpenRegister }: StepsSectionProps) {
           </div>
 
           {/* 4 Steps Row / Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6 relative z-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 relative z-10">
             {steps.map((step) => (
               <Tilt3D key={step.number} maxTilt={7}>
                 <div
-                  key={step.number}
-                  className="step-item p-4 sm:p-5 rounded-2xl transition-all duration-300 hover:-translate-y-1 group relative h-full"
+                  className="step-item card p-6 sm:p-7 rounded-3xl transition-all duration-300 group relative h-full flex flex-col justify-between"
                 >
-                  {/* Circular Milestone Node from nsoc.in */}
-                  <div
-                    className="w-11 h-11 rounded-full dark:border-white/10 dark:bg-[#050a14] border-[#b9d7ec] bg-[#dcecf8] flex items-center justify-center mb-5 relative z-10 border shadow-sm group-hover:scale-110 group-hover:border-sky-400 transition-all duration-300"
-                  >
-                    <span
-                      className="font-mono text-xs sm:text-sm font-bold text-sky-400"
+                  <span className="card-sheen" />
+                  <span className="card-spotlight" />
+
+                  <div>
+                    {/* Circular Milestone Node */}
+                    <div
+                      className="w-12 h-12 rounded-2xl dark:border-white/10 dark:bg-[#050a14] border-[#b9d7ec] bg-[#dcecf8] flex items-center justify-center mb-6 relative z-10 border shadow-sm group-hover:scale-110 group-hover:border-[var(--accent)] transition-all duration-300"
                     >
-                      {step.number}
-                    </span>
+                      <span className="font-mono text-sm font-bold text-[var(--accent)] step-number">
+                        {step.number}
+                      </span>
+                    </div>
+
+                    <div className="step-body">
+                      {/* Step Title */}
+                      <h3 className="font-syne font-bold text-xl sm:text-2xl mb-2.5 leading-snug group-hover:text-[var(--accent)] transition-colors text-foreground">
+                        {step.title}
+                      </h3>
+
+                      {/* Step Description */}
+                      <p className="font-inter text-sm sm:text-base leading-relaxed text-muted-foreground">
+                        {step.description}
+                      </p>
+                    </div>
                   </div>
 
-                  <div className="step-body">
-                    {/* Step Title in Syne 700 24px */}
-                    <h3
-                      className="font-syne font-bold text-xl sm:text-2xl mb-2.5 leading-snug group-hover:text-sky-400 transition-colors"
-                      style={{ color: "var(--fg)" }}
-                    >
-                      {step.title}
-                    </h3>
-
-                    {/* Step Description in Inter 400 15px */}
-                    <p
-                      className="font-inter text-sm sm:text-base leading-relaxed"
-                      style={{ color: "var(--muted-fg)" }}
-                    >
-                      {step.description}
-                    </p>
+                  <div className="mt-6 pt-4 border-t border-[var(--border-col)]/40 flex items-center justify-between text-xs font-mono text-muted-foreground group-hover:text-foreground transition-colors">
+                    <span>Step {step.number} of 04</span>
+                    <span className="text-[var(--accent)]">→</span>
                   </div>
                 </div>
               </Tilt3D>

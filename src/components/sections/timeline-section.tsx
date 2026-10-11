@@ -1,368 +1,377 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import { Sparkles, Calendar } from "lucide-react";
+import React, { useState, useEffect, useRef } from "react";
+import {
+  Calendar,
+  Sparkles,
+  UserPlus,
+  Megaphone,
+  GitPullRequest,
+  Clock,
+  CheckCircle2,
+  Trophy,
+  ArrowRight,
+  Filter,
+} from "lucide-react";
 import { Tilt3D } from "@/components/tilt-3d";
 
-const milestones = [
+interface Milestone {
+  step: string;
+  phaseId: 1 | 2 | 3;
+  phaseName: string;
+  date: string;
+  title: string;
+  description: string;
+  actionItems: string[];
+  status: "Completed" | "Live Now" | "Upcoming";
+  color: string;
+  icon: React.ElementType;
+}
+
+const milestones: Milestone[] = [
   {
     step: "01",
+    phaseId: 1,
+    phaseName: "Phase 1: Genesis",
     date: "October 1, 2026",
     title: "Registration Opens",
-    description: "Registrations are open on October 1st and anyone can register now to join the program.",
-    color: "#34d399",
+    description:
+      "Participant portal goes live worldwide. Developers, maintainers, and campus ambassadors register their profiles.",
+    actionItems: [
+      "Sign up via GitHub or Google OAuth",
+      "Select your track: Contributor, Kernel, or Ambassador",
+      "Join the official Discord & introduce yourself",
+    ],
+    status: "Live Now",
+    color: "#34d399", // Emerald
+    icon: UserPlus,
   },
   {
     step: "02",
+    phaseId: 1,
+    phaseName: "Phase 1: Genesis",
     date: "October 12, 2026",
     title: "Projects Announced",
-    description: "All approved projects are published and available for contributors to explore.",
-    color: "#38bdf8",
+    description:
+      "All 300+ approved production codebases are revealed with issue catalogs, tech stacks, and mentor assignments.",
+    actionItems: [
+      "Browse projects across Web, AI, Systems, and Mobile",
+      "Fork repositories & set up local environments",
+      "Attend maintainer onboarding AMAs",
+    ],
+    status: "Upcoming",
+    color: "#38bdf8", // Sky
+    icon: Megaphone,
   },
   {
     step: "03",
+    phaseId: 2,
+    phaseName: "Phase 2: The 45-Day Sprint",
     date: "October 15, 2026",
     title: "Contribution Period Begins",
-    description: "Contributors start working on their selected projects.",
-    color: "#a78bfa",
+    description:
+      "The official coding sprint kicks off. Contributors claim issues, submit pull requests, and start earning points.",
+    actionItems: [
+      "Claim issues tagged #nsoc-good-first-issue",
+      "Submit clean PRs with descriptive commit histories",
+      "Earn leaderboard points for every merged PR",
+    ],
+    status: "Upcoming",
+    color: "#a78bfa", // Purple
+    icon: GitPullRequest,
   },
   {
     step: "04",
+    phaseId: 2,
+    phaseName: "Phase 2: The 45-Day Sprint",
     date: "December 30, 2026",
     title: "Registrations Close",
-    description: "Final deadline for new participant registrations.",
-    color: "#fb7185",
+    description:
+      "Final cutoff for new participants to join the sprint. Existing contributors continue racing on the leaderboard.",
+    actionItems: [
+      "Final registration gate locks",
+      "Ensure all project affiliations are locked in",
+      "Sprint enters its intense final 15-day sprint",
+    ],
+    status: "Upcoming",
+    color: "#fb7185", // Rose
+    icon: Clock,
   },
   {
     step: "05",
+    phaseId: 3,
+    phaseName: "Phase 3: Grand Finale",
     date: "January 15, 2027",
     title: "Program Ends",
-    description: "Contribution period concludes and final submissions are due.",
-    color: "#38bdf8",
+    description:
+      "Contribution sprint officially concludes at 23:59 UTC. Code freeze begins; mentors review remaining open PRs.",
+    actionItems: [
+      "Final PR merge window closes",
+      "Automated code originality & authenticity screening",
+      "Leaderboard scores frozen for administrative review",
+    ],
+    status: "Upcoming",
+    color: "#2dd4bf", // Teal
+    icon: CheckCircle2,
   },
   {
     step: "06",
+    phaseId: 3,
+    phaseName: "Phase 3: Grand Finale",
     date: "January 2027",
-    title: "Results Announced",
-    description: "Winners and top contributors are recognised and results are declared.",
-    color: "#fcd34d",
+    title: "Results & Awards Announced",
+    description:
+      "Winners, top rankers, and kernel mentors are celebrated in the global livestream. Cash prizes and swags ship out.",
+    actionItems: [
+      "Top 10 contributors claim official cash prize grants",
+      "Digital verifiable completion certificates issued",
+      "Exclusive NSoC winter swag kits dispatched",
+    ],
+    status: "Upcoming",
+    color: "#fcd34d", // Gold
+    icon: Trophy,
   },
 ];
 
-const totalHeight = 70 + 240 * milestones.length + 40;
-const svgPathD =
-  "M600,70" +
-  milestones
-    .map((_, t) => {
-      const r = t % 2 === 0 ? 1 : -1;
-      const n = 70 + 240 * t;
-      return ` C${600 + 160 * r},${n + 80} ${600 + 160 * r},${n + 160} 600,${n + 240}`;
-    })
-    .join("");
-
-const nodeCoords = milestones.map((_, t) => {
-  const r = t % 2 === 0 ? 1 : -1;
-  return {
-    x: 600 + 0.75 * r * 160,
-    y: 70 + 240 * t + 120,
-    side: r > 0 ? ("right" as const) : ("left" as const),
-  };
-});
-
 export function TimelineSection() {
-  const sectionRef = useRef<HTMLElement>(null);
+  const [activePhase, setActivePhase] = useState<number>(0); // 0 = all
+  const [activeStep, setActiveStep] = useState<number>(0);
   const containerRef = useRef<HTMLDivElement>(null);
-  const pathRef = useRef<SVGPathElement>(null);
-  const travelOrbRef = useRef<SVGCircleElement>(null);
-  const mobileBarRef = useRef<HTMLSpanElement>(null);
-  const [activeMilestone, setActiveMilestone] = useState<number>(-1);
 
-  useEffect(() => {
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    const init = async () => {
-      const { gsap } = await import("gsap");
-      const { ScrollTrigger } = await import("gsap/ScrollTrigger");
-      gsap.registerPlugin(ScrollTrigger);
-
-      const path = pathRef.current;
-      const container = containerRef.current;
-      const travelOrb = travelOrbRef.current;
-
-      if (!path || !container) return;
-
-      const totalLen = path.getTotalLength();
-      gsap.set(path, {
-        strokeDasharray: totalLen,
-        strokeDashoffset: prefersReduced ? 0 : totalLen,
-      });
-
-      if (prefersReduced) {
-        setActiveMilestone(milestones.length - 1);
-        return;
-      }
-
-      const mm = gsap.matchMedia();
-
-      // Desktop Serpentine timeline animation
-      mm.add("(min-width: 1024px)", () => {
-        const nodeDistances = nodeCoords.map((coord) => {
-          let low = 0;
-          let high = totalLen;
-          for (let i = 0; i < 28; i++) {
-            const mid = (low + high) / 2;
-            path.getPointAtLength(mid).y < coord.y ? (low = mid) : (high = mid);
-          }
-          return (low + high) / 2;
-        });
-
-        const cards = Array.from(container.querySelectorAll<HTMLElement>("[data-tl-card]"));
-        const nodes = Array.from(container.querySelectorAll<SVGGElement>("[data-tl-node]"));
-
-        // Init cards
-        cards.forEach((card, idx) => {
-          const isLeft = nodeCoords[idx].side === "left";
-          gsap.set(card, {
-            opacity: 0,
-            x: isLeft ? -40 : 40,
-            scale: 0.92,
-          });
-        });
-
-        // Scroll progress scrub
-        ScrollTrigger.create({
-          trigger: container,
-          start: "top 65%",
-          end: "bottom 55%",
-          scrub: 0.5,
-          onUpdate: (self) => {
-            const progress = self.progress;
-            const drawLen = totalLen * progress;
-            path.style.strokeDashoffset = String(totalLen - drawLen);
-
-            if (travelOrb) {
-              const pt = path.getPointAtLength(drawLen);
-              travelOrb.setAttribute("cx", String(pt.x));
-              travelOrb.setAttribute("cy", String(pt.y));
-              travelOrb.style.opacity = progress > 0.01 && progress < 0.99 ? "1" : "0";
-            }
-
-            // Check milestone activations
-            let current = -1;
-            nodeDistances.forEach((d, idx) => {
-              if (drawLen >= d - 20) {
-                current = idx;
-              }
-            });
-
-            if (current !== activeMilestone) {
-              setActiveMilestone(current);
-              cards.forEach((c, idx) => {
-                if (idx <= current) {
-                  gsap.to(c, { opacity: 1, x: 0, scale: 1, duration: 0.6, ease: "power3.out" });
-                }
-              });
-            }
-          },
-        });
-      });
-
-      // Mobile vertical progress bar scrub
-      mm.add("(max-width: 1023px)", () => {
-        if (mobileBarRef.current) {
-          gsap.fromTo(
-            mobileBarRef.current,
-            { scaleY: 0 },
-            {
-              scaleY: 1,
-              ease: "none",
-              scrollTrigger: {
-                trigger: container,
-                start: "top 70%",
-                end: "bottom 60%",
-                scrub: 0.4,
-              },
-            }
-          );
-        }
-
-        const cards = Array.from(container.querySelectorAll<HTMLElement>("[data-tl-card]"));
-        cards.forEach((c) => {
-          gsap.fromTo(
-            c,
-            { opacity: 0, y: 30 },
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.6,
-              ease: "power2.out",
-              scrollTrigger: {
-                trigger: c,
-                start: "top 88%",
-                once: true,
-              },
-            }
-          );
-        });
-      });
-    };
-
-    init();
-  }, []);
+  const filteredMilestones =
+    activePhase === 0
+      ? milestones
+      : milestones.filter((m) => m.phaseId === activePhase);
 
   return (
-    <section id="timeline" ref={sectionRef} className="py-20 lg:py-28 relative overflow-hidden">
-      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-16 sm:mb-20">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border px-3.5 py-1 font-mono text-xs uppercase tracking-widest border-sky-400/30 bg-sky-400/10 text-sky-400">
-            <Sparkles className="size-3.5 animate-spin [animation-duration:10s]" />
-            04 / Program Timeline
+    <section
+      id="timeline"
+      className="py-20 lg:py-32 relative overflow-hidden border-t border-[var(--border-col)]"
+    >
+      {/* Background glow highlights */}
+      <div
+        aria-hidden="true"
+        className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[700px] h-[450px] bg-sky-500/5 dark:bg-sky-400/5 rounded-full blur-[140px] pointer-events-none"
+      />
+
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Header Block */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 sm:mb-16">
+          <div>
+            <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-[var(--accent)] mb-3">
+              <Calendar className="w-3.5 h-3.5" />
+              <span>04 / PROGRAM TIMELINE</span>
+            </div>
+            <h2 className="font-syne font-extrabold text-3xl sm:text-4xl md:text-5xl tracking-tight text-foreground">
+              The 45-day contribution roadmap.
+            </h2>
           </div>
-          <h2
-            className="font-syne font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight mb-4"
-            style={{ color: "var(--fg)" }}
-          >
-            Here&apos;s how we <span className="text-sky-400">planned.</span>
-          </h2>
-          <p className="font-inter text-base sm:text-lg leading-relaxed text-muted-foreground">
-            Follow the journey from registration to results. Each milestone brings us closer to building something amazing together.
+
+          <p className="font-inter text-muted-foreground text-sm sm:text-base max-w-md">
+            From initial registration to the final code merge and awards
+            ceremony. Every milestone is built to give contributors clarity and
+            direction.
           </p>
         </div>
 
-        {/* Timeline Container */}
-        <div ref={containerRef} className="relative">
-          {/* Desktop Serpentine SVG Curve */}
-          <svg
-            viewBox={`0 0 1200 ${totalHeight}`}
-            className="hidden lg:block h-auto w-full"
-            preserveAspectRatio="xMidYMin meet"
-            aria-hidden="true"
-          >
-            <defs>
-              <linearGradient id="tl-grad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2={totalHeight}>
-                <stop offset="0%" stopColor="#34d399" />
-                <stop offset="35%" stopColor="#38bdf8" />
-                <stop offset="70%" stopColor="#a78bfa" />
-                <stop offset="100%" stopColor="#fcd34d" />
-              </linearGradient>
-            </defs>
-
-            {/* Background dashed guideline */}
-            <path
-              d={svgPathD}
-              fill="none"
-              strokeWidth={2}
-              strokeLinecap="round"
-              strokeDasharray="3 12"
-              className="stroke-[#b9d7ec] dark:stroke-white/15"
-            />
-
-            {/* Animated foreground stroke */}
-            <path
-              ref={pathRef}
-              d={svgPathD}
-              fill="none"
-              stroke="url(#tl-grad)"
-              strokeWidth={4}
-              strokeLinecap="round"
-            />
-
-            {/* Pulsing milestone nodes */}
-            {nodeCoords.map((coord, idx) => {
-              const m = milestones[idx];
-              const isPast = idx <= activeMilestone;
-              return (
-                <g key={`node-${idx}`} data-tl-node="true">
-                  <circle
-                    cx={coord.x}
-                    cy={coord.y}
-                    r={14}
-                    className="animate-ping origin-center [transform-box:fill-box]"
-                    style={{ fill: m.color, opacity: isPast ? 0.35 : 0.1 }}
-                  />
-                  <circle
-                    cx={coord.x}
-                    cy={coord.y}
-                    r={12}
-                    strokeWidth={3}
-                    className="fill-background"
-                    style={{ stroke: m.color }}
-                  />
-                  <circle
-                    cx={coord.x}
-                    cy={coord.y}
-                    r={5}
-                    style={{ fill: m.color }}
-                  />
-                </g>
-              );
-            })}
-
-            {/* Traveling orb follower */}
-            <circle
-              ref={travelOrbRef}
-              r={7}
-              className="fill-white"
-              style={{ opacity: 0, filter: "drop-shadow(0 0 8px #38bdf8)" }}
-            />
-          </svg>
-
-          {/* Cards Container: absolute positioned on desktop along curve nodes; linear on mobile */}
-          <div className="relative flex flex-col gap-6 lg:absolute lg:inset-0 lg:block">
-            {/* Mobile Vertical Guideline */}
-            <span
-              aria-hidden="true"
-              className="absolute bottom-4 left-5 top-4 w-px dark:bg-white/10 bg-[#b9d7ec] lg:hidden"
-            >
-              <span
-                ref={mobileBarRef}
-                className="block h-full w-full origin-top bg-gradient-to-b from-emerald-400 via-sky-400 to-amber-400"
-              />
-            </span>
-
-            {milestones.map((m, idx) => {
-              const coord = nodeCoords[idx];
-              const isLeft = coord.side === "left";
-              const desktopPos = isLeft
-                ? { top: `${(coord.y / totalHeight) * 100}%`, right: `${100 - (coord.x - 48) / 12}%` }
-                : { top: `${(coord.y / totalHeight) * 100}%`, left: `${(coord.x + 48) / 12}%` };
-
-              return (
-                <div
-                  key={m.title}
-                  data-tl-card="true"
-                  style={desktopPos}
-                  className="relative pl-12 lg:pl-0 lg:absolute lg:w-[35%] lg:-translate-y-1/2"
-                >
-                  {/* Mobile node indicator */}
-                  <span
-                    aria-hidden="true"
-                    style={{ background: m.color }}
-                    className="absolute left-[14px] top-6 size-3 rounded-full ring-4 ring-background lg:hidden"
-                  />
-
-                  <Tilt3D maxTilt={6}>
-                    <div className="card p-6 sm:p-7 relative overflow-hidden group">
-                      <div className="flex items-center justify-between gap-2 mb-2 font-mono text-xs">
-                        <span className="font-bold flex items-center gap-1.5" style={{ color: m.color }}>
-                          <Calendar className="w-3.5 h-3.5" />
-                          {m.date}
-                        </span>
-                        <span className="opacity-50 font-semibold">{m.step}</span>
-                      </div>
-                      <h3 className="font-syne font-bold text-xl sm:text-2xl mb-2 text-foreground">
-                        {m.title}
-                      </h3>
-                      <p className="font-inter text-sm sm:text-base leading-relaxed text-muted-foreground">
-                        {m.description}
-                      </p>
-                    </div>
-                  </Tilt3D>
-                </div>
-              );
-            })}
+        {/* Live Sprint Status Banner */}
+        <div className="mb-10 p-4 sm:p-5 rounded-2xl border border-[var(--border-col)] bg-card/60 backdrop-blur-md flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="relative flex h-3 w-3 shrink-0">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500" />
+            </div>
+            <div>
+              <div className="font-mono text-xs text-[var(--accent-teal)] font-semibold uppercase tracking-wider">
+                Current Program Status
+              </div>
+              <div className="font-syne font-bold text-base sm:text-lg text-foreground">
+                Registrations are currently open for all tracks
+              </div>
+            </div>
           </div>
+
+          {/* Phase Filter Switcher */}
+          <div className="flex items-center gap-1.5 p-1 rounded-xl bg-muted/60 border border-[var(--border-col)] overflow-x-auto">
+            <button
+              onClick={() => setActivePhase(0)}
+              className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all cursor-pointer whitespace-nowrap ${
+                activePhase === 0
+                  ? "bg-[var(--accent)] text-[#050a14] font-bold shadow-sm"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              All Milestones (6)
+            </button>
+            <button
+              onClick={() => setActivePhase(1)}
+              className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all cursor-pointer whitespace-nowrap ${
+                activePhase === 1
+                  ? "bg-[var(--accent)] text-[#050a14] font-bold shadow-sm"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              Phase 1: Genesis
+            </button>
+            <button
+              onClick={() => setActivePhase(2)}
+              className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all cursor-pointer whitespace-nowrap ${
+                activePhase === 2
+                  ? "bg-[var(--accent)] text-[#050a14] font-bold shadow-sm"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              Phase 2: Sprint
+            </button>
+            <button
+              onClick={() => setActivePhase(3)}
+              className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all cursor-pointer whitespace-nowrap ${
+                activePhase === 3
+                  ? "bg-[var(--accent)] text-[#050a14] font-bold shadow-sm"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              Phase 3: Finale
+            </button>
+          </div>
+        </div>
+
+        {/* Milestone Grid with 3D Tilt and Card Spotlight */}
+        <div
+          ref={containerRef}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
+        >
+          {filteredMilestones.map((milestone, idx) => {
+            const Icon = milestone.icon;
+            const isSelected = activeStep === idx;
+
+            return (
+              <Tilt3D
+                key={milestone.step}
+                maxTilt={6}
+                scale={1.02}
+                enableCelebrationClick={true}
+              >
+                <div
+                  onClick={() => setActiveStep(idx)}
+                  className={`card p-6 sm:p-7 flex flex-col justify-between h-full group cursor-pointer transition-all duration-300 ${
+                    milestone.status === "Live Now"
+                      ? "ring-2 ring-emerald-500/50 shadow-lg shadow-emerald-500/10"
+                      : ""
+                  }`}
+                  style={
+                    {
+                      "--accent": milestone.color,
+                    } as React.CSSProperties
+                  }
+                >
+                  {/* Sheen sweep */}
+                  <span className="card-sheen" />
+                  <span className="card-spotlight" />
+
+                  <div>
+                    {/* Top Meta Bar */}
+                    <div className="flex items-center justify-between mb-5">
+                      <div className="inline-flex items-center gap-2">
+                        <span
+                          className="font-mono text-xs font-bold px-2.5 py-1 rounded-md"
+                          style={{
+                            backgroundColor: `${milestone.color}20`,
+                            color: milestone.color,
+                            border: `1px solid ${milestone.color}40`,
+                          }}
+                        >
+                          STEP {milestone.step}
+                        </span>
+
+                        <span className="font-mono text-[11px] text-muted-foreground uppercase tracking-wider">
+                          {milestone.phaseName}
+                        </span>
+                      </div>
+
+                      {/* Status indicator */}
+                      <div className="flex items-center gap-1.5">
+                        {milestone.status === "Live Now" ? (
+                          <span className="inline-flex items-center gap-1.5 font-mono text-[11px] text-emerald-400 font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                            LIVE NOW
+                          </span>
+                        ) : (
+                          <span className="font-mono text-[11px] text-muted-foreground/75">
+                            {milestone.status}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Milestone Icon + Date + Title */}
+                    <div className="flex items-start gap-4 mb-4">
+                      <div
+                        className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 border transition-transform duration-300 group-hover:scale-110"
+                        style={{
+                          backgroundColor: `${milestone.color}15`,
+                          borderColor: `${milestone.color}40`,
+                          color: milestone.color,
+                        }}
+                      >
+                        <Icon className="w-6 h-6" />
+                      </div>
+
+                      <div>
+                        <div className="font-mono text-xs text-[var(--accent)] font-medium mb-1 flex items-center gap-1.5">
+                          <Calendar className="w-3.5 h-3.5" />
+                          <span>{milestone.date}</span>
+                        </div>
+                        <h3 className="font-syne font-bold text-xl sm:text-2xl text-foreground leading-tight">
+                          {milestone.title}
+                        </h3>
+                      </div>
+                    </div>
+
+                    {/* Description */}
+                    <p className="font-inter text-sm sm:text-[15px] text-muted-foreground leading-relaxed mb-6">
+                      {milestone.description}
+                    </p>
+
+                    {/* Actionable Contributor Checklist */}
+                    <div className="pt-4 border-t border-[var(--border-col)]/60">
+                      <div className="font-mono text-[11px] text-foreground font-semibold uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
+                        <Sparkles className="w-3 h-3 text-[var(--accent)]" />
+                        <span>Key Action Items</span>
+                      </div>
+                      <ul className="space-y-2">
+                        {milestone.actionItems.map((item, i) => (
+                          <li
+                            key={i}
+                            className="flex items-start gap-2 text-xs font-inter text-muted-foreground leading-normal"
+                          >
+                            <span
+                              className="font-mono text-[10px] font-bold select-none pt-0.5"
+                              style={{ color: milestone.color }}
+                            >
+                              ✓
+                            </span>
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  {/* Card bottom footer */}
+                  <div className="mt-6 pt-4 border-t border-[var(--border-col)]/40 flex items-center justify-between text-xs font-mono text-muted-foreground group-hover:text-foreground transition-colors">
+                    <span>Click card to celebrate</span>
+                    <span
+                      className="transition-transform duration-200 group-hover:translate-x-1"
+                      style={{ color: milestone.color }}
+                    >
+                      →
+                    </span>
+                  </div>
+                </div>
+              </Tilt3D>
+            );
+          })}
         </div>
       </div>
     </section>

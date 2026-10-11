@@ -96,10 +96,7 @@ export function RolesSection({ onSelectRole }: RolesSectionProps) {
           >
             PARTICIPATION ROLES
           </div>
-          <h2
-            className="font-syne font-bold text-3xl sm:text-5xl tracking-tight"
-            style={{ color: "var(--fg)" }}
-          >
+          <h2 className="font-syne font-extrabold text-3xl sm:text-4xl md:text-5xl tracking-tight text-foreground">
             Choose your track in the sprint.
           </h2>
         </div>
@@ -109,9 +106,10 @@ export function RolesSection({ onSelectRole }: RolesSectionProps) {
             const Icon = role.icon;
             return (
               <Tilt3D key={role.id} maxTilt={6}>
-                <div
-                  className="role-card card p-8 sm:p-9 flex flex-col justify-between h-full"
-                >
+                <div className="role-card card p-8 sm:p-9 flex flex-col justify-between h-full group">
+                  <span className="card-sheen" />
+                  <span className="card-spotlight" />
+
                   <div>
                     {/* Role Identity Tag & Icon */}
                     <div className="flex items-center justify-between mb-6">
@@ -132,10 +130,7 @@ export function RolesSection({ onSelectRole }: RolesSectionProps) {
                     </div>
 
                     {/* Title */}
-                    <h3
-                      className="font-syne font-bold text-3xl mb-6"
-                      style={{ color: "var(--fg)" }}
-                    >
+                    <h3 className="font-syne font-bold text-2xl sm:text-3xl mb-6 text-foreground">
                       {role.title}
                     </h3>
 
@@ -149,10 +144,7 @@ export function RolesSection({ onSelectRole }: RolesSectionProps) {
                           >
                             ↗
                           </span>
-                          <span
-                            className="font-inter text-[15px] leading-relaxed"
-                            style={{ color: "var(--muted-fg)" }}
-                          >
+                          <span className="font-inter text-[15px] leading-relaxed text-muted-foreground">
                             {resp}
                           </span>
                         </li>
