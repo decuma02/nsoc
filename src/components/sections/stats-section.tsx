@@ -36,7 +36,15 @@ export function StatsSection() {
           <div className="flex justify-center mb-3 text-sky-400">
             <Quote className="w-8 h-8 opacity-60" />
           </div>
-          <blockquote className="font-syne text-xl sm:text-2xl md:text-3xl font-bold tracking-tight text-foreground leading-snug">
+        <blockquote
+            className="font-syne font-bold tracking-tight text-foreground leading-snug"
+            style={{
+              fontFamily: "var(--font-syne), 'Syne', ui-sans-serif, system-ui, sans-serif",
+              fontSize: "clamp(1.1rem, 2.5vw, 1.875rem)",
+              lineHeight: "1.35",
+              color: "var(--fg)",
+            }}
+          >
             “No toy projects. No filler tasks. Just 45 days of work that lands in production — and a community that levels up together.”
           </blockquote>
           <div className="mt-4 flex items-center justify-center gap-2 font-mono text-xs text-sky-500 dark:text-sky-300">

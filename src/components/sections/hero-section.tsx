@@ -51,14 +51,28 @@ export function HeroSection({ onOpenRegister }: HeroSectionProps) {
             </div>
 
             {/* Display Typography */}
-            <h1 className="font-syne text-4xl sm:text-6xl xl:text-7xl font-extrabold tracking-tight leading-[1.08] mb-6 text-foreground">
+            <h1
+              className="font-syne text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-extrabold tracking-tight leading-[1.05] mb-6"
+              style={{
+                fontFamily: "var(--font-syne), 'Syne', ui-sans-serif, system-ui, sans-serif",
+                color: "var(--fg)",
+              }}
+            >
               Nexus <br />
               <span className="grad-text">Spring of</span> <br />
               Code.
             </h1>
 
             {/* Exact Extract Copy */}
-            <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-2xl mb-8 font-sans">
+            <p
+              className="text-base sm:text-lg leading-relaxed max-w-2xl mb-8 font-inter"
+              style={{
+                fontFamily: "var(--font-inter), 'Inter', ui-sans-serif, system-ui, sans-serif",
+                color: "var(--muted-fg)",
+                fontSize: "clamp(0.95rem, 1.5vw, 1.125rem)",
+                lineHeight: "1.75",
+              }}
+            >
               A 45-day open source program where project maintainers bring real-world projects, and contributors work on solving actual issues, building features, and shipping production-ready code. No toy projects. No filler tasks. Just meaningful work and a community that grows together.
             </p>
 

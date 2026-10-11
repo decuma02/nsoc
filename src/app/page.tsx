@@ -26,7 +26,13 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col selection:bg-sky-500/20 selection:text-sky-300">
+    <div
+      className="min-h-screen flex flex-col"
+      style={{
+        backgroundColor: "var(--bg)",
+        color: "var(--fg)",
+      }}
+    >
       <Navbar onOpenRegister={() => handleOpenRegister("Contributor")} />
 
       <main className="flex-1">
