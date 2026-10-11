@@ -9,7 +9,6 @@ export function SnowParticles() {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    // Check prefers-reduced-motion
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       return;
     }
@@ -21,41 +20,185 @@ export function SnowParticles() {
     let height = (canvas.height = window.innerHeight);
 
     const isMobile = window.matchMedia("(max-width: 700px)").matches;
-    const particleCount = isMobile ? 35 : 85;
+    const particleCount = isMobile ? 36 : 80;
 
-    const particles = Array.from({ length: particleCount }, () => ({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      r: 2.4 * Math.random() + 0.9,
-      spd: 0.85 * Math.random() + 0.35,
-      drift: 0.6 * Math.random() - 0.3,
-      phase: Math.random() * Math.PI * 2,
-    }));
+    interface Particle {
+      x: number;
+      y: number;
+      r: number;
+      spd: number;
+      drift: number;
+      phase: number;
+      rot: number;
+      rotSpeed: number;
+      opacity: number;
+      type: "crystal" | "dust" | "snowball";
+    }
+
+    const createParticle = (initialY?: number): Particle => {
+      const r = Math.random() < 0.65 ? Math.random() * 3 + 2 : Math.random() * 5 + 4.5;
+      return {
+        x: Math.random() * width,
+        y: initialY !== undefined ? initialY : Math.random() * height,
+        r,
+        spd: 0.65 * (r / 4) + 0.35 + Math.random() * 0.4,
+        drift: 0.4 * (Math.random() - 0.5),
+        phase: Math.random() * Math.PI * 2,
+        rot: Math.random() * Math.PI * 2,
+        rotSpeed: (Math.random() - 0.5) * 0.025,
+        opacity: Math.random() * 0.45 + 0.45,
+        type: r > 4 ? "crystal" : "dust",
+      };
+    };
+
+    const particles: Particle[] = Array.from({ length: particleCount }, () =>
+      createParticle()
+    );
 
     let animId = 0;
+
+    // Helper: Draw intricate 6-pointed crystalline snowflake for dark theme
+    const drawSnowflake = (
+      c: CanvasRenderingContext2D,
+      x: number,
+      y: number,
+      r: number,
+      rot: number,
+      opacity: number
+    ) => {
+      c.save();
+      c.translate(x, y);
+      c.rotate(rot);
+
+      c.strokeStyle = `rgba(224, 242, 254, ${opacity})`;
+      c.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+      c.lineWidth = r > 6 ? 1.4 : 1.1;
+      c.lineCap = "round";
+
+      // Center crystalline core
+      c.beginPath();
+      c.arc(0, 0, Math.max(1, r * 0.2), 0, Math.PI * 2);
+      c.fill();
+
+      // 6 symmetrical dendritic arms
+      for (let i = 0; i < 6; i++) {
+        c.rotate(Math.PI / 3);
+
+        // Main arm
+        c.beginPath();
+        c.moveTo(0, 0);
+        c.lineTo(0, r);
+        c.stroke();
+
+        // Branching dendrite needles
+        if (r > 4.5) {
+          const branchPos = r * 0.55;
+          const branchLen = r * 0.35;
+          c.beginPath();
+          c.moveTo(0, branchPos);
+          c.lineTo(-branchLen, branchPos + branchLen * 0.6);
+          c.moveTo(0, branchPos);
+          c.lineTo(branchLen, branchPos + branchLen * 0.6);
+          c.stroke();
+
+          // Outer tip sub-branch for larger flakes
+          if (r > 7) {
+            const tipPos = r * 0.8;
+            const tipLen = r * 0.22;
+            c.beginPath();
+            c.moveTo(0, tipPos);
+            c.lineTo(-tipLen, tipPos + tipLen * 0.5);
+            c.moveTo(0, tipPos);
+            c.lineTo(tipLen, tipPos + tipLen * 0.5);
+            c.stroke();
+          }
+        }
+      }
+
+      c.restore();
+    };
+
+    // Helper: Draw fluffy 3D shaded snowball for light theme
+    const drawSnowball = (
+      c: CanvasRenderingContext2D,
+      x: number,
+      y: number,
+      r: number,
+      opacity: number
+    ) => {
+      c.save();
+
+      // Outer soft ambient blur shadow
+      c.beginPath();
+      c.arc(x + r * 0.15, y + r * 0.2, r * 1.05, 0, Math.PI * 2);
+      c.fillStyle = `rgba(160, 195, 225, ${opacity * 0.35})`;
+      c.fill();
+
+      // 3D Spherical volume gradient (highlight at top-left, shadow at bottom-right)
+      const grad = c.createRadialGradient(
+        x - r * 0.35,
+        y - r * 0.35,
+        r * 0.1,
+        x,
+        y,
+        r
+      );
+      grad.addColorStop(0, `rgba(255, 255, 255, ${opacity})`);
+      grad.addColorStop(0.55, `rgba(240, 248, 255, ${opacity * 0.95})`);
+      grad.addColorStop(0.85, `rgba(205, 228, 245, ${opacity * 0.9})`);
+      grad.addColorStop(1, `rgba(165, 200, 226, ${opacity * 0.85})`);
+
+      c.beginPath();
+      c.arc(x, y, r, 0, Math.PI * 2);
+      c.fillStyle = grad;
+      c.fill();
+
+      // Delicate surface outline for crisp definition
+      c.strokeStyle = `rgba(175, 210, 235, ${opacity * 0.4})`;
+      c.lineWidth = 0.8;
+      c.stroke();
+
+      c.restore();
+    };
 
     const loop = () => {
       ctx.clearRect(0, 0, width, height);
 
       const isDark = document.documentElement.classList.contains("dark");
-      const rgb = isDark ? "255, 255, 255" : "70, 130, 180";
 
       for (const p of particles) {
+        // Physical movement: gentle fall + sinusoidal breeze sway
         p.y += p.spd;
-        p.phase += 0.01;
-        p.x += 0.5 * Math.sin(p.phase) + p.drift;
+        p.phase += 0.012;
+        p.x += Math.sin(p.phase) * 0.6 + p.drift;
+        p.rot += p.rotSpeed;
 
-        if (p.y > height + 10) {
-          p.y = -10;
+        // Wrap around viewport edges
+        if (p.y > height + 15) {
+          p.y = -15;
           p.x = Math.random() * width;
         }
-        if (p.x > width + 10) p.x = -10;
-        if (p.x < -10) p.x = width + 10;
+        if (p.x > width + 15) p.x = -15;
+        if (p.x < -15) p.x = width + 15;
 
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, 2 * Math.PI);
-        ctx.fillStyle = `rgba(${rgb}, ${0.28 + 0.12 * p.r})`;
-        ctx.fill();
+        if (isDark) {
+          // Night / Dark theme: Crystalline snowflakes
+          if (p.r >= 3.8) {
+            drawSnowflake(ctx, p.x, p.y, p.r, p.rot, p.opacity);
+          } else {
+            // Smaller ambient ice crystals
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r * 0.7, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(186, 230, 253, ${p.opacity * 0.75})`;
+            ctx.shadowColor = "#7dd3fc";
+            ctx.shadowBlur = 4;
+            ctx.fill();
+            ctx.shadowBlur = 0;
+          }
+        } else {
+          // Light theme: Playful fluffy 3D snowballs
+          drawSnowball(ctx, p.x, p.y, Math.max(2.5, p.r), p.opacity);
+        }
       }
 
       animId = requestAnimationFrame(loop);
