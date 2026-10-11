@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Syne, Inter, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
+import { AuthProvider } from "@/components/auth-provider";
 import { SnowParticles } from "@/components/snow-particles";
 import "./globals.css";
 
@@ -89,8 +90,10 @@ export default function RootLayout({
         className={`${syne.variable} ${inter.variable} ${jetbrainsMono.variable} font-inter antialiased bg-background text-foreground selection:bg-sky-500/30 selection:text-sky-200`}
       >
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange={false}>
-          <SnowParticles />
-          {children}
+          <AuthProvider>
+            <SnowParticles />
+            {children}
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

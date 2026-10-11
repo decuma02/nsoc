@@ -292,33 +292,34 @@ export function RewardsSection() {
             {universalRewards.map((reward) => {
               const Icon = reward.icon;
               return (
-                <div
-                  key={reward.title}
-                  className="group relative overflow-hidden rounded-2xl border p-5 sm:p-6 transition-all duration-300 hover:-translate-y-1 dark:border-white/10 dark:bg-white/[0.02] border-[#b9d7ec] bg-white/70 backdrop-blur-sm hover:border-sky-400 hover:shadow-lg hover:shadow-sky-500/10"
-                >
-                  {/* Diagonal sheen sweep on hover */}
-                  <span
-                    aria-hidden="true"
-                    className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/3 -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 transition-all duration-1000 ease-out group-hover:left-[130%] group-hover:opacity-100"
-                  />
+                <Tilt3D key={reward.title} maxTilt={6}>
+                  <div
+                    className="group relative overflow-hidden rounded-2xl border p-5 sm:p-6 transition-all duration-300 hover:-translate-y-1 dark:border-white/10 dark:bg-white/[0.02] border-[#b9d7ec] bg-white/70 backdrop-blur-sm hover:border-sky-400 hover:shadow-lg hover:shadow-sky-500/10 h-full"
+                  >
+                    {/* Diagonal sheen sweep on hover */}
+                    <span
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/3 -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 transition-all duration-1000 ease-out group-hover:left-[130%] group-hover:opacity-100"
+                    />
 
-                  <div className="relative flex items-center gap-4">
-                    <span className="grid size-12 shrink-0 place-items-center rounded-2xl border border-sky-400/30 bg-sky-400/10 text-sky-400 transition-transform duration-500 group-hover:rotate-[-8deg] group-hover:scale-110">
-                      <Icon className="size-6" strokeWidth={1.8} />
-                    </span>
-                    <div>
-                      <p className="font-mono text-[10px] uppercase tracking-widest text-sky-400 font-semibold">
-                        {reward.category}
-                      </p>
-                      <h4
-                        className="mt-1 font-syne text-base sm:text-lg font-bold tracking-tight leading-tight"
-                        style={{ color: "var(--fg)" }}
-                      >
-                        {reward.title}
-                      </h4>
+                    <div className="relative flex items-center gap-4">
+                      <span className="grid size-12 shrink-0 place-items-center rounded-2xl border border-sky-400/30 bg-sky-400/10 text-sky-400 transition-transform duration-500 group-hover:rotate-[-8deg] group-hover:scale-110">
+                        <Icon className="size-6" strokeWidth={1.8} />
+                      </span>
+                      <div>
+                        <p className="font-mono text-[10px] uppercase tracking-widest text-sky-400 font-semibold">
+                          {reward.category}
+                        </p>
+                        <h4
+                          className="mt-1 font-syne text-base sm:text-lg font-bold tracking-tight leading-tight"
+                          style={{ color: "var(--fg)" }}
+                        >
+                          {reward.title}
+                        </h4>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </Tilt3D>
               );
             })}
           </div>

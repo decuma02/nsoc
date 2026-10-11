@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { ArrowUpRight, Handshake } from "lucide-react";
+import { Tilt3D } from "@/components/tilt-3d";
 
 interface PartnersSectionProps {
   onPartnerModalOpen: () => void;
@@ -99,34 +100,35 @@ export function PartnersSection({ onPartnerModalOpen }: PartnersSectionProps) {
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 mt-14 sm:mt-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {partners.map((partner) => (
-            <a
-              key={partner.id}
-              href={partner.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="card p-5 sm:p-6 flex items-center justify-between group hover:border-sky-400 transition-colors"
-            >
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl overflow-hidden border border-border bg-card p-1 shrink-0 flex items-center justify-center">
-                  <Image
-                    src={partner.image}
-                    alt={partner.name}
-                    width={44}
-                    height={44}
-                    className="w-full h-full object-contain rounded-lg group-hover:scale-105 transition-transform"
-                  />
+            <Tilt3D key={partner.id} maxTilt={5}>
+              <a
+                href={partner.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="card p-5 sm:p-6 flex items-center justify-between group hover:border-sky-400 transition-colors h-full"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl overflow-hidden border border-border bg-card p-1 shrink-0 flex items-center justify-center">
+                    <Image
+                      src={partner.image}
+                      alt={partner.name}
+                      width={44}
+                      height={44}
+                      className="w-full h-full object-contain rounded-lg group-hover:scale-105 transition-transform"
+                    />
+                  </div>
+                  <div>
+                    <h4 className="font-syne font-bold text-sm sm:text-base text-foreground group-hover:text-sky-400 transition-colors leading-snug">
+                      {partner.name}
+                    </h4>
+                    <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                      {partner.category}
+                    </span>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="font-syne font-bold text-sm sm:text-base text-foreground group-hover:text-sky-400 transition-colors leading-snug">
-                    {partner.name}
-                  </h4>
-                  <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
-                    {partner.category}
-                  </span>
-                </div>
-              </div>
-              <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-sky-400 shrink-0 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 ml-2" />
-            </a>
+                <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-sky-400 shrink-0 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 ml-2" />
+              </a>
+            </Tilt3D>
           ))}
         </div>
       </div>

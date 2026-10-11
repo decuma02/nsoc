@@ -4,8 +4,9 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useTheme } from "next-themes";
-import { Moon, Sun, Bell, Menu, X } from "lucide-react";
+import { Moon, Sun, Bell, Menu, X, User } from "lucide-react";
 import { Magnetic } from "./magnetic";
+import { useAuth } from "./auth-provider";
 
 interface NavbarProps {
   onOpenRegister: () => void;
@@ -13,6 +14,7 @@ interface NavbarProps {
 
 export function Navbar({ onOpenRegister }: NavbarProps) {
   const { theme, setTheme } = useTheme();
+  const { user, loading: authLoading } = useAuth();
   const [mounted, setMounted] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -140,23 +142,50 @@ export function Navbar({ onOpenRegister }: NavbarProps) {
             )}
           </button>
 
-          {/* Log in */}
-          <button
-            onClick={onOpenRegister}
-            className="hidden sm:inline-block font-inter text-xs sm:text-sm font-medium text-foreground hover:text-[#7dd3fc] transition-colors px-3 py-2 rounded-lg"
-          >
-            Log in
-          </button>
-
-          {/* Sign up with Magnetic and btn-shine */}
-          <Magnetic pullFactor={0.2}>
-            <button
-              onClick={onOpenRegister}
-              className="btn-shine btn-primary text-xs sm:text-sm py-2 sm:py-2.5 px-4 sm:px-5 rounded-xl shadow-sm transition-all active:scale-95 cursor-pointer font-semibold"
-            >
-              Sign up
-            </button>
-          </Magnetic>
+          {/* Auth: user avatar or sign-up button */}
+          {!authLoading && (
+            user ? (
+              /* Logged-in: show avatar button */
+              <button
+                onClick={onOpenRegister}
+                aria-label="Open profile"
+                className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-xl overflow-hidden border-2 border-sky-400/40 hover:border-sky-400 transition-colors shadow-sm shadow-sky-500/20 focus-visible:ring-2 focus-visible:ring-[#7dd3fc] shrink-0"
+              >
+                {user.user_metadata?.avatar_url ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={user.user_metadata.avatar_url}
+                    alt={user.user_metadata?.name || "User"}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center bg-sky-500/20">
+                    <User className="w-4 h-4 text-sky-400" />
+                  </div>
+                )}
+                {/* Online indicator */}
+                <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 rounded-full border-2 border-background" />
+              </button>
+            ) : (
+              /* Not logged-in: show Sign up */
+              <>
+                <button
+                  onClick={onOpenRegister}
+                  className="hidden sm:inline-block font-inter text-xs sm:text-sm font-medium text-foreground hover:text-[#7dd3fc] transition-colors px-3 py-2 rounded-lg"
+                >
+                  Log in
+                </button>
+                <Magnetic pullFactor={0.2}>
+                  <button
+                    onClick={onOpenRegister}
+                    className="btn-shine btn-primary text-xs sm:text-sm py-2 sm:py-2.5 px-4 sm:px-5 rounded-xl shadow-sm transition-all active:scale-95 cursor-pointer font-semibold"
+                  >
+                    Sign up
+                  </button>
+                </Magnetic>
+              </>
+            )
+          )}
 
           {/* Mobile Menu Button */}
           <button

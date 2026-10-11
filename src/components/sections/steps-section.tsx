@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
+import { Tilt3D } from "@/components/tilt-3d";
 
 interface StepsSectionProps {
   onOpenRegister: () => void;
@@ -137,39 +138,41 @@ export function StepsSection({ onOpenRegister }: StepsSectionProps) {
           {/* 4 Steps Row / Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6 relative z-10">
             {steps.map((step) => (
-              <div
-                key={step.number}
-                className="step-item p-4 sm:p-5 rounded-2xl transition-all duration-300 hover:-translate-y-1 group relative"
-              >
-                {/* Circular Milestone Node from nsoc.in */}
+              <Tilt3D key={step.number} maxTilt={7}>
                 <div
-                  className="w-11 h-11 rounded-full dark:border-white/10 dark:bg-[#050a14] border-[#b9d7ec] bg-[#dcecf8] flex items-center justify-center mb-5 relative z-10 border shadow-sm group-hover:scale-110 group-hover:border-sky-400 transition-all duration-300"
+                  key={step.number}
+                  className="step-item p-4 sm:p-5 rounded-2xl transition-all duration-300 hover:-translate-y-1 group relative h-full"
                 >
-                  <span
-                    className="font-mono text-xs sm:text-sm font-bold text-sky-400"
+                  {/* Circular Milestone Node from nsoc.in */}
+                  <div
+                    className="w-11 h-11 rounded-full dark:border-white/10 dark:bg-[#050a14] border-[#b9d7ec] bg-[#dcecf8] flex items-center justify-center mb-5 relative z-10 border shadow-sm group-hover:scale-110 group-hover:border-sky-400 transition-all duration-300"
                   >
-                    {step.number}
-                  </span>
-                </div>
+                    <span
+                      className="font-mono text-xs sm:text-sm font-bold text-sky-400"
+                    >
+                      {step.number}
+                    </span>
+                  </div>
 
-                <div className="step-body">
-                  {/* Step Title in Syne 700 24px */}
-                  <h3
-                    className="font-syne font-bold text-xl sm:text-2xl mb-2.5 leading-snug group-hover:text-sky-400 transition-colors"
-                    style={{ color: "var(--fg)" }}
-                  >
-                    {step.title}
-                  </h3>
+                  <div className="step-body">
+                    {/* Step Title in Syne 700 24px */}
+                    <h3
+                      className="font-syne font-bold text-xl sm:text-2xl mb-2.5 leading-snug group-hover:text-sky-400 transition-colors"
+                      style={{ color: "var(--fg)" }}
+                    >
+                      {step.title}
+                    </h3>
 
-                  {/* Step Description in Inter 400 15px */}
-                  <p
-                    className="font-inter text-sm sm:text-base leading-relaxed"
-                    style={{ color: "var(--muted-fg)" }}
-                  >
-                    {step.description}
-                  </p>
+                    {/* Step Description in Inter 400 15px */}
+                    <p
+                      className="font-inter text-sm sm:text-base leading-relaxed"
+                      style={{ color: "var(--muted-fg)" }}
+                    >
+                      {step.description}
+                    </p>
+                  </div>
                 </div>
-              </div>
+              </Tilt3D>
             ))}
           </div>
         </div>
