@@ -69,7 +69,7 @@ export function BenefitsSection() {
     <section
       id="about"
       ref={sectionRef}
-      className="py-20 lg:py-28 border-t border-[var(--border-col)]"
+      className="py-20 lg:py-28 border-t border-[var(--border-col)] relative overflow-hidden section-highlight-blue"
     >
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12">
 
@@ -125,10 +125,16 @@ export function BenefitsSection() {
               "border-indigo-500/40 dark:border-indigo-400/30 shadow-[0_4px_22px_rgba(99,102,241,0.08)]",
               "border-emerald-500/40 dark:border-emerald-400/30 shadow-[0_4px_22px_rgba(16,185,129,0.08)]",
             ];
+            const cardGlows = [
+              "card-glow-blue",
+              "card-glow-teal",
+              "card-glow-purple",
+              "card-glow-teal",
+            ];
             return (
               <Tilt3D key={p.title} maxTilt={10}>
                 <div
-                  className={`card p-8 lg:p-10 flex flex-col justify-center gap-3 min-h-[220px] h-full group ${cardAccents[i % cardAccents.length]}`}
+                  className={`card card-inner-glow p-8 lg:p-10 flex flex-col justify-center gap-3 min-h-[220px] h-full group ${cardAccents[i % cardAccents.length]} ${cardGlows[i % cardGlows.length]}`}
                   data-reveal
                   data-reveal-delay={0.06 * i}
                 >

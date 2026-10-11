@@ -138,8 +138,18 @@ export function TimelineSection() {
   const [activeStep, setActiveStep] = useState<number>(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // On mobile & tablet we always show all milestones directly
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 1023px)");
+    setIsMobile(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
   const filteredMilestones =
-    activePhase === 0
+    isMobile || activePhase === 0
       ? milestones
       : milestones.filter((m) => m.phaseId === activePhase);
 
@@ -174,8 +184,8 @@ export function TimelineSection() {
           </p>
         </div>
 
-        {/* Live Sprint Status Banner */}
-        <div className="mb-10 p-4 sm:p-5 rounded-2xl border border-[var(--border-col)] bg-card/60 backdrop-blur-md flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        {/* Live Sprint Status Banner — hidden completely on mobile & tablet, visible only on desktop */}
+        <div className="hidden lg:flex mb-10 p-5 rounded-2xl border border-[var(--border-col)] bg-card/60 backdrop-blur-md items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="relative flex h-3 w-3 shrink-0">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
@@ -191,8 +201,8 @@ export function TimelineSection() {
             </div>
           </div>
 
-          {/* Phase Filter Switcher */}
-          <div className="flex items-center gap-1.5 p-1 rounded-xl bg-muted/60 border border-[var(--border-col)] overflow-x-auto">
+          {/* Phase Filter Switcher — desktop only, cleanly fits without horizontal scroll */}
+          <div className="flex items-center gap-1.5 p-1 rounded-xl bg-muted/60 border border-[var(--border-col)] shrink-0">
             <button
               onClick={() => setActivePhase(0)}
               className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all cursor-pointer whitespace-nowrap ${
@@ -262,6 +272,7 @@ export function TimelineSection() {
                   style={
                     {
                       "--accent": milestone.color,
+                      boxShadow: `var(--shadow-card), 0 0 0 1px ${milestone.color}22, 0 0 28px -6px ${milestone.color}40`,
                     } as React.CSSProperties
                   }
                 >

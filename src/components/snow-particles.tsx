@@ -118,7 +118,7 @@ export function SnowParticles() {
       c.restore();
     };
 
-    // Helper: Draw fluffy 3D shaded snowball for light theme
+    // Helper: Draw fluffy 3D shaded snowball for light theme — icy blue palette
     const drawSnowball = (
       c: CanvasRenderingContext2D,
       x: number,
@@ -128,35 +128,42 @@ export function SnowParticles() {
     ) => {
       c.save();
 
-      // Outer soft ambient blur shadow
+      // Outer soft ambient glow — blue tinted
       c.beginPath();
-      c.arc(x + r * 0.15, y + r * 0.2, r * 1.05, 0, Math.PI * 2);
-      c.fillStyle = `rgba(160, 195, 225, ${opacity * 0.35})`;
+      c.arc(x + r * 0.12, y + r * 0.18, r * 1.1, 0, Math.PI * 2);
+      c.fillStyle = `rgba(56, 189, 248, ${opacity * 0.22})`;
       c.fill();
 
-      // 3D Spherical volume gradient (highlight at top-left, shadow at bottom-right)
+      // 3D radial gradient — bright icy white core → sky blue → cornflower edge
       const grad = c.createRadialGradient(
         x - r * 0.35,
-        y - r * 0.35,
-        r * 0.1,
+        y - r * 0.38,
+        r * 0.05,
         x,
         y,
         r
       );
-      grad.addColorStop(0, `rgba(255, 255, 255, ${opacity})`);
-      grad.addColorStop(0.55, `rgba(240, 248, 255, ${opacity * 0.95})`);
-      grad.addColorStop(0.85, `rgba(205, 228, 245, ${opacity * 0.9})`);
-      grad.addColorStop(1, `rgba(165, 200, 226, ${opacity * 0.85})`);
+      grad.addColorStop(0,    `rgba(240, 253, 255, ${opacity})`);
+      grad.addColorStop(0.35, `rgba(186, 230, 253, ${opacity * 0.97})`);
+      grad.addColorStop(0.65, `rgba(125, 211, 252, ${opacity * 0.92})`);
+      grad.addColorStop(0.85, `rgba(56,  189, 248, ${opacity * 0.85})`);
+      grad.addColorStop(1,    `rgba(14,  165, 233, ${opacity * 0.75})`);
 
       c.beginPath();
       c.arc(x, y, r, 0, Math.PI * 2);
       c.fillStyle = grad;
       c.fill();
 
-      // Delicate surface outline for crisp definition
-      c.strokeStyle = `rgba(175, 210, 235, ${opacity * 0.4})`;
+      // Crisp blue outline
+      c.strokeStyle = `rgba(56, 189, 248, ${opacity * 0.5})`;
       c.lineWidth = 0.8;
       c.stroke();
+
+      // Tiny specular highlight dot
+      c.beginPath();
+      c.arc(x - r * 0.3, y - r * 0.32, Math.max(0.6, r * 0.18), 0, Math.PI * 2);
+      c.fillStyle = `rgba(255, 255, 255, ${opacity * 0.85})`;
+      c.fill();
 
       c.restore();
     };

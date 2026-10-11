@@ -103,7 +103,7 @@ export function StepsSection({ onOpenRegister }: StepsSectionProps) {
   ];
 
   return (
-    <section id="journey" ref={sectionRef} className="py-20 lg:py-28 relative">
+    <section id="journey" ref={sectionRef} className="py-20 lg:py-28 relative overflow-hidden section-highlight-teal">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12">
         {/* Section Header */}
         <div className="mb-14 sm:mb-16">
@@ -136,7 +136,7 @@ export function StepsSection({ onOpenRegister }: StepsSectionProps) {
             {steps.map((step) => (
               <Tilt3D key={step.number} maxTilt={12}>
                 <div
-                  className="step-item card p-6 sm:p-7 rounded-3xl transition-all duration-300 group relative h-full flex flex-col justify-between"
+                  className="step-item card card-glow-blue card-inner-glow p-6 sm:p-7 rounded-3xl transition-all duration-300 group relative h-full flex flex-col justify-between"
                 >
                   <span className="card-sheen" />
                   <span className="card-spotlight" />

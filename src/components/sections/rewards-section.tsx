@@ -16,58 +16,67 @@ export function RewardsSection() {
   const contributorTiers = [
     {
       rank: "Rank 1",
+      badgeTitle: "Contributor Track",
       numeral: "1",
       count: "07 rewards",
       isTopPrize: true,
       icon: Trophy,
       perks: [
-        "NSoC T-Shirt",
+        "NSoC Contributor T-Shirt",
         "Unstop T-Shirt · Unstop",
-        "NSoC Cap",
-        "Diary, Bookmark & Pen",
+        "NSoC Signature Cap",
+        "Diary, Bookmark & Pen Set",
         "NSoC Hard Copy Certificate",
-        ".xyz Domain",
-        "Social Media Recognition",
+        ".xyz Custom Domain",
+        "Social Media Spotlight",
       ],
     },
     {
       rank: "Top 3",
+      badgeTitle: "Contributor Track",
       numeral: "3",
       count: "07 rewards",
       isTopPrize: false,
       icon: Medal,
       perks: [
-        "NSoC T-Shirt",
-        "Diary, Bookmark & Pen",
-        "NSoC Cap",
-        ".xyz Domain",
-        "NSoC Hard Copy Certificate",
+        "NSoC Contributor T-Shirt",
         "Unstop T-Shirt · Unstop",
+        "NSoC Signature Cap",
+        "Diary, Bookmark & Pen Set",
+        "NSoC Hard Copy Certificate",
+        ".xyz Custom Domain",
         "Social Media Recognition",
       ],
     },
     {
       rank: "Top 5",
+      badgeTitle: "Contributor Track",
       numeral: "5",
-      count: "04 rewards",
+      count: "06 rewards",
       isTopPrize: false,
       icon: Award,
       perks: [
-        "Diary, Bookmark & Pen",
-        "NSoC Cap",
+        "NSoC Contributor T-Shirt",
+        "Diary, Bookmark & Pen Set",
+        "NSoC Signature Cap",
         "NSoC Hard Copy Certificate",
+        ".xyz Custom Domain",
         "Social Media Recognition",
       ],
     },
     {
       rank: "Top 10",
+      badgeTitle: "Contributor Track",
       numeral: "10",
-      count: "03 rewards",
+      count: "06 rewards",
       isTopPrize: false,
       icon: Sparkles,
       perks: [
-        "NSoC Cap",
+        "NSoC Signature Cap",
+        "Diary, Bookmark & Pen Set",
         "NSoC Hard Copy Certificate",
+        "NSoC Digital Certificate",
+        ".xyz Custom Domain",
         "Social Media Recognition",
       ],
     },
@@ -76,47 +85,48 @@ export function RewardsSection() {
   const adminTiers = [
     {
       rank: "Rank 1",
+      badgeTitle: "Lead Maintainer",
       numeral: "1",
-      count: "07 rewards",
+      count: "08 rewards",
       isTopPrize: true,
       icon: Trophy,
       perks: [
-        "NSoC T-Shirt",
-        "Unstop T-Shirt · Unstop",
-        "NSoC Hard Copy Certificate",
-        "NSoC Cap",
-        "Diary, Bookmark & Pen",
-        ".xyz Domain",
-        "Social Media Recognition",
+        "Featured Lead Mentor Spotlight",
+        "Top Maintainer Plaque & Recognition",
+        "Exclusive Admin Edition T-Shirt",
+        "Unstop Partner T-Shirt · Unstop",
+        "NSoC Hard Copy Mentor Certificate",
+        "NSoC Signature Cap & Swag",
+        "Diary, Bookmark & Pen Set",
+        ".xyz Custom Domain for Project",
       ],
     },
     {
       rank: "Top 3",
+      badgeTitle: "Premier Admin",
       numeral: "3",
-      count: "07 rewards",
+      count: "05 rewards",
       isTopPrize: false,
       icon: Medal,
       perks: [
-        "NSoC T-Shirt",
-        "Diary, Bookmark & Pen",
-        "NSoC Cap",
-        ".xyz Domain",
-        "NSoC Hard Copy Certificate",
-        "Unstop T-Shirt · Unstop",
-        "Social Media Recognition",
+        "Featured Project Showcase on NSoC",
+        "NSoC Admin Edition T-Shirt",
+        "Official Hard Copy Mentor Certificate",
+        "NSoC Signature Cap",
+        "Verified Mentor Acknowledgement Badge",
       ],
     },
     {
       rank: "Top 5",
+      badgeTitle: "Distinguished Mentor",
       numeral: "5",
-      count: "04 rewards",
+      count: "03 rewards",
       isTopPrize: false,
       icon: Award,
       perks: [
-        "Diary, Bookmark & Pen",
-        "NSoC Cap",
-        "NSoC Hard Copy Certificate",
-        "Social Media Recognition",
+        "Official Hard Copy Mentor Certificate",
+        "TruScholar Verified Digital Mentor Badge",
+        "Global Social Media & Hall of Fame Recognition",
       ],
     },
   ];
@@ -208,11 +218,25 @@ export function RewardsSection() {
               Project Admins
             </button>
           </div>
+
+          {/* Active Track Indicator */}
+          <div className="mt-4 flex items-center justify-center">
+            <span className="inline-flex items-center gap-2 font-mono text-xs px-3.5 py-1.5 rounded-full border border-[var(--border-col)] bg-card/70 backdrop-blur-sm text-muted-foreground">
+              <span
+                className={`w-2 h-2 rounded-full ${
+                  activeTab === "Contributors" ? "bg-sky-400 animate-pulse" : "bg-teal-400 animate-pulse"
+                }`}
+              />
+              {activeTab === "Contributors"
+                ? "Contributor Rewards · 4 Rank Tiers (Rank 1, Top 3, Top 5, Top 10)"
+                : "Project Admin & Mentor Rewards · 3 Tiers (Rank 1, Top 3, Top 5)"}
+            </span>
+          </div>
         </div>
 
         {/* Reward Tiers Grid — fades in on tab switch */}
         <div
-          key={animKey}
+          key={`${activeTab}-${animKey}`}
           className={`grid grid-cols-1 sm:grid-cols-2 gap-6 mb-20 animate-tab-fade-in ${
             currentTiers.length === 4 ? "lg:grid-cols-4" : "lg:grid-cols-3"
           }`}
@@ -227,10 +251,18 @@ export function RewardsSection() {
             };
             const tierStyle = tierStyles[tier.rank] || (tier.isTopPrize ? tierStyles["Rank 1"] : "border-sky-400/40 shadow-[0_4px_20px_rgba(56,189,248,0.08)]");
 
+            const tierGlows: Record<string, string> = {
+              "Rank 1": "card-glow-gold",
+              "Top 3":  "card-glow-blue",
+              "Top 5":  "card-glow-teal",
+              "Top 10": "card-glow-purple",
+            };
+            const tierGlow = tierGlows[tier.rank] || "";
+
             return (
-              <Tilt3D key={tier.rank} maxTilt={12}>
+              <Tilt3D key={`${activeTab}-${tier.rank}`} maxTilt={12}>
                 <div
-                  className={`rounded-2xl p-7 flex flex-col justify-between transition-all duration-300 card h-full relative overflow-hidden group ${tierStyle} ${
+                  className={`rounded-2xl p-7 flex flex-col justify-between transition-all duration-300 card h-full relative overflow-hidden group ${tierStyle} ${tierGlow} ${
                     tier.isTopPrize ? "card-rank1" : ""
                   }`}
                 >
@@ -245,12 +277,23 @@ export function RewardsSection() {
                   <div>
                     {/* Reward Meta & Top Prize Tag */}
                     <div className="flex items-center justify-between mb-4">
-                      <span
-                        className="font-mono text-xs font-semibold"
-                        style={{ color: "var(--accent)" }}
-                      >
-                        {tier.count}
-                      </span>
+                      <div className="flex items-center gap-2">
+                        <span
+                          className={`font-mono text-[10px] uppercase tracking-wider font-semibold px-2 py-0.5 rounded-md border ${
+                            activeTab === "Contributors"
+                              ? "border-sky-400/30 bg-sky-400/10 text-sky-400"
+                              : "border-teal-400/30 bg-teal-400/10 text-teal-400"
+                          }`}
+                        >
+                          {tier.badgeTitle}
+                        </span>
+                        <span
+                          className="font-mono text-xs font-semibold"
+                          style={{ color: "var(--accent)" }}
+                        >
+                          {tier.count}
+                        </span>
+                      </div>
                       {tier.isTopPrize ? (
                         <span className="inline-flex items-center gap-1 font-mono text-[10px] uppercase tracking-wider px-2.5 py-0.5 rounded-full border border-amber-400/30 bg-amber-400/10 text-amber-400 font-bold">
                           <Sparkles className="w-3 h-3" /> Top prize

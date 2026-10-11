@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
-import { X, Sparkles, ArrowRight, MessageSquare, Terminal, LogOut, User } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { X, Sparkles, ArrowRight, MessageSquare, Terminal, LogOut, User, Check, Loader2 } from "lucide-react";
 import { WinterSnowflake, GitHubIcon } from "./brand-icons";
 import { useAuth } from "./auth-provider";
+import { getSupabaseClient } from "@/lib/supabase";
 
 interface RegisterModalProps {
   isOpen: boolean;
@@ -27,13 +28,70 @@ export function RegisterModal({ isOpen, onClose, defaultRole = "Contributor" }: 
   const { user, signInWithGitHub, signInWithGoogle, signOut, loading, configured } = useAuth();
   const [role, setRole] = useState(defaultRole);
   const [oauthLoading, setOauthLoading] = useState<"github" | "google" | null>(null);
+  const [savingTrack, setSavingTrack] = useState(false);
+  const [trackSaved, setTrackSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (defaultRole) setRole(defaultRole);
   }, [defaultRole]);
 
+  // Sync existing track from Supabase when logged in
+  useEffect(() => {
+    if (!user) return;
+    const client = getSupabaseClient();
+    if (!client) return;
+
+    client
+      .from("registrations")
+      .select("track")
+      .eq("user_id", user.id)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (data?.track) {
+          setRole(data.track);
+          setTrackSaved(true);
+        }
+      });
+  }, [user]);
+
   if (!isOpen) return null;
+
+  const handleSaveTrack = async (selectedRole: string) => {
+    setRole(selectedRole);
+    setTrackSaved(false);
+    if (!user) return;
+
+    const client = getSupabaseClient();
+    if (!client) return;
+
+    setSavingTrack(true);
+    try {
+      // 1. Ensure profile has selected track
+      await client
+        .from("profiles")
+        .update({ track: selectedRole })
+        .eq("id", user.id);
+
+      // 2. Upsert registration
+      await client
+        .from("registrations")
+        .upsert(
+          {
+            user_id: user.id,
+            track: selectedRole,
+            status: "Pending",
+          },
+          { onConflict: "user_id" }
+        );
+
+      setTrackSaved(true);
+    } catch (err) {
+      console.warn("Failed saving registration to Supabase:", err);
+    } finally {
+      setSavingTrack(false);
+    }
+  };
 
   const handleGitHub = async () => {
     setError(null);
@@ -59,6 +117,7 @@ export function RegisterModal({ isOpen, onClose, defaultRole = "Contributor" }: 
 
   const handleSignOut = async () => {
     await signOut();
+    setTrackSaved(false);
     onClose();
   };
 
@@ -126,16 +185,28 @@ export function RegisterModal({ isOpen, onClose, defaultRole = "Contributor" }: 
 
           {/* Role selector */}
           <div className="mb-5">
-            <label className="block text-xs font-mono uppercase tracking-wider text-muted-foreground mb-2">
-              Your Track
-            </label>
+            <div className="flex items-center justify-between mb-2">
+              <label className="block text-xs font-mono uppercase tracking-wider text-muted-foreground">
+                Your Registered Track
+              </label>
+              {savingTrack ? (
+                <span className="flex items-center gap-1 text-[11px] font-mono text-sky-400">
+                  <Loader2 className="w-3 h-3 animate-spin" /> Saving…
+                </span>
+              ) : trackSaved ? (
+                <span className="flex items-center gap-1 text-[11px] font-mono text-emerald-400">
+                  <Check className="w-3 h-3" /> Saved to DB
+                </span>
+              ) : null}
+            </div>
             <div className="grid grid-cols-3 gap-2">
               {(["Contributor", "Project Kernel", "Campus Ambassador"] as const).map((r) => (
                 <button
                   key={r}
                   type="button"
-                  onClick={() => setRole(r)}
-                  className={`text-xs py-2 px-2 rounded-xl border font-medium transition-all text-center ${
+                  onClick={() => handleSaveTrack(r)}
+                  disabled={savingTrack}
+                  className={`text-xs py-2 px-2 rounded-xl border font-medium transition-all text-center cursor-pointer ${
                     role === r
                       ? "border-sky-400 bg-sky-500/15 text-sky-400 font-semibold shadow-[0_0_15px_rgba(56,189,248,0.15)]"
                       : "border-sky-400/15 text-muted-foreground hover:border-sky-400/30 hover:bg-sky-500/5"
