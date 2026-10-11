@@ -27,8 +27,7 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-bun.lockb
-bun.lock
+# bun.lockb and bun.lock are committed for reproducible Vercel installs
 
 # local env files
 .env*.local
