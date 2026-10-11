@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
+import { Tilt3D } from "@/components/tilt-3d";
 
 export function BenefitsSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -119,28 +120,34 @@ export function BenefitsSection() {
           </div>
         </div>
 
-        {/* ── 2×2 Benefits cards with diagonal sheen sweep on hover (Figma: 628x226) ── */}
+        {/* ── 2×2 Benefits cards with 3D perspective tilt & diagonal sheen sweep ── */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8">
           {pillars.map((p, i) => (
-            <div
-              key={p.title}
-              className="card p-8 lg:p-10 flex flex-col justify-center gap-3 min-h-[220px]"
-              data-reveal
-              data-reveal-delay={0.06 * i}
-            >
-              <h3
-                className="font-syne font-bold text-2xl"
-                style={{ color: "var(--fg)" }}
+            <Tilt3D key={p.title} maxTilt={6}>
+              <div
+                className="card p-8 lg:p-10 flex flex-col justify-center gap-3 min-h-[220px] h-full"
+                data-reveal
+                data-reveal-delay={0.06 * i}
               >
-                {p.title}
-              </h3>
-              <p
-                className="font-inter leading-relaxed text-base"
-                style={{ color: "var(--muted-fg)", lineHeight: "1.65" }}
-              >
-                {p.description}
-              </p>
-            </div>
+                <div className="flex items-center justify-between">
+                  <h3
+                    className="font-syne font-bold text-2xl"
+                    style={{ color: "var(--fg)" }}
+                  >
+                    {p.title}
+                  </h3>
+                  <span className="font-mono text-xs opacity-40 font-semibold">
+                    0{i + 1}
+                  </span>
+                </div>
+                <p
+                  className="font-inter leading-relaxed text-base"
+                  style={{ color: "var(--muted-fg)", lineHeight: "1.65" }}
+                >
+                  {p.description}
+                </p>
+              </div>
+            </Tilt3D>
           ))}
         </div>
 

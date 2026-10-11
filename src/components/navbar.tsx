@@ -2,9 +2,10 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useTheme } from "next-themes";
 import { Moon, Sun, Bell, Menu, X } from "lucide-react";
-import { NexusLogo } from "./brand-icons";
+import { Magnetic } from "./magnetic";
 
 interface NavbarProps {
   onOpenRegister: () => void;
@@ -26,10 +27,23 @@ export function Navbar({ onOpenRegister }: NavbarProps) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Keyboard shortcut Ctrl+K / Cmd+K theme toggle from nsoc.in
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setTheme(theme === "dark" ? "light" : "dark");
+      }
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [theme, setTheme]);
+
   const navLinks = [
     { label: "Overview", href: "#overview" },
     { label: "About", href: "#about" },
-    { label: "Contribution", href: "#contribution" },
+    { label: "Journey", href: "#journey" },
+    { label: "Roles", href: "#roles" },
     { label: "Rewards", href: "#rewards" },
     { label: "Timeline", href: "#timeline" },
     { label: "Sponsors", href: "#sponsors" },
@@ -38,7 +52,7 @@ export function Navbar({ onOpenRegister }: NavbarProps) {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 border-b ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${
         isScrolled
           ? "h-20 bg-[var(--bg)]/90 backdrop-blur-md border-[var(--border-col)] shadow-sm"
           : "h-22 bg-[var(--bg)]/80 backdrop-blur-sm border-[var(--border-col)]/60"
@@ -48,21 +62,38 @@ export function Navbar({ onOpenRegister }: NavbarProps) {
         {/* Brand Logo */}
         <Link
           href="/"
-          className="flex items-center gap-3.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7dd3fc] rounded-lg p-1"
+          className="flex items-center gap-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7dd3fc] rounded-lg p-1"
         >
-          <NexusLogo className="w-8 h-8 text-[#7dd3fc]" />
+          <div className="relative w-8 h-8 rounded-lg overflow-hidden shrink-0">
+            <Image
+              src="/logo_dark.png"
+              alt="Nexus Spring of Code Logo"
+              width={32}
+              height={32}
+              className="hidden dark:block object-contain"
+              priority
+            />
+            <Image
+              src="/logo_light.png"
+              alt="Nexus Spring of Code Logo"
+              width={32}
+              height={32}
+              className="block dark:hidden object-contain"
+              priority
+            />
+          </div>
           <span className="font-syne font-bold text-2xl tracking-normal text-foreground">
             NSoC&apos;26
           </span>
         </Link>
 
         {/* Desktop Nav Links */}
-        <nav className="hidden lg:flex items-center gap-7">
+        <nav className="hidden lg:flex items-center gap-6 xl:gap-7">
           {navLinks.map((link) => (
             <a
               key={link.label}
               href={link.href}
-              className="nav-link py-1"
+              className="nav-link py-1 font-mono text-xs xl:text-sm uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors"
             >
               {link.label}
             </a>
@@ -70,18 +101,18 @@ export function Navbar({ onOpenRegister }: NavbarProps) {
         </nav>
 
         {/* Right Actions */}
-        <div className="flex items-center gap-3 sm:gap-4 relative">
+        <div className="flex items-center gap-2.5 sm:gap-3.5 relative">
           {/* Notification Bell */}
           <div className="relative">
             <button
               onClick={() => setShowNotifications(!showNotifications)}
               aria-label="Show Notifications"
-              className="w-10 h-10 rounded-xl bg-card border border-border flex items-center justify-center text-cyan-accent hover:border-[#7dd3fc] transition-colors focus-visible:ring-2 focus-visible:ring-[#7dd3fc]"
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-card border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-[#7dd3fc] transition-colors focus-visible:ring-2 focus-visible:ring-[#7dd3fc]"
             >
               <Bell className="w-4 h-4" />
             </button>
 
-            {/* Notification Dropdown (Figma Spec) */}
+            {/* Notification Dropdown */}
             {showNotifications && (
               <div className="absolute right-0 top-12 w-72 bg-card border border-border rounded-xl shadow-xl p-4 z-50 animate-in fade-in zoom-in-95 duration-150">
                 <div className="flex items-center justify-between pb-2 border-b border-border mb-3">
@@ -89,46 +120,49 @@ export function Navbar({ onOpenRegister }: NavbarProps) {
                   <span className="font-mono text-[10px] text-muted-foreground">0 NEW</span>
                 </div>
                 <p className="font-inter text-xs text-muted-foreground text-center py-4">
-                  No notifications yet
+                  No notifications yet. Registrations open!
                 </p>
               </div>
             )}
           </div>
 
-          {/* Theme Control */}
+          {/* Theme Control with keyboard shortcut hint */}
           <button
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            aria-label="Theme control"
-            className="w-10 h-10 rounded-xl bg-card border border-border flex items-center justify-center text-cyan-accent hover:border-[#7dd3fc] transition-colors focus-visible:ring-2 focus-visible:ring-[#7dd3fc]"
+            title="Toggle theme (Ctrl+K)"
+            aria-label="Toggle color theme (Ctrl+K)"
+            className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-card border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-[#7dd3fc] transition-all focus-visible:ring-2 focus-visible:ring-[#7dd3fc]"
           >
             {mounted && theme === "light" ? (
-              <Moon className="w-4 h-4" />
+              <Moon className="w-4 h-4 transition-transform duration-200 hover:-rotate-12" />
             ) : (
-              <Sun className="w-4 h-4" />
+              <Sun className="w-4 h-4 transition-transform duration-200 hover:rotate-45 text-amber-300" />
             )}
           </button>
 
           {/* Log in */}
           <button
             onClick={onOpenRegister}
-            className="hidden sm:inline-block font-inter text-sm font-medium text-foreground hover:text-cyan-accent transition-colors px-3 py-2 rounded-lg focus-visible:ring-2 focus-visible:ring-cyan-accent"
+            className="hidden sm:inline-block font-inter text-xs sm:text-sm font-medium text-foreground hover:text-[#7dd3fc] transition-colors px-3 py-2 rounded-lg"
           >
             Log in
           </button>
 
-          {/* Sign up (Primary Button) */}
-          <button
-            onClick={onOpenRegister}
-            className="btn-primary text-sm py-2.5 px-5 rounded-xl shadow-sm transition-all active:scale-95 focus-visible:ring-2 focus-visible:ring-cyan-accent"
-          >
-            Sign up
-          </button>
+          {/* Sign up with Magnetic and btn-shine */}
+          <Magnetic pullFactor={0.2}>
+            <button
+              onClick={onOpenRegister}
+              className="btn-shine btn-primary text-xs sm:text-sm py-2 sm:py-2.5 px-4 sm:px-5 rounded-xl shadow-sm transition-all active:scale-95 cursor-pointer font-semibold"
+            >
+              Sign up
+            </button>
+          </Magnetic>
 
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle navigation"
-            className="lg:hidden w-10 h-10 rounded-xl bg-card border border-border flex items-center justify-center text-foreground"
+            className="lg:hidden w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-card border border-border flex items-center justify-center text-foreground"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -144,7 +178,7 @@ export function Navbar({ onOpenRegister }: NavbarProps) {
                 key={link.label}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="font-inter text-base font-medium text-foreground hover:text-cyan-accent py-1"
+                className="font-inter text-base font-medium text-foreground hover:text-[#7dd3fc] py-1"
               >
                 {link.label}
               </a>
@@ -156,7 +190,7 @@ export function Navbar({ onOpenRegister }: NavbarProps) {
                 setMobileMenuOpen(false);
                 onOpenRegister();
               }}
-              className="w-full py-3 rounded-xl bg-[#7dd3fc] text-[#07111f] font-inter font-semibold text-center"
+              className="btn-shine w-full py-3 rounded-xl bg-[#7dd3fc] text-[#07111f] font-inter font-semibold text-center cursor-pointer"
             >
               Sign up
             </button>

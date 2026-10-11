@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
+import { Magnetic } from "@/components/magnetic";
 
 interface HeroSectionProps {
   onOpenRegister: () => void;
@@ -238,20 +239,24 @@ export function HeroSection({ onOpenRegister }: HeroSectionProps) {
               A 45-day open source program where project maintainers bring real-world projects, and contributors work on solving actual issues, building features, and shipping production-ready code. No toy projects. No filler tasks. Just meaningful work and a community that grows together.
             </p>
 
-            {/* CTAs */}
+            {/* CTAs with Magnetic hover and button shine sweep */}
             <div className="flex flex-wrap items-center gap-4 mb-8">
-              <button
-                onClick={onOpenRegister}
-                className="btn-primary"
-                style={{ paddingLeft: 32, paddingRight: 32 }}
-              >
-                <span>Join now!</span>
-                <ArrowUpRight className="w-5 h-5" />
-              </button>
-              <a href="#about" className="btn-secondary">
-                <span>Learn more</span>
-                <ArrowUpRight className="w-5 h-5" style={{ color: "var(--accent)" }} />
-              </a>
+              <Magnetic pullFactor={0.25}>
+                <button
+                  onClick={onOpenRegister}
+                  className="btn-primary btn-shine cursor-pointer shadow-lg shadow-sky-500/20"
+                  style={{ paddingLeft: 32, paddingRight: 32 }}
+                >
+                  <span>Join now!</span>
+                  <ArrowUpRight className="w-5 h-5" />
+                </button>
+              </Magnetic>
+              <Magnetic pullFactor={0.25}>
+                <a href="#about" className="btn-secondary btn-shine cursor-pointer">
+                  <span>Learn more</span>
+                  <ArrowUpRight className="w-5 h-5" style={{ color: "var(--accent)" }} />
+                </a>
+              </Magnetic>
             </div>
 
             {/* Scanning for deepfakes badge */}

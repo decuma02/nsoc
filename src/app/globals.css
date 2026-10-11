@@ -402,6 +402,51 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/* Button shine sweep (from nsoc.in) */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-shine::after {
+  content: "";
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  width: 45%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: -60%;
+  transform: skew(-20deg);
+  pointer-events: none;
+}
+
+.btn-shine:hover::after {
+  animation: 0.85s ease-out btn-shine-sweep;
+}
+
+@keyframes btn-shine-sweep {
+  0%   { left: -60%; }
+  100% { left: 140%; }
+}
+
+/* Ambient blob drift (from nsoc.in) */
+@keyframes blob-drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(35px, -25px) scale(1.08); }
+}
+
+.animate-blob-drift {
+  animation: 22s ease-in-out infinite blob-drift;
+}
+
+.animate-blob-drift-delay {
+  animation: 22s ease-in-out -8s infinite blob-drift;
+}
+
+.animate-blob-drift-slow {
+  animation: 26s ease-in-out -14s infinite blob-drift;
+}
+
 /* Marquee */
 @keyframes marquee {
   0%   { transform: translateX(0); }
@@ -412,7 +457,7 @@
   display: flex;
   width: max-content;
   will-change: transform;
-  animation: marquee 38s linear infinite;
+  animation: marquee 32s linear infinite;
 }
 
 .animate-marquee:hover { animation-play-state: paused; }
@@ -424,20 +469,19 @@
   background-color: var(--border-col);
 }
 
-/* Gradient text */
+/* Gradient text with flowing shine */
 .grad-text {
-  background: linear-gradient(90deg, var(--accent) 0%, var(--accent-teal) 50%, var(--accent) 100%);
-  background-size: 200% auto;
+  background: linear-gradient(90deg, #0ea5e9, #a9cfe8, #7dd3fc, #38bdf8, #0ea5e9);
+  background-size: 300% auto;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
-  animation: grad-sweep 6s linear infinite;
+  animation: gradmove 8s linear infinite;
 }
 
-@keyframes grad-sweep {
-  0%   { background-position: 0% center; }
-  100% { background-position: 200% center; }
+@keyframes gradmove {
+  to { background-position: 300% center; }
 }
 
 /* ============================================================

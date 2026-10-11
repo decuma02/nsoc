@@ -21,29 +21,35 @@ nsoc-website/
 ├── public/                     # Static media & artwork
 │   ├── winter-panda-1.png      # Transparent mascot with looping wave animation
 │   ├── winter-panda-2.png      # Alternate mascot asset
+│   ├── logo_dark.png           # Nexus brand mark (dark mode)
+│   ├── logo_light.png          # Nexus brand mark (light mode)
+│   ├── sponsers/               # Authentic sponsor and partner logo assets
 │   └── favicon.ico             # Brand favicon
 ├── src/
 │   ├── app/
 │   │   ├── globals.css         # Design tokens, @theme inline, card sheen & keyframes
-│   │   ├── layout.tsx          # Root layout, Google Fonts (Syne, Inter, JetBrains Mono)
+│   │   ├── layout.tsx          # Root layout with SnowParticles canvas & Google Fonts
 │   │   └── page.tsx            # Landing page assembling sections in exact Figma order
 │   ├── components/
 │   │   ├── brand-icons.tsx     # Brand marks & social vector icons
+│   │   ├── magnetic.tsx        # Magnetic cursor pull for buttons & CTAs
+│   │   ├── tilt-3d.tsx         # 3D perspective card tilt on hover
+│   │   ├── snow-particles.tsx  # Dynamic physics-based canvas snowfall simulation
 │   │   ├── footer.tsx          # Comprehensive footer with exact links & copyright
 │   │   ├── inquiry-modal.tsx   # Sponsor & Community partnership inquiry modal
-│   │   ├── navbar.tsx          # Sticky navigation, theme toggle, mobile drawer
+│   │   ├── navbar.tsx          # Sticky navigation, Ctrl+K theme toggle, mobile drawer
 │   │   ├── register-modal.tsx  # Track registration modal with role pre-selection
 │   │   ├── theme-provider.tsx  # next-themes dark/light provider
 │   │   └── sections/           # Individual editorial landing page sections
 │   │       ├── hero-section.tsx      # Split hero, stationary text, aurora parallax, stats
-│   │       ├── benefits-section.tsx  # 01 / About editorial split + 4 benefit cards
+│   │       ├── benefits-section.tsx  # 01 / About editorial split + 4 3D benefit cards
 │   │       ├── roles-section.tsx     # Participation roles (Contributor, Kernel, Ambassador)
 │   │       ├── quote-section.tsx     # Full-width program manifesto quote block
-│   │       ├── steps-section.tsx     # 02 / Contribution journey with progress line
-│   │       ├── rewards-section.tsx   # 03 / Prizes with crossfade tabs & Rank 1 glow
-│   │       ├── timeline-section.tsx  # 04 / Timeline with dynamic SVG line draw
-│   │       ├── sponsors-section.tsx  # 05 / Past sponsors grid with external links
-│   │       └── partners-section.tsx  # 06 / 15 grassroots community partner tiles
+│   │       ├── steps-section.tsx     # 02 / Contribution journey with circular nodes
+│   │       ├── rewards-section.tsx   # 03 / Prizes with animated pill, Rank 1 glow, 3D tilt
+│   │       ├── timeline-section.tsx  # 04 / Serpentine mathematical SVG curve with traveling orb
+│   │       ├── sponsors-section.tsx  # 05 / Past sponsors grid with official logos & external links
+│   │       └── partners-section.tsx  # 06 / Infinite marquee carousel + 15 partner tiles
 │   └── lib/
 │       └── utils.ts            # clsx and tailwind-merge helper
 ├── nexus_spring_of_code_content.md    # Authentic extracted copy & fact reference

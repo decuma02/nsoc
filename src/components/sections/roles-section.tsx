@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import { Terminal, GitBranch, Flag, ArrowUpRight } from "lucide-react";
+import { Tilt3D } from "@/components/tilt-3d";
 
 interface RolesSectionProps {
   onSelectRole: (role: string) => void;
@@ -107,69 +108,68 @@ export function RolesSection({ onSelectRole }: RolesSectionProps) {
           {roles.map((role) => {
             const Icon = role.icon;
             return (
-              <div
-                key={role.id}
-                className="role-card card p-8 sm:p-9 flex flex-col justify-between"
-              >
-                <div>
-                  {/* Role Identity Tag & Icon */}
-                  <div className="flex items-center justify-between mb-6">
-                    <span
-                      className="font-mono text-[11px] font-semibold tracking-wider"
-                      style={{ color: "var(--accent)" }}
-                    >
-                      {role.tag}
-                    </span>
-                    <div
-                      className="w-10 h-10 rounded-xl flex items-center justify-center border"
-                      style={{
-                        backgroundColor: "var(--navy)",
-                        borderColor: "var(--border-col)",
-                        color: "var(--accent)",
-                      }}
-                    >
-                      <Icon className="w-4 h-4" />
+              <Tilt3D key={role.id} maxTilt={6}>
+                <div
+                  className="role-card card p-8 sm:p-9 flex flex-col justify-between h-full"
+                >
+                  <div>
+                    {/* Role Identity Tag & Icon */}
+                    <div className="flex items-center justify-between mb-6">
+                      <div className="inline-flex items-center gap-2 font-mono text-[10px] tracking-[1.5px] uppercase px-3 py-1 rounded-full border border-sky-400/30 bg-sky-400/10 text-sky-400">
+                        <span className="size-1.5 rounded-full bg-sky-400" />
+                        {role.tag}
+                      </div>
+                      <div
+                        className="w-10 h-10 rounded-xl flex items-center justify-center border"
+                        style={{
+                          backgroundColor: "var(--navy)",
+                          borderColor: "var(--border-col)",
+                          color: "var(--accent)",
+                        }}
+                      >
+                        <Icon className="w-4 h-4" />
+                      </div>
                     </div>
+
+                    {/* Title */}
+                    <h3
+                      className="font-syne font-bold text-3xl mb-6"
+                      style={{ color: "var(--fg)" }}
+                    >
+                      {role.title}
+                    </h3>
+
+                    {/* Responsibilities list with arrow bullet */}
+                    <ul className="space-y-4 mb-8">
+                      {role.responsibilities.map((resp, i) => (
+                        <li key={i} className="flex items-start gap-3">
+                          <span
+                            className="font-syne text-sm font-semibold select-none pt-0.5 shrink-0"
+                            style={{ color: "var(--accent)" }}
+                          >
+                            ↗
+                          </span>
+                          <span
+                            className="font-inter text-[15px] leading-relaxed"
+                            style={{ color: "var(--muted-fg)" }}
+                          >
+                            {resp}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
 
-                  {/* Title */}
-                  <h3
-                    className="font-syne font-bold text-3xl mb-6"
-                    style={{ color: "var(--fg)" }}
+                  {/* Role CTA button with btn-shine */}
+                  <button
+                    onClick={() => onSelectRole(role.id)}
+                    className="w-full btn-secondary btn-shine py-3.5 text-sm font-semibold mt-4 cursor-pointer"
                   >
-                    {role.title}
-                  </h3>
-
-                  {/* Responsibilities list with arrow bullet */}
-                  <ul className="space-y-4 mb-8">
-                    {role.responsibilities.map((resp, i) => (
-                      <li key={i} className="flex items-start gap-3">
-                        <span
-                          className="font-syne text-sm font-semibold select-none pt-0.5 shrink-0"
-                          style={{ color: "var(--accent)" }}
-                        >
-                          ↗
-                        </span>
-                        <span
-                          className="font-inter text-[15px] leading-relaxed"
-                          style={{ color: "var(--muted-fg)" }}
-                        >
-                          {resp}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
+                    <span>{role.cta}</span>
+                    <ArrowUpRight className="w-4 h-4" style={{ color: "var(--accent)" }} />
+                  </button>
                 </div>
-
-                {/* Role CTA button */}
-                <button
-                  onClick={() => onSelectRole(role.id)}
-                  className="w-full btn-secondary py-3.5 text-sm font-semibold mt-4"
-                >
-                  <span>{role.cta}</span>
-                  <ArrowUpRight className="w-4 h-4" style={{ color: "var(--accent)" }} />
-                </button>
-              </div>
+              </Tilt3D>
             );
           })}
         </div>

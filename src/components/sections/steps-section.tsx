@@ -123,59 +123,47 @@ export function StepsSection({ onOpenRegister }: StepsSectionProps) {
 
         {/* Contribution Journey Container */}
         <div className="relative">
-          {/* Connecting Progress Line (Desktop Horizontal) */}
+          {/* Horizontal connector line on desktop */}
           <div
             aria-hidden="true"
-            className="hidden lg:block absolute top-[28px] left-0 right-0 h-[2px] bg-border overflow-hidden"
+            className="hidden lg:block absolute top-[22px] left-[6%] right-[6%] h-px dark:bg-white/10 bg-[#b9d7ec] overflow-hidden"
           >
             <div
               ref={lineProgressRef}
-              className="h-full w-full origin-left scale-x-0"
-              style={{
-                background: "linear-gradient(90deg, var(--accent) 0%, var(--accent-teal) 70%, var(--accent) 100%)",
-                boxShadow: "0 0 8px var(--accent)",
-              }}
+              className="h-full w-full origin-left scale-x-0 bg-gradient-to-r from-emerald-400 via-sky-400 to-violet-400 shadow-[0_0_8px_rgba(56,189,248,0.6)]"
             />
           </div>
 
           {/* 4 Steps Row / Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6 relative z-10">
-            {steps.map((step, idx) => (
+            {steps.map((step) => (
               <div
                 key={step.number}
-                className="step-item pt-6 flex flex-col justify-between group relative"
+                className="step-item p-4 sm:p-5 rounded-2xl transition-all duration-300 hover:-translate-y-1 group relative"
               >
-                {/* Milestone Node on Desktop */}
+                {/* Circular Milestone Node from nsoc.in */}
                 <div
-                  aria-hidden="true"
-                  className="hidden lg:block absolute -top-[5px] left-0 w-3 h-3 rounded-full border-2 transition-transform duration-300 group-hover:scale-125"
-                  style={{
-                    backgroundColor: "var(--bg)",
-                    borderColor: "var(--accent)",
-                    boxShadow: "0 0 6px var(--accent)",
-                  }}
-                />
-
-                <div className="step-body">
-                  {/* Step Number in JetBrains Mono 48px */}
-                  <div
-                    className="step-number font-mono text-4xl sm:text-5xl mb-4 transition-transform duration-200 group-hover:-translate-y-1"
-                    style={{ color: "var(--accent)" }}
+                  className="w-11 h-11 rounded-full dark:border-white/10 dark:bg-[#050a14] border-[#b9d7ec] bg-[#dcecf8] flex items-center justify-center mb-5 relative z-10 border shadow-sm group-hover:scale-110 group-hover:border-sky-400 transition-all duration-300"
+                >
+                  <span
+                    className="font-mono text-xs sm:text-sm font-bold text-sky-400"
                   >
                     {step.number}
-                  </div>
+                  </span>
+                </div>
 
-                  {/* Step Title in Syne 700 28px */}
+                <div className="step-body">
+                  {/* Step Title in Syne 700 24px */}
                   <h3
-                    className="font-syne font-bold text-2xl sm:text-[28px] mb-3 leading-snug"
+                    className="font-syne font-bold text-xl sm:text-2xl mb-2.5 leading-snug group-hover:text-sky-400 transition-colors"
                     style={{ color: "var(--fg)" }}
                   >
                     {step.title}
                   </h3>
 
-                  {/* Step Description in Inter 400 16px */}
+                  {/* Step Description in Inter 400 15px */}
                   <p
-                    className="font-inter text-[15px] sm:text-base leading-relaxed"
+                    className="font-inter text-sm sm:text-base leading-relaxed"
                     style={{ color: "var(--muted-fg)" }}
                   >
                     {step.description}
