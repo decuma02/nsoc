@@ -68,40 +68,40 @@ export function Footer() {
           {/* Links Columns */}
           <div className="md:col-span-7 flex flex-wrap gap-16 lg:gap-24 md:justify-end">
             <div>
-              <div className="font-mono text-xs uppercase tracking-widest text-cyan-accent mb-4">
+              <div className="font-mono text-xs uppercase tracking-widest text-[#7dd3fc] mb-4">
                 Navigation
               </div>
               <ul className="space-y-3 font-inter text-sm text-[#a9bcd0]">
                 <li>
-                  <a href="#overview" className="hover:text-[#f1f7fc] transition-colors">
-                    Overview
+                  <Link href="/" className="hover:text-[#f1f7fc] transition-colors">
+                    Home
+                  </Link>
+                </li>
+                <li>
+                  <a
+                    href="https://nsoc.in/leaderboard"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-[#f1f7fc] transition-colors"
+                  >
+                    Leaderboard
                   </a>
                 </li>
                 <li>
-                  <a href="#about" className="hover:text-[#f1f7fc] transition-colors">
-                    About
-                  </a>
-                </li>
-                <li>
-                  <a href="#contribution" className="hover:text-[#f1f7fc] transition-colors">
-                    Contribution
-                  </a>
-                </li>
-                <li>
-                  <a href="#rewards" className="hover:text-[#f1f7fc] transition-colors">
-                    Rewards
-                  </a>
-                </li>
-                <li>
-                  <a href="#timeline" className="hover:text-[#f1f7fc] transition-colors">
-                    Timeline
+                  <a
+                    href="https://nsoc.in/projects"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-[#f1f7fc] transition-colors"
+                  >
+                    Projects
                   </a>
                 </li>
               </ul>
             </div>
 
             <div>
-              <div className="font-mono text-xs uppercase tracking-widest text-cyan-accent mb-4">
+              <div className="font-mono text-xs uppercase tracking-widest text-[#7dd3fc] mb-4">
                 Organization
               </div>
               <ul className="space-y-3 font-inter text-sm text-[#a9bcd0]">
@@ -111,8 +111,13 @@ export function Footer() {
                   </a>
                 </li>
                 <li>
-                  <a href="#community" className="hover:text-[#f1f7fc] transition-colors">
-                    Community
+                  <a
+                    href="https://nsoc.in/team"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-[#f1f7fc] transition-colors"
+                  >
+                    Team
                   </a>
                 </li>
                 <li>

@@ -93,7 +93,7 @@ export function PartnersSection({ onPartnerModalOpen }: PartnersSectionProps) {
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 mt-14 sm:mt-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {partners.map((partner) => (
-            <Tilt3D key={partner.id} maxTilt={5}>
+            <Tilt3D key={partner.id} maxTilt={12}>
               <a
                 href={partner.link}
                 target="_blank"

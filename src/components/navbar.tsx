@@ -45,7 +45,6 @@ export function Navbar({ onOpenRegister }: NavbarProps) {
     { label: "Home", href: "/" },
     { label: "Projects", href: "https://nsoc.in/projects", external: true },
     { label: "Leaderboard", href: "https://nsoc.in/leaderboard", external: true },
-    { label: "Sponsors", href: "#sponsors" },
     { label: "Team", href: "https://nsoc.in/team", external: true },
   ];
 
@@ -53,8 +52,8 @@ export function Navbar({ onOpenRegister }: NavbarProps) {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${
         isScrolled
-          ? "h-20 bg-[var(--bg)]/90 backdrop-blur-md border-[var(--border-col)] shadow-sm"
-          : "h-22 bg-[var(--bg)]/80 backdrop-blur-sm border-[var(--border-col)]/60"
+          ? "h-16 sm:h-20 bg-[var(--bg)]/92 backdrop-blur-md border-[var(--border-col)] shadow-sm"
+          : "h-18 sm:h-20 bg-[var(--bg)]/85 backdrop-blur-sm border-[var(--border-col)]/60"
       }`}
     >
       <div className="max-w-[1280px] mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
@@ -198,7 +197,7 @@ export function Navbar({ onOpenRegister }: NavbarProps) {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-x-0 top-20 bg-card/98 border-b border-border p-6 shadow-2xl animate-in slide-in-from-top-4 duration-200 backdrop-blur-xl">
+        <div className="lg:hidden fixed inset-x-0 top-16 sm:top-20 bg-card/98 border-b border-border p-6 shadow-2xl animate-in slide-in-from-top-4 duration-200 backdrop-blur-xl">
           <nav className="flex flex-col gap-3 mb-6">
             {navLinks.map((link) => (
               <a

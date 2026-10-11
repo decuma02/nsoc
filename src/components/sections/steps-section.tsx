@@ -134,7 +134,7 @@ export function StepsSection({ onOpenRegister }: StepsSectionProps) {
           {/* 4 Steps Row / Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 relative z-10">
             {steps.map((step) => (
-              <Tilt3D key={step.number} maxTilt={7}>
+              <Tilt3D key={step.number} maxTilt={12}>
                 <div
                   className="step-item card p-6 sm:p-7 rounded-3xl transition-all duration-300 group relative h-full flex flex-col justify-between"
                 >

@@ -270,7 +270,7 @@ export function HeroSection({ onOpenRegister }: HeroSectionProps) {
             {/* Headline — Syne Extrabold with tight tracking */}
             <h1
               className="font-syne font-extrabold leading-[0.98] tracking-tight mb-4 text-foreground"
-              style={{ fontSize: "clamp(2.75rem, 6.8vw, 5.75rem)" }}
+              style={{ fontSize: "clamp(2.25rem, 6.2vw, 5.75rem)" }}
             >
               Nexus<br />
               Spring of<br />
@@ -384,20 +384,6 @@ export function HeroSection({ onOpenRegister }: HeroSectionProps) {
                   />
                 </div>
               </div>
-
-              {/* Mascot Caption Tag */}
-              <div
-                className="absolute bottom-2 left-2 right-2 flex justify-between px-3.5 py-1.5 rounded-lg bg-card/75 backdrop-blur-md border border-border text-[11px] font-mono"
-                style={{ zIndex: 20 }}
-              >
-                <span className="font-semibold text-foreground flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse" />
-                  NSoC ’26
-                </span>
-                <span className="text-[var(--accent)] uppercase tracking-wider font-medium">
-                  WINTER MASCOT (CLICK ME)
-                </span>
-              </div>
             </div>
           </div>
         </div>
@@ -405,40 +391,40 @@ export function HeroSection({ onOpenRegister }: HeroSectionProps) {
         {/* ── Program Statistics Bar ── */}
         <div
           ref={statsBarRef}
-          className="grid grid-cols-3 gap-4 sm:gap-8 pt-8 sm:pt-12 mt-10 border-t border-[var(--border-col)]"
+          className="grid grid-cols-3 gap-3 sm:gap-8 pt-8 sm:pt-12 mt-8 sm:mt-10 border-t border-[var(--border-col)]"
         >
-          <div className="flex flex-col items-center sm:items-start">
+          <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
             <span
               className="font-syne font-extrabold leading-none tracking-tight text-foreground"
-              style={{ fontSize: "clamp(2.5rem, 4.5vw, 4rem)" }}
+              style={{ fontSize: "clamp(1.75rem, 4.5vw, 3.75rem)" }}
             >
               {statSprint}
             </span>
-            <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground mt-2">
+            <span className="font-mono text-[10px] sm:text-xs uppercase tracking-widest text-muted-foreground mt-2">
               Day Sprint
             </span>
           </div>
 
-          <div className="flex flex-col items-center sm:items-start">
+          <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
             <span
               className="font-syne font-extrabold leading-none tracking-tight text-foreground"
-              style={{ fontSize: "clamp(2.5rem, 4.5vw, 4rem)" }}
+              style={{ fontSize: "clamp(1.75rem, 4.5vw, 3.75rem)" }}
             >
               {statParticipants}
             </span>
-            <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground mt-2">
+            <span className="font-mono text-[10px] sm:text-xs uppercase tracking-widest text-muted-foreground mt-2">
               Participants
             </span>
           </div>
 
-          <div className="flex flex-col items-center sm:items-start">
+          <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
             <span
               className="font-syne font-extrabold leading-none tracking-tight text-foreground"
-              style={{ fontSize: "clamp(2.5rem, 4.5vw, 4rem)" }}
+              style={{ fontSize: "clamp(1.75rem, 4.5vw, 3.75rem)" }}
             >
               {statProjects}
             </span>
-            <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground mt-2">
+            <span className="font-mono text-[10px] sm:text-xs uppercase tracking-widest text-muted-foreground mt-2">
               Real Projects
             </span>
           </div>

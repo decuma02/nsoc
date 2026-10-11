@@ -3,6 +3,7 @@
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import { ArrowUpRight, Mail, ExternalLink } from "lucide-react";
+import { Tilt3D } from "@/components/tilt-3d";
 
 interface SponsorsSectionProps {
   onSponsorModalOpen: () => void;
@@ -119,25 +120,18 @@ export function SponsorsSection({ onSponsorModalOpen }: SponsorsSectionProps) {
             </button>
           </div>
 
-          {/* 3 Sponsor Cards Grid — STATIC, no tilt movement on desktop */}
+          {/* 3 Sponsor Cards Grid with 3D Tilt */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
             {sponsors.map((s) => (
-              <div
-                key={s.name}
-                className="sponsor-card group rounded-3xl p-7 sm:p-8 flex flex-col justify-between min-h-[380px] h-full relative overflow-hidden"
-                style={{
-                  border: `1px solid ${s.borderColor}`,
-                  boxShadow: s.glowColor,
-                  background: `linear-gradient(145deg, ${s.bgAccent} 0%, var(--card-bg) 55%)`,
-                  transition: "transform 300ms ease, box-shadow 300ms ease",
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLDivElement).style.transform = "translateY(-4px)";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLDivElement).style.transform = "";
-                }}
-              >
+              <Tilt3D key={s.name} maxTilt={10}>
+                <div
+                  className="sponsor-card group rounded-3xl p-7 sm:p-8 flex flex-col justify-between min-h-[380px] h-full relative overflow-hidden"
+                  style={{
+                    border: `1px solid ${s.borderColor}`,
+                    boxShadow: s.glowColor,
+                    background: `linear-gradient(145deg, ${s.bgAccent} 0%, var(--card-bg) 55%)`,
+                  }}
+                >
                 {/* Diagonal sheen sweep on hover */}
                 <span
                   aria-hidden="true"
@@ -205,7 +199,8 @@ export function SponsorsSection({ onSponsorModalOpen }: SponsorsSectionProps) {
                   </a>
                 </div>
               </div>
-            ))}
+            </Tilt3D>
+          ))}
           </div>
         </div>
       </div>

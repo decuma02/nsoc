@@ -248,7 +248,7 @@ export function TimelineSection() {
             return (
               <Tilt3D
                 key={milestone.step}
-                maxTilt={6}
+                maxTilt={12}
                 scale={1.02}
                 enableCelebrationClick={true}
               >

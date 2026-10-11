@@ -14,7 +14,6 @@ import { PartnersSection } from "@/components/sections/partners-section";
 import { Footer } from "@/components/footer";
 import { RegisterModal } from "@/components/register-modal";
 import { InquiryModal } from "@/components/inquiry-modal";
-import { MascotBuddy } from "@/components/mascot-buddy";
 
 export default function HomePage() {
   const [registerOpen, setRegisterOpen] = useState(false);
@@ -73,9 +72,6 @@ export default function HomePage() {
         type={inquiryType || "sponsor"}
         onClose={() => setInquiryType(null)}
       />
-
-      {/* Floating Interactive Winter Panda Mascot Buddy */}
-      <MascotBuddy onOpenRegister={() => handleOpenRegister("Contributor")} />
     </div>
   );
 }
