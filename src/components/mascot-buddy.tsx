@@ -83,11 +83,9 @@ export function MascotBuddy({ onOpenRegister }: MascotBuddyProps) {
             setIsOpen((prev) => !prev);
             setMsgIdx((prev) => (prev + 1) % BUDDY_MESSAGES.length);
           }}
-          className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-2xl border border-sky-400/40 bg-card/85 backdrop-blur-md shadow-xl shadow-sky-500/20 hover:scale-108 transition-all duration-300 flex items-center justify-center cursor-pointer group"
+          className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-2xl border border-sky-400/30 dark:bg-[#07101f]/90 bg-white/90 backdrop-blur-md shadow-xl shadow-sky-500/15 hover:scale-110 transition-all duration-300 flex items-center justify-center cursor-pointer group overflow-hidden"
           title="Click to chat with the Winter Panda!"
         >
-          {/* Subtle breathing glow */}
-          <span className="absolute inset-0 rounded-2xl bg-sky-400/15 animate-ping opacity-75 pointer-events-none" />
 
           <div className="relative w-12 h-12 flex items-center justify-center">
             <Image

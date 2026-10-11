@@ -95,6 +95,12 @@
     transition: background-color 0.25s ease, color 0.25s ease;
   }
 
+  /* Light mode subtle texture to prevent all-white flatness */
+  html:not(.dark) body {
+    background-image: radial-gradient(ellipse at 20% 10%, rgba(14,165,233,0.06) 0%, transparent 60%),
+                      radial-gradient(ellipse at 80% 90%, rgba(13,148,136,0.05) 0%, transparent 60%);
+  }
+
   /* Do NOT force Syne on all h1-h6 globally to prevent awkward typography */
   h1, h2, h3, h4, h5, h6 {
     font-size: inherit;
@@ -240,6 +246,21 @@
 .figma-card:hover {
   border-color: var(--accent);
   box-shadow: var(--shadow-lift);
+}
+
+/* Light mode card surface depth and contrast */
+html:not(.dark) .card,
+html:not(.dark) .figma-card {
+  background: linear-gradient(180deg, #ffffff 0%, #f4f9fd 100%);
+  border-color: #b9d7ec;
+  box-shadow: 0 4px 16px -2px rgba(14, 165, 233, 0.08), 0 2px 6px rgba(13, 35, 56, 0.04);
+}
+
+html:not(.dark) .card:hover,
+html:not(.dark) .figma-card:hover {
+  background: linear-gradient(180deg, #ffffff 0%, #edf6fd 100%);
+  border-color: #0ea5e9;
+  box-shadow: 0 14px 34px -8px rgba(14, 165, 233, 0.22), 0 4px 12px rgba(13, 35, 56, 0.06);
 }
 
 /* Card content always stays above sheen & spotlight */
@@ -451,6 +472,47 @@
 @keyframes gradmove {
   to { background-position: 300% center; }
 }
+
+/* Tab crossfade animation (rewards section) */
+@keyframes tab-fade-in {
+  0%   { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.animate-tab-fade-in {
+  animation: tab-fade-in 180ms ease-out both;
+}
+
+/* Snow particles for hero */
+@keyframes snow-drift {
+  0%   { opacity: 0; transform: translateY(0)  translateX(0); }
+  20%  { opacity: 0.6; }
+  80%  { opacity: 0.4; }
+  100% { opacity: 0; transform: translateY(60px) translateX(12px); }
+}
+
+@keyframes snow-drift-2 {
+  0%   { opacity: 0; transform: translateY(0)  translateX(0); }
+  20%  { opacity: 0.5; }
+  80%  { opacity: 0.3; }
+  100% { opacity: 0; transform: translateY(50px) translateX(-10px); }
+}
+
+/* Blob animations (rewards section) */
+@keyframes blob-drift {
+  0%, 100% { transform: translate(0,0) scale(1); }
+  33%       { transform: translate(20px,-15px) scale(1.06); }
+  66%       { transform: translate(-15px,10px) scale(0.97); }
+}
+
+@keyframes blob-drift-delay {
+  0%, 100% { transform: translate(0,0) scale(1); }
+  33%       { transform: translate(-18px,12px) scale(1.04); }
+  66%       { transform: translate(14px,-8px) scale(0.98); }
+}
+
+.animate-blob-drift       { animation: blob-drift       14s ease-in-out infinite; }
+.animate-blob-drift-delay { animation: blob-drift-delay 16s ease-in-out infinite; }
 
 /* ============================================================
    Reduced Motion

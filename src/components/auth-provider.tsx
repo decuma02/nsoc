@@ -40,8 +40,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     (process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
   );
-
   useEffect(() => {
+    // Clean up OAuth error query parameters or hash from URL (e.g. user cancelled GitHub/Google OAuth)
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      if (url.searchParams.has("error") || window.location.hash.includes("error=")) {
+        window.history.replaceState(null, "", window.location.pathname);
+      }
+    }
+
     const client = getSupabaseClient();
     if (!client) {
       // Supabase not configured — skip auth, mark loading done

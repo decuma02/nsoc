@@ -6,6 +6,12 @@ import { Tilt3D } from "@/components/tilt-3d";
 
 export function RewardsSection() {
   const [activeTab, setActiveTab] = useState<"Contributors" | "Project Admins">("Contributors");
+  const [animKey, setAnimKey] = useState(0);
+
+  const switchTab = (tab: "Contributors" | "Project Admins") => {
+    setActiveTab(tab);
+    setAnimKey((k) => k + 1);
+  };
 
   const contributorTiers = [
     {
@@ -172,23 +178,30 @@ export function RewardsSection() {
             Climb the leaderboard and unlock swag, certificates and recognition. Pick a role to see what each rank takes home.
           </p>
 
-          {/* Tab Controls with animated pill from nsoc.in */}
+          {/* Tab Controls with animated sliding pill like nsoc.in */}
           <div className="relative mt-8 inline-flex rounded-full border p-1 dark:border-white/10 dark:bg-white/[0.04] border-[#b9d7ec] bg-white/70 backdrop-blur-sm">
+            {/* Sliding pill background */}
+            <span
+              className="absolute top-1 bottom-1 w-[calc(50%-2px)] rounded-full transition-transform duration-200 ease-in-out bg-sky-500 dark:bg-sky-400 shadow-md shadow-sky-500/30"
+              style={{
+                transform: activeTab === "Contributors" ? "translateX(0)" : "translateX(calc(100% + 4px))",
+              }}
+            />
             <button
-              onClick={() => setActiveTab("Contributors")}
-              className={`relative z-10 rounded-full px-5 sm:px-7 py-2.5 font-mono text-xs sm:text-sm font-semibold uppercase tracking-wider transition-colors duration-300 cursor-pointer ${
+              onClick={() => switchTab("Contributors")}
+              className={`relative z-10 rounded-full px-5 sm:px-7 py-2.5 font-mono text-xs sm:text-sm font-semibold uppercase tracking-wider transition-colors duration-200 cursor-pointer ${
                 activeTab === "Contributors"
-                  ? "bg-sky-500 text-white shadow-md shadow-sky-500/30 dark:bg-sky-400 dark:text-black"
+                  ? "text-white dark:text-black"
                   : "text-muted-foreground hover:text-foreground"
               }`}
             >
               Contributors
             </button>
             <button
-              onClick={() => setActiveTab("Project Admins")}
-              className={`relative z-10 rounded-full px-5 sm:px-7 py-2.5 font-mono text-xs sm:text-sm font-semibold uppercase tracking-wider transition-colors duration-300 cursor-pointer ${
+              onClick={() => switchTab("Project Admins")}
+              className={`relative z-10 rounded-full px-5 sm:px-7 py-2.5 font-mono text-xs sm:text-sm font-semibold uppercase tracking-wider transition-colors duration-200 cursor-pointer ${
                 activeTab === "Project Admins"
-                  ? "bg-sky-500 text-white shadow-md shadow-sky-500/30 dark:bg-sky-400 dark:text-black"
+                  ? "text-white dark:text-black"
                   : "text-muted-foreground hover:text-foreground"
               }`}
             >
@@ -197,24 +210,29 @@ export function RewardsSection() {
           </div>
         </div>
 
-        {/* Reward Tiers Grid */}
+        {/* Reward Tiers Grid — fades in on tab switch */}
         <div
-          key={activeTab}
-          className={`grid grid-cols-1 sm:grid-cols-2 gap-6 mb-20 ${
+          key={animKey}
+          className={`grid grid-cols-1 sm:grid-cols-2 gap-6 mb-20 animate-tab-fade-in ${
             currentTiers.length === 4 ? "lg:grid-cols-4" : "lg:grid-cols-3"
           }`}
         >
           {currentTiers.map((tier) => {
             const TierIcon = tier.icon;
+            const tierStyles: Record<string, string> = {
+              "Rank 1": "border-amber-400/60 dark:border-amber-400/50 shadow-[0_4px_30px_rgba(251,191,36,0.14)]",
+              "Top 3": "border-sky-400/50 dark:border-sky-400/40 shadow-[0_4px_25px_rgba(56,189,248,0.1)]",
+              "Top 5": "border-teal-400/45 dark:border-teal-400/35 shadow-[0_4px_22px_rgba(45,212,191,0.08)]",
+              "Top 10": "border-indigo-400/45 dark:border-indigo-400/35 shadow-[0_4px_20px_rgba(129,140,248,0.08)]",
+            };
+            const tierStyle = tierStyles[tier.rank] || (tier.isTopPrize ? tierStyles["Rank 1"] : "border-sky-400/40 shadow-[0_4px_20px_rgba(56,189,248,0.08)]");
+
             return (
-              <Tilt3D key={tier.rank} maxTilt={6}>
+              <Tilt3D key={tier.rank} maxTilt={12}>
                 <div
-                  className={`rounded-2xl p-7 flex flex-col justify-between transition-all duration-300 card h-full relative overflow-hidden group ${
+                  className={`rounded-2xl p-7 flex flex-col justify-between transition-all duration-300 card h-full relative overflow-hidden group ${tierStyle} ${
                     tier.isTopPrize ? "card-rank1" : ""
                   }`}
-                  style={{
-                    borderColor: tier.isTopPrize ? "var(--accent)" : "var(--border-col)",
-                  }}
                 >
                   {/* Subtle watermark numeral in top right */}
                   <span
@@ -292,9 +310,9 @@ export function RewardsSection() {
             {universalRewards.map((reward) => {
               const Icon = reward.icon;
               return (
-                <Tilt3D key={reward.title} maxTilt={6}>
+                <Tilt3D key={reward.title} maxTilt={10}>
                   <div
-                    className="group relative overflow-hidden rounded-2xl border p-5 sm:p-6 transition-all duration-300 hover:-translate-y-1 dark:border-white/10 dark:bg-white/[0.02] border-[#b9d7ec] bg-white/70 backdrop-blur-sm hover:border-sky-400 hover:shadow-lg hover:shadow-sky-500/10 h-full"
+                    className="group relative overflow-hidden rounded-2xl border p-5 sm:p-6 transition-all duration-300 hover:-translate-y-1 dark:border-sky-400/25 dark:bg-white/[0.02] border-sky-400/30 bg-white/80 shadow-[0_4px_18px_rgba(56,189,248,0.06)] backdrop-blur-sm hover:border-sky-400 hover:shadow-lg hover:shadow-sky-500/15 h-full"
                   >
                     {/* Diagonal sheen sweep on hover */}
                     <span

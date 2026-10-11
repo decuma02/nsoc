@@ -104,17 +104,42 @@ export function RolesSection({ onSelectRole }: RolesSectionProps) {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
           {roles.map((role) => {
             const Icon = role.icon;
+            const styleMap: Record<string, { border: string; glow: string; tagBorder: string; tagBg: string; tagColor: string }> = {
+              Contributor: {
+                border: "border-sky-500/40 dark:border-sky-400/35",
+                glow: "shadow-[0_4px_25px_rgba(56,189,248,0.1)]",
+                tagBorder: "border-sky-400/40",
+                tagBg: "bg-sky-400/10",
+                tagColor: "text-sky-400",
+              },
+              "Project Kernel": {
+                border: "border-teal-500/40 dark:border-teal-400/35",
+                glow: "shadow-[0_4px_25px_rgba(45,212,191,0.1)]",
+                tagBorder: "border-teal-400/40",
+                tagBg: "bg-teal-400/10",
+                tagColor: "text-teal-400",
+              },
+              "Campus Ambassador": {
+                border: "border-purple-500/40 dark:border-purple-400/35",
+                glow: "shadow-[0_4px_25px_rgba(168,85,247,0.1)]",
+                tagBorder: "border-purple-400/40",
+                tagBg: "bg-purple-400/10",
+                tagColor: "text-purple-400",
+              },
+            };
+            const roleStyle = styleMap[role.id] || styleMap["Contributor"];
+
             return (
-              <Tilt3D key={role.id} maxTilt={6}>
-                <div className="role-card card p-8 sm:p-9 flex flex-col justify-between h-full group">
+              <Tilt3D key={role.id} maxTilt={12}>
+                <div className={`role-card card p-8 sm:p-9 flex flex-col justify-between h-full group ${roleStyle.border} ${roleStyle.glow}`}>
                   <span className="card-sheen" />
                   <span className="card-spotlight" />
 
                   <div>
                     {/* Role Identity Tag & Icon */}
                     <div className="flex items-center justify-between mb-6">
-                      <div className="inline-flex items-center gap-2 font-mono text-[10px] tracking-[1.5px] uppercase px-3 py-1 rounded-full border border-sky-400/30 bg-sky-400/10 text-sky-400">
-                        <span className="size-1.5 rounded-full bg-sky-400" />
+                      <div className={`inline-flex items-center gap-2 font-mono text-[10px] tracking-[1.5px] uppercase px-3 py-1 rounded-full border ${roleStyle.tagBorder} ${roleStyle.tagBg} ${roleStyle.tagColor}`}>
+                        <span className="size-1.5 rounded-full bg-current" />
                         {role.tag}
                       </div>
                       <div

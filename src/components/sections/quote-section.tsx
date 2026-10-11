@@ -31,10 +31,10 @@ export function QuoteSection() {
               “
             </div>
             <p
-              className="font-syne font-extrabold tracking-tight max-w-4xl text-foreground"
+              className="font-inter font-semibold tracking-tight max-w-4xl text-foreground"
               style={{
-                fontSize: "clamp(1.5rem, 3.5vw, 3rem)",
-                lineHeight: 1.15,
+                fontSize: "clamp(1rem, 1.9vw, 1.6rem)",
+                lineHeight: 1.6,
               }}
             >
               No toy projects. No filler tasks. Just 45 days of work that lands in production — and a community that levels up together.”

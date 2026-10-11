@@ -42,14 +42,11 @@ export function Navbar({ onOpenRegister }: NavbarProps) {
   }, [theme, setTheme]);
 
   const navLinks = [
-    { label: "Overview", href: "#overview" },
-    { label: "About", href: "#about" },
-    { label: "Journey", href: "#journey" },
-    { label: "Roles", href: "#roles" },
-    { label: "Rewards", href: "#rewards" },
-    { label: "Timeline", href: "#timeline" },
+    { label: "Home", href: "/" },
+    { label: "Projects", href: "https://nsoc.in/projects", external: true },
+    { label: "Leaderboard", href: "https://nsoc.in/leaderboard", external: true },
     { label: "Sponsors", href: "#sponsors" },
-    { label: "Community", href: "#community" },
+    { label: "Team", href: "https://nsoc.in/team", external: true },
   ];
 
   return (
@@ -95,7 +92,8 @@ export function Navbar({ onOpenRegister }: NavbarProps) {
             <a
               key={link.label}
               href={link.href}
-              className="nav-link py-1 font-mono text-xs xl:text-sm uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors"
+              {...(link.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+              className="nav-link py-1 font-inter text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
             >
               {link.label}
             </a>
@@ -206,6 +204,7 @@ export function Navbar({ onOpenRegister }: NavbarProps) {
               <a
                 key={link.label}
                 href={link.href}
+                {...(link.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                 onClick={() => setMobileMenuOpen(false)}
                 className="font-inter text-base font-medium text-foreground hover:text-[#7dd3fc] py-1"
               >

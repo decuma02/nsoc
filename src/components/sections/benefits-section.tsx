@@ -118,30 +118,38 @@ export function BenefitsSection() {
 
         {/* ── 2×2 Benefits cards with 3D perspective tilt & spotlight & sheen ── */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8">
-          {pillars.map((p, i) => (
-            <Tilt3D key={p.title} maxTilt={6}>
-              <div
-                className="card p-8 lg:p-10 flex flex-col justify-center gap-3 min-h-[220px] h-full group"
-                data-reveal
-                data-reveal-delay={0.06 * i}
-              >
-                <span className="card-sheen" />
-                <span className="card-spotlight" />
+          {pillars.map((p, i) => {
+            const cardAccents = [
+              "border-sky-500/40 dark:border-sky-400/30 shadow-[0_4px_22px_rgba(56,189,248,0.08)]",
+              "border-teal-500/40 dark:border-teal-400/30 shadow-[0_4px_22px_rgba(45,212,191,0.08)]",
+              "border-indigo-500/40 dark:border-indigo-400/30 shadow-[0_4px_22px_rgba(99,102,241,0.08)]",
+              "border-emerald-500/40 dark:border-emerald-400/30 shadow-[0_4px_22px_rgba(16,185,129,0.08)]",
+            ];
+            return (
+              <Tilt3D key={p.title} maxTilt={10}>
+                <div
+                  className={`card p-8 lg:p-10 flex flex-col justify-center gap-3 min-h-[220px] h-full group ${cardAccents[i % cardAccents.length]}`}
+                  data-reveal
+                  data-reveal-delay={0.06 * i}
+                >
+                  <span className="card-sheen" />
+                  <span className="card-spotlight" />
 
-                <div className="flex items-center justify-between">
-                  <h3 className="font-syne font-bold text-2xl text-foreground">
-                    {p.title}
-                  </h3>
-                  <span className="font-mono text-xs text-muted-foreground/50 font-semibold">
-                    0{i + 1}
-                  </span>
+                  <div className="flex items-center justify-between">
+                    <h3 className="font-syne font-bold text-2xl text-foreground">
+                      {p.title}
+                    </h3>
+                    <span className="font-mono text-xs text-muted-foreground/60 font-semibold">
+                      0{i + 1}
+                    </span>
+                  </div>
+                  <p className="font-inter leading-relaxed text-base text-muted-foreground">
+                    {p.description}
+                  </p>
                 </div>
-                <p className="font-inter leading-relaxed text-base text-muted-foreground">
-                  {p.description}
-                </p>
-              </div>
-            </Tilt3D>
-          ))}
+              </Tilt3D>
+            );
+          })}
         </div>
 
       </div>
