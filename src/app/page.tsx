@@ -18,17 +18,19 @@ import { InquiryModal } from "@/components/inquiry-modal";
 export default function HomePage() {
   const [registerOpen, setRegisterOpen] = useState(false);
   const [selectedRole, setSelectedRole] = useState("Contributor");
+  const [authMode, setAuthMode] = useState<"login" | "signup">("signup");
   const [inquiryType, setInquiryType] = useState<"sponsor" | "partner" | null>(null);
 
-  const handleOpenRegister = (role = "Contributor") => {
+  const handleOpenRegister = (role = "Contributor", mode: "login" | "signup" = "signup") => {
     setSelectedRole(role);
+    setAuthMode(mode);
     setRegisterOpen(true);
   };
 
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground">
       {/* 0. Navigation */}
-      <Navbar onOpenRegister={() => handleOpenRegister("Contributor")} />
+      <Navbar onOpenRegister={(role, mode) => handleOpenRegister(role || "Contributor", mode || "signup")} />
 
       <main className="flex-1">
         {/* 0. Hero and Program Stats */}
@@ -65,6 +67,7 @@ export default function HomePage() {
         isOpen={registerOpen}
         onClose={() => setRegisterOpen(false)}
         defaultRole={selectedRole}
+        initialMode={authMode}
       />
 
       <InquiryModal

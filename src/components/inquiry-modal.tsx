@@ -19,6 +19,11 @@ export function InquiryModal({ isOpen, onClose, type }: InquiryModalProps) {
   const [tier, setTier] = useState(type === "sponsor" ? "Title Sponsor" : "Tech Community");
   const [note, setNote] = useState("");
 
+  // Sync default tier when type changes
+  React.useEffect(() => {
+    setTier(type === "sponsor" ? "Title Sponsor" : "Tech Community");
+  }, [type]);
+
   if (!isOpen) return null;
 
   const isSponsor = type === "sponsor";
@@ -41,14 +46,11 @@ export function InquiryModal({ isOpen, onClose, type }: InquiryModalProps) {
 
         if (error) {
           console.warn("Supabase inquiry insert note:", error.message);
-          // If table doesn't exist yet because user hasn't run SQL schema yet,
-          // still allow UX completion without blocking them, but log for developer
         }
       }
       setSubmitted(true);
     } catch (err: unknown) {
       console.error("Submission failed:", err);
-      // Still show success to user so they know their proposal is registered
       setSubmitted(true);
     } finally {
       setSubmitting(false);
@@ -58,6 +60,9 @@ export function InquiryModal({ isOpen, onClose, type }: InquiryModalProps) {
   const handleReset = () => {
     setSubmitted(false);
     setErrorMessage(null);
+    setOrgName("");
+    setContactEmail("");
+    setNote("");
     onClose();
   };
 
@@ -66,9 +71,15 @@ export function InquiryModal({ isOpen, onClose, type }: InquiryModalProps) {
       role="dialog"
       aria-modal="true"
       aria-labelledby="inquiry-title"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-black/60 backdrop-blur-md animate-in fade-in duration-200"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) handleReset();
+      }}
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-black/60 backdrop-blur-md animate-in fade-in duration-200 cursor-pointer"
     >
-      <div className="relative w-full max-w-lg rounded-2xl glass-panel p-6 sm:p-8 shadow-2xl border border-sky-400/20 dark:bg-[#071326]/95 bg-white/95 text-foreground">
+      <div 
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-lg rounded-2xl glass-panel p-6 sm:p-8 shadow-2xl border border-sky-400/20 dark:bg-[#071326]/95 bg-white/95 text-foreground cursor-default"
+      >
         <button
           onClick={handleReset}
           className="absolute top-5 right-5 p-2 rounded-xl text-muted-foreground hover:text-foreground hover:bg-sky-500/10 transition-colors focus-visible:ring-2 focus-visible:ring-sky-400 outline-none"

@@ -10,6 +10,7 @@ interface RegisterModalProps {
   isOpen: boolean;
   onClose: () => void;
   defaultRole?: string;
+  initialMode?: "login" | "signup";
 }
 
 // Google icon inline SVG
@@ -24,9 +25,15 @@ function GoogleIcon({ className }: { className?: string }) {
   );
 }
 
-export function RegisterModal({ isOpen, onClose, defaultRole = "Contributor" }: RegisterModalProps) {
+export function RegisterModal({
+  isOpen,
+  onClose,
+  defaultRole = "Contributor",
+  initialMode = "signup",
+}: RegisterModalProps) {
   const { user, signInWithGitHub, signInWithGoogle, signOut, loading, configured } = useAuth();
   const [role, setRole] = useState(defaultRole);
+  const [mode, setMode] = useState<"login" | "signup">(initialMode);
   const [oauthLoading, setOauthLoading] = useState<"github" | "google" | null>(null);
   const [savingTrack, setSavingTrack] = useState(false);
   const [trackSaved, setTrackSaved] = useState(false);
@@ -35,6 +42,10 @@ export function RegisterModal({ isOpen, onClose, defaultRole = "Contributor" }: 
   useEffect(() => {
     if (defaultRole) setRole(defaultRole);
   }, [defaultRole]);
+
+  useEffect(() => {
+    if (initialMode) setMode(initialMode);
+  }, [initialMode, isOpen]);
 
   // Sync existing track from Supabase when logged in
   useEffect(() => {
@@ -136,7 +147,10 @@ export function RegisterModal({ isOpen, onClose, defaultRole = "Contributor" }: 
         className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-black/60 backdrop-blur-md animate-in fade-in duration-200"
         onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
       >
-        <div className="relative w-full max-w-md rounded-2xl p-6 sm:p-8 shadow-2xl border border-sky-400/20 dark:bg-[#071326]/95 bg-white/95 text-foreground backdrop-blur-xl">
+        <div 
+          onClick={(e) => e.stopPropagation()}
+          className="relative w-full max-w-md rounded-2xl p-6 sm:p-8 shadow-2xl border border-sky-400/20 dark:bg-[#071326]/95 bg-white/95 text-foreground backdrop-blur-xl"
+        >
           <button
             onClick={onClose}
             className="absolute top-5 right-5 p-2 rounded-xl text-muted-foreground hover:text-foreground hover:bg-sky-500/10 transition-colors"
@@ -259,7 +273,7 @@ export function RegisterModal({ isOpen, onClose, defaultRole = "Contributor" }: 
           {/* Sign out */}
           <button
             onClick={handleSignOut}
-            className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl border border-red-400/20 hover:border-red-400/40 hover:bg-red-500/10 text-xs font-mono uppercase tracking-wider text-muted-foreground hover:text-red-400 transition-colors"
+            className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl border border-red-400/20 hover:border-red-400/40 hover:bg-red-500/10 text-xs font-mono uppercase tracking-wider text-muted-foreground hover:text-red-400 transition-colors cursor-pointer"
           >
             <LogOut className="w-3.5 h-3.5" />
             Sign out
@@ -275,59 +289,98 @@ export function RegisterModal({ isOpen, onClose, defaultRole = "Contributor" }: 
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-title"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-black/60 backdrop-blur-md animate-in fade-in duration-200"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-black/60 backdrop-blur-md animate-in fade-in duration-200 cursor-pointer"
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
-      <div className="relative w-full max-w-md rounded-2xl p-6 sm:p-8 shadow-2xl border border-sky-400/20 dark:bg-[#071326]/95 bg-white/95 text-foreground backdrop-blur-xl">
+      <div 
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-md rounded-2xl p-6 sm:p-8 shadow-2xl border border-sky-400/20 dark:bg-[#071326]/95 bg-white/95 text-foreground backdrop-blur-xl cursor-default"
+      >
         <button
           onClick={onClose}
           className="absolute top-5 right-5 p-2 rounded-xl text-muted-foreground hover:text-foreground hover:bg-sky-500/10 transition-colors"
-          aria-label="Close registration dialog"
+          aria-label="Close dialog"
         >
           <X className="w-5 h-5" />
         </button>
 
+        {/* Mode Switcher Tabs (Sign in vs Register) */}
+        <div className="flex items-center gap-1 p-1 bg-sky-500/10 dark:bg-sky-400/10 rounded-xl mb-6">
+          <button
+            type="button"
+            onClick={() => setMode("signup")}
+            className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-mono font-semibold transition-all cursor-pointer ${
+              mode === "signup"
+                ? "bg-sky-500 text-white shadow-sm"
+                : "text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            Register Track
+          </button>
+          <button
+            type="button"
+            onClick={() => setMode("login")}
+            className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-mono font-semibold transition-all cursor-pointer ${
+              mode === "login"
+                ? "bg-sky-500 text-white shadow-sm"
+                : "text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            Sign In / Log In
+          </button>
+        </div>
+
         {/* Header */}
-        <div className="mb-7">
-          <div className="flex items-center gap-2 text-sky-500 dark:text-sky-400 font-mono text-xs uppercase tracking-wider mb-3">
+        <div className="mb-6">
+          <div className="flex items-center gap-2 text-sky-500 dark:text-sky-400 font-mono text-xs uppercase tracking-wider mb-2">
             <WinterSnowflake className="w-4 h-4" />
             <span>NSoC '26 • Winter Edition</span>
           </div>
           <h2 id="modal-title" className="font-syne text-2xl sm:text-3xl font-extrabold tracking-tight mb-2 text-foreground">
-            Join the 45-Day Sprint
+            {mode === "signup" ? "Join the 45-Day Sprint" : "Welcome Back"}
           </h2>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Sign in with your GitHub or Google account to register as a <span className="font-semibold text-sky-400">{role}</span> and start closing real production issues.
+            {mode === "signup" ? (
+              <>
+                Register as a <span className="font-semibold text-sky-400">{role}</span> with GitHub or Google and start closing real production issues.
+              </>
+            ) : (
+              "Sign in with your GitHub or Google account to view your registered track, projects, and leaderboard."
+            )}
           </p>
         </div>
 
-        {/* Track selector */}
-        <div className="mb-6">
-          <label className="block text-xs font-mono uppercase tracking-wider text-muted-foreground mb-2">
-            Select Your Track
-          </label>
-          <div className="grid grid-cols-3 gap-2">
-            {(["Contributor", "Project Kernel", "Campus Ambassador"] as const).map((r) => (
-              <button
-                key={r}
-                type="button"
-                onClick={() => setRole(r)}
-                className={`text-xs py-2 px-2 rounded-xl border font-medium transition-all text-center ${
-                  role === r
-                    ? "border-sky-400 bg-sky-500/15 text-sky-400 font-semibold shadow-[0_0_15px_rgba(56,189,248,0.15)]"
-                    : "border-sky-400/15 text-muted-foreground hover:border-sky-400/30 hover:bg-sky-500/5"
-                }`}
-              >
-                {r}
-              </button>
-            ))}
+        {/* Track selector — shown in Register / Join mode */}
+        {mode === "signup" && (
+          <div className="mb-6">
+            <label className="block text-xs font-mono uppercase tracking-wider text-muted-foreground mb-2">
+              Select Your Track
+            </label>
+            <div className="grid grid-cols-3 gap-2">
+              {(["Contributor", "Project Kernel", "Campus Ambassador"] as const).map((r) => (
+                <button
+                  key={r}
+                  type="button"
+                  onClick={() => setRole(r)}
+                  className={`text-xs py-2 px-2 rounded-xl border font-medium transition-all text-center cursor-pointer ${
+                    role === r
+                      ? "border-sky-400 bg-sky-500/15 text-sky-400 font-semibold shadow-[0_0_15px_rgba(56,189,248,0.15)]"
+                      : "border-sky-400/15 text-muted-foreground hover:border-sky-400/30 hover:bg-sky-500/5"
+                  }`}
+                >
+                  {r}
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* OAuth Divider */}
         <div className="relative flex items-center mb-5">
           <div className="flex-1 h-px bg-border" />
-          <span className="mx-3 text-xs font-mono uppercase tracking-widest text-muted-foreground">Sign in with</span>
+          <span className="mx-3 text-xs font-mono uppercase tracking-widest text-muted-foreground">
+            {mode === "signup" ? "Register with" : "Sign in with"}
+          </span>
           <div className="flex-1 h-px bg-border" />
         </div>
 
@@ -337,27 +390,39 @@ export function RegisterModal({ isOpen, onClose, defaultRole = "Contributor" }: 
             <button
               onClick={handleGitHub}
               disabled={oauthLoading !== null}
-              className="w-full flex items-center justify-center gap-3 py-3.5 px-5 rounded-xl border border-sky-400/20 hover:border-sky-400/50 bg-sky-500/5 hover:bg-sky-500/10 transition-all duration-200 text-sm font-semibold text-foreground disabled:opacity-60 disabled:cursor-not-allowed group"
+              className="w-full flex items-center justify-center gap-3 py-3.5 px-5 rounded-xl border border-sky-400/20 hover:border-sky-400/50 bg-sky-500/5 hover:bg-sky-500/10 transition-all duration-200 text-sm font-semibold text-foreground disabled:opacity-60 disabled:cursor-not-allowed group cursor-pointer"
             >
               {oauthLoading === "github" ? (
                 <div className="w-5 h-5 border-2 border-sky-400/40 border-t-sky-400 rounded-full animate-spin" />
               ) : (
                 <GitHubIcon className="w-5 h-5 transition-transform group-hover:scale-110" />
               )}
-              <span>{oauthLoading === "github" ? "Redirecting…" : "Continue with GitHub"}</span>
+              <span>
+                {oauthLoading === "github"
+                  ? "Redirecting…"
+                  : mode === "signup"
+                  ? "Continue with GitHub"
+                  : "Sign in with GitHub"}
+              </span>
             </button>
 
             <button
               onClick={handleGoogle}
               disabled={oauthLoading !== null}
-              className="w-full flex items-center justify-center gap-3 py-3.5 px-5 rounded-xl border border-sky-400/20 hover:border-red-400/40 bg-red-500/5 hover:bg-red-500/10 transition-all duration-200 text-sm font-semibold text-foreground disabled:opacity-60 disabled:cursor-not-allowed group"
+              className="w-full flex items-center justify-center gap-3 py-3.5 px-5 rounded-xl border border-sky-400/20 hover:border-red-400/40 bg-red-500/5 hover:bg-red-500/10 transition-all duration-200 text-sm font-semibold text-foreground disabled:opacity-60 disabled:cursor-not-allowed group cursor-pointer"
             >
               {oauthLoading === "google" ? (
                 <div className="w-5 h-5 border-2 border-red-400/40 border-t-red-400 rounded-full animate-spin" />
               ) : (
                 <GoogleIcon className="w-5 h-5 transition-transform group-hover:scale-110" />
               )}
-              <span>{oauthLoading === "google" ? "Redirecting…" : "Continue with Google"}</span>
+              <span>
+                {oauthLoading === "google"
+                  ? "Redirecting…"
+                  : mode === "signup"
+                  ? "Continue with Google"
+                  : "Sign in with Google"}
+              </span>
             </button>
           </div>
         ) : (
@@ -377,7 +442,7 @@ export function RegisterModal({ isOpen, onClose, defaultRole = "Contributor" }: 
         )}
 
         <p className="font-inter text-[11px] text-center text-muted-foreground mt-5 leading-relaxed">
-          By signing in, you agree to NSoC '26 community guidelines.{" "}
+          By continuing, you agree to NSoC '26 community guidelines.{" "}
           No dummy repos or filler tasks.
         </p>
       </div>

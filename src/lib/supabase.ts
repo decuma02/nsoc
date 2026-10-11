@@ -1,7 +1,7 @@
-import { createClient, type SupabaseClient } from "@supabase/supabase-js";
+import { createBrowserClient } from "@supabase/ssr";
+import type { SupabaseClient } from "@supabase/supabase-js";
 
-// Lazy singleton — only created when env vars are available (browser / runtime).
-// Checks NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY (Vercel standard) or NEXT_PUBLIC_SUPABASE_ANON_KEY.
+// Lazy browser singleton — reads/writes session cookies and localStorage
 let _client: SupabaseClient | null = null;
 
 export function getSupabaseClient(): SupabaseClient | null {
@@ -12,14 +12,8 @@ export function getSupabaseClient(): SupabaseClient | null {
 
   if (!url || !key) return null;
 
-  if (!_client) {
-    _client = createClient(url, key, {
-      auth: {
-        persistSession: true,
-        autoRefreshToken: true,
-        detectSessionInUrl: true,
-      },
-    });
+  if (!_client && typeof window !== "undefined") {
+    _client = createBrowserClient(url, key);
   }
 
   return _client;

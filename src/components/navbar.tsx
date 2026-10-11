@@ -9,7 +9,7 @@ import { Magnetic } from "./magnetic";
 import { useAuth } from "./auth-provider";
 
 interface NavbarProps {
-  onOpenRegister: () => void;
+  onOpenRegister: (role?: string, mode?: "login" | "signup") => void;
 }
 
 export function Navbar({ onOpenRegister }: NavbarProps) {
@@ -144,7 +144,7 @@ export function Navbar({ onOpenRegister }: NavbarProps) {
             user ? (
               /* Logged-in: show avatar button */
               <button
-                onClick={onOpenRegister}
+                onClick={() => onOpenRegister()}
                 aria-label="Open profile"
                 className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-xl overflow-hidden border-2 border-sky-400/40 hover:border-sky-400 transition-colors shadow-sm shadow-sky-500/20 focus-visible:ring-2 focus-visible:ring-[#7dd3fc] shrink-0"
               >
@@ -167,14 +167,14 @@ export function Navbar({ onOpenRegister }: NavbarProps) {
               /* Not logged-in: show Sign up */
               <>
                 <button
-                  onClick={onOpenRegister}
-                  className="hidden sm:inline-block font-inter text-xs sm:text-sm font-medium text-foreground hover:text-[#7dd3fc] transition-colors px-3 py-2 rounded-lg"
+                  onClick={() => onOpenRegister("Contributor", "login")}
+                  className="hidden sm:inline-block font-inter text-xs sm:text-sm font-medium text-foreground hover:text-[#7dd3fc] transition-colors px-3 py-2 rounded-lg cursor-pointer"
                 >
                   Log in
                 </button>
                 <Magnetic pullFactor={0.2}>
                   <button
-                    onClick={onOpenRegister}
+                    onClick={() => onOpenRegister("Contributor", "signup")}
                     className="btn-shine btn-primary text-xs sm:text-sm py-2 sm:py-2.5 px-4 sm:px-5 rounded-xl shadow-sm transition-all active:scale-95 cursor-pointer font-semibold"
                   >
                     Sign up
@@ -215,7 +215,7 @@ export function Navbar({ onOpenRegister }: NavbarProps) {
             <button
               onClick={() => {
                 setMobileMenuOpen(false);
-                onOpenRegister();
+                onOpenRegister("Contributor", "signup");
               }}
               className="btn-shine w-full py-3 rounded-xl bg-[#7dd3fc] text-[#07111f] font-inter font-semibold text-center cursor-pointer"
             >
