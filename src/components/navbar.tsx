@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useTheme } from "next-themes";
@@ -19,6 +19,7 @@ export function Navbar({ onOpenRegister }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+  const notifRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -28,6 +29,18 @@ export function Navbar({ onOpenRegister }: NavbarProps) {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Close notification dropdown on outside click
+  useEffect(() => {
+    if (!showNotifications) return;
+    const handler = (e: MouseEvent) => {
+      if (notifRef.current && !notifRef.current.contains(e.target as Node)) {
+        setShowNotifications(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [showNotifications]);
 
   // Keyboard shortcut Ctrl+K / Cmd+K theme toggle from nsoc.in
   useEffect(() => {
@@ -102,7 +115,7 @@ export function Navbar({ onOpenRegister }: NavbarProps) {
         {/* Right Actions */}
         <div className="flex items-center gap-2.5 sm:gap-3.5 relative">
           {/* Notification Bell */}
-          <div className="relative">
+          <div className="relative" ref={notifRef}>
             <button
               onClick={() => setShowNotifications(!showNotifications)}
               aria-label="Show Notifications"
@@ -212,6 +225,15 @@ export function Navbar({ onOpenRegister }: NavbarProps) {
             ))}
           </nav>
           <div className="flex flex-col gap-3 pt-4 border-t border-border">
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                onOpenRegister("Contributor", "login");
+              }}
+              className="w-full py-2.5 rounded-xl border border-border font-inter text-sm font-medium text-foreground hover:text-[#7dd3fc] hover:border-[#7dd3fc] transition-colors cursor-pointer"
+            >
+              Log in
+            </button>
             <button
               onClick={() => {
                 setMobileMenuOpen(false);

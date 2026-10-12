@@ -63,6 +63,7 @@ export function InquiryModal({ isOpen, onClose, type }: InquiryModalProps) {
     setOrgName("");
     setContactEmail("");
     setNote("");
+    setTier(type === "sponsor" ? "Title Sponsor" : "Tech Community");
     onClose();
   };
 
