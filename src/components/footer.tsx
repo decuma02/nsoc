@@ -170,7 +170,15 @@ export function Footer() {
           <div className="flex flex-wrap items-center gap-4">
             <span>© 2026 NSoC. All rights reserved.</span>
             <span>•</span>
-            <span>Last Updated: 6 October 2026 at 10:17:51 am</span>
+            <span suppressHydrationWarning>
+              Last Updated: {typeof window !== "undefined"
+                ? new Date().toLocaleDateString("en-IN", {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                  })
+                : "October 2026"}
+            </span>
           </div>
           <div className="flex items-center gap-1.5">
             <span>Built with</span>

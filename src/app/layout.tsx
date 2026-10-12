@@ -68,6 +68,14 @@ export const metadata: Metadata = {
     siteName: "Nexus Spring of Code",
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Nexus Spring of Code — 45-day open source sprint",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -88,6 +96,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className="scroll-smooth">
       <body
+        suppressHydrationWarning
         className={`${syne.variable} ${inter.variable} ${jetbrainsMono.variable} font-inter antialiased bg-background text-foreground selection:bg-sky-500/30 selection:text-sky-200`}
       >
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange={false}>
